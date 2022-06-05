@@ -1,0 +1,165 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Iczelion">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (WinNT; I) [Netscape]">
+   <title>Iczelion's Win32 Assembly Tutorial 1: The Basic</title>
+</HEAD>
+<BODY TEXT="#FFFFFF" BGCOLOR="#000000" LINK="#FF0000" VLINK="#800080" ALINK="#0000FF">
+<CENTER>
+  <H1> <font color="#3333FF" face="verdana">Tutorial 1: The Basics</font></H1>
+</CENTER>
+<font color="#CCCCCC" face="verdana" size="2">This tutorial assumes that the reader 
+knows how to use MASM. If you're not familiar with MASM, download <a href="zips/win32asm.zip">win32asm.zip</a> 
+and study the text inside the package before going on with the tutorial. Good. 
+You're now ready. Let's go!</font> 
+<H3> <font color="#CC0000" face="verdana">Theory:</font></H3>
+<p><font color="#CCCCCC" face="verdana" size="2">Win32 programs run in protected 
+  mode which is available since 80286. But 80286 is now history. So we only have 
+  to concern ourselves with 80386 and its descendants. Windows runs each Win32 
+  program in separated virtual space. That means each Win32 program will have 
+  its own 4 GB address space. However, this doesn't mean every win32 program has 
+  4GB of physical memory, only that the program can address any address in that 
+  range. Windows will do anything necessary to make the memory the program references 
+  valid. Of course, the program must adhere to the rules set by Windows, else 
+  it will cause the dreaded General Protection Fault. Each program is alone in 
+  its address space. This is in contrast to the situation in Win16. All Win16 
+  programs can *see* each other. Not so under Win32. This feature helps reduce 
+  the chance of one program writing over other program's code/data.</font> <font face="verdana" size="2" color="#CCCCCC"><BR>
+  Memory model is also drastically different from the old days of&nbsp;the 16-bit 
+  world. Under Win32, we need not be concerned with memory model or segments anymore! 
+  There's only one memory model: Flat memory model. There's no more 64K segments. 
+  The memory is a&nbsp; large continuous space of 4 GB. That also means you don't 
+  have to play with segment registers. You can use any segment register to address 
+  any point in the memory space. That's a GREAT help to programmers. This is what 
+  makes Win32 assembly programming as easy as C.<br>
+  When you program under Win32, you must know some important rules. One such rule 
+  is that, Windows uses esi, edi, ebp and ebx internally and it doesn't expect 
+  the values in those registers to change. So remember this rule first: if you 
+  use any of those four registers in your callback function, don't ever forget 
+  to restore them before returning control to Windows. A callback function is 
+  your own function which is called by Windows. The obvious example is the windows 
+  procedure. This doesn't mean that you cannot use those four registers, you can. 
+  Just be sure to restore them back before passing control back to Windows.</font></p>
+<H3> <font color="#CC0000" face="verdana">Content:</font></H3>
+<p><font color="#999999" face="verdana" size="2">Here's the skeleton program. 
+  If you don't understand some of the codes, don't panic. I'll explain each of 
+  them later.</font></p>
+<p><font color="#669999" face="verdana" size="2"><b>.386</b></font> <font color="#669999" size="2" face="verdana"><b><BR>
+  .MODEL Flat, STDCALL <BR>
+  .DATA <BR>
+  &nbsp;&nbsp;&nbsp; &lt;Your initialized data> <BR>
+  &nbsp;&nbsp;&nbsp; ...... <BR>
+  .DATA? <BR>
+  &nbsp;&nbsp; &lt;Your uninitialized data> <BR>
+  &nbsp;&nbsp; ...... <BR>
+  .CONST <BR>
+  &nbsp;&nbsp; &lt;Your constants> <BR>
+  &nbsp;&nbsp; ...... <BR>
+  .CODE <BR>
+  &nbsp;&nbsp; &lt;label> <BR>
+  &nbsp;&nbsp;&nbsp; &lt;Your code> <BR>
+  &nbsp;&nbsp; ..... <BR>
+  &nbsp;&nbsp;&nbsp; end &lt;label> </b></font></p>
+<p><font face="verdana"><BR>
+  <font color="#CCCCCC" size="2">That's all! Let's analyze this skeleton program.</font></font> 
+</p>
+<P><font face="verdana"><B><FONT COLOR="#CC33CC" size="3">.386</FONT></B> <BR>
+  <B><font color="#808000" size="2">This is an assembler directive, telling the 
+  assembler to use 80386 instruction set. You can also use .486, .586 but the 
+  safest bet is to stick to .386. There are actually two nearly identical forms 
+  for each CPU model. .386/.386p, .486/.486p. Those &quot;p&quot; versions are 
+  necessary only when your program uses privileged instructions. Privileged instructions 
+  are the instructions reserved by the CPU/operating system when in protected 
+  mode. They can only be used by privileged code, such as the virtual device drivers. 
+  Most of the time, your program will work in non-privileged mode so it's safe 
+  to use non-p versions.</font></B></font>
+<P><font face="verdana"><B><FONT COLOR="#CC33CC" size="3">.MODEL FLAT, STDCALL</FONT></B> 
+  <BR>
+  <B><font color="#CC33CC" size="2">.MODEL</font><font color="#808000" size="2"> 
+  is an assembler directive that specifies memory model of your program. Under 
+  Win32, there's only on model,</font><font color="#3333FF" size="2"> </font><font color="#CC33CC" size="2">FLAT</font><font color="#808000" size="2"> 
+  model.</font></B> <font size="2"><BR>
+  <B><FONT COLOR="#CC33CC">STDCALL</FONT><font color="#808000"> tells MASM about 
+  parameter passing convention. Parameter passing convention specifies the order 
+  of&nbsp; parameter passing, left-to-right or right-to-left, and also who will 
+  balance the stack frame after the function call.</font></B> <BR>
+  <B><FONT COLOR="#CC6600">Under Win16, there are two types of calling convention, 
+  </FONT><FONT COLOR="#CC33CC">C</FONT><FONT COLOR="#CC6600"> and </FONT><FONT COLOR="#CC33CC">PASCAL</FONT></B> 
+  <BR>
+  <B><FONT COLOR="#CC33CC">C </FONT><font color="#808000">calling convention passes 
+  parameters from right to left, that is , the rightmost parameter is pushed first. 
+  The caller is responsible for balancing the stack frame after the call. For 
+  example, in order to call a function named foo(int first_param, int second_param, 
+  int third_param) in C calling convention the asm codes will look like this:</font></B></font> 
+  </font>
+<BLOCKQUOTE><font face="verdana"><B><font color="#FFFF66" size="2">push&nbsp; 
+  [third_param]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  ; Push the third parameter</font></B> <font color="#FFFF66" size="2"><BR>
+  <B>push&nbsp; [second_param]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  ; Followed by the second</B> <BR>
+  <B>push&nbsp; [first_param]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  ; And the first</B> <BR>
+  <B>call&nbsp;&nbsp;&nbsp; foo</B> <BR>
+  <B>add&nbsp;&nbsp;&nbsp; sp, 12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  ; The caller balances the stack frame</B></font></font></BLOCKQUOTE>
+<font face="verdana"><B><font color="#CC33CC" size="2">PASCAL</font><font color="#808000" size="2"> 
+calling convention is the reverse of C calling convention. It passes parameters 
+from left to right and the callee is responsible for the stack balancing after 
+the call.</font></B> <font size="2" color="#808000"><BR>
+<B>Win16 adopts</B></font><font size="2"><B><FONT COLOR="#3333FF"> </FONT><FONT COLOR="#CC33CC">PASCAL</FONT><font color="#808000"> 
+convention because it produces smaller codes. C convention is useful when you 
+don't know how many parameters will be passed to the function as in the case of 
+wsprintf(). In the case of wsprintf(), the function has no way to determine beforehand 
+how many parameters will be pushed on the stack, so it cannot do the stack balancing.</font></B> 
+<BR>
+<B><FONT COLOR="#CC33CC">STDCALL<font color="#808000"> </font></FONT><font color="#808000">is 
+the hybrid of C and PASCAL convention. It passes parameter from right to left 
+but the callee is responsible for stack balancing after the call.Win32 platform 
+use </font><FONT COLOR="#CC33CC">STDCALL</FONT><FONT COLOR="#808000"> exclusively. 
+Except in one case: wsprintf(). You must use C calling convention with wsprintf().</FONT></B> 
+</font></font> 
+<P><font face="verdana"><B><FONT COLOR="#CC33CC" size="3">.DATA</FONT></B> <font size="3"><BR>
+  <B><FONT COLOR="#CC33CC">.DATA?</FONT></B> <BR>
+  <B><FONT COLOR="#CC33CC">.CONST</FONT></B> <BR>
+  <B><FONT COLOR="#CC33CC">.CODE</FONT></B> </font><BR>
+  <B><font color="#808000" size="2">All four directives are what's called section. 
+  You don't have segments in Win32, remember? But you can divide your entire address 
+  space into logical sections. The start of one section denotes the end of the 
+  previous section. There'are two groups of section: data and code. Data sections 
+  are divided into 3 categories:</font></B> </font>
+<UL>
+  <LI> <font face="verdana" size="2" color="#CCCCCC"><B><font color="#FFE082">.DATA</font>&nbsp;&nbsp;&nbsp; 
+    This section contains initialized data of your program.</B></font></LI>
+  <LI> <font face="verdana" size="2" color="#CCCCCC"><B><font color="#FFE082">.DATA?</font>&nbsp; 
+    This section contains uninitialized data of your program. Sometimes you just 
+    want to preallocate some memory but don't want to initialize it. This section 
+    is for that purpose. The advantage of uninitialized data is: it doesn't take 
+    space in the executable file. For example, if you allocate 10,000 bytes in 
+    your .DATA? section, your executable is not bloated up 10,000 bytes. Its size 
+    stays much the same. You only tell the assembler how much space you need when 
+    the program is loaded into memory, that's all.</B></font></LI>
+  <LI> <font face="verdana" size="2" color="#CCCCCC"><B><font color="#FFE082">.CONST</font>&nbsp; 
+    This section contains declaration of constants used by your program. Constants 
+    in this section can never be modified in your program. They are just *constant*.</B></font></LI>
+</UL>
+<p><font face="verdana" color="#666600" size="2"><B>You don't have to use all 
+  three sections in your program. Declare only the section(s) you want to use.</B></font><font face="verdana"><font size="2"><br>
+  <BR>
+  <B><FONT COLOR="#3333FF">There's only one section for code: </FONT><FONT COLOR="#CC33CC">.CODE</FONT><FONT COLOR="#3333FF">. 
+  This is where your codes reside.</FONT></B> </font><BR>
+  <B><font color="#CC33CC" size="2">&lt;label></font></B> <font size="2"><BR>
+  <B><FONT COLOR="#CC33CC">end &lt;label></FONT></B> <BR>
+  <B><FONT COLOR="#3333FF">where &lt;label> is any arbitrary label is used to 
+  specify the extent of your code. Both labels must be identical.&nbsp; All your 
+  codes must reside between </FONT><FONT COLOR="#CC33CC">&lt;label></FONT><FONT COLOR="#3333FF"> 
+  and </FONT><FONT COLOR="#CC33CC">end &lt;label></FONT></B> </font><BR>
+  </font> </p>
+<HR WIDTH="100%">
+<CENTER>
+  <font face="verdana" color="#006600"><B>[<A HREF="http://203.148.211.201/iczelion/index.html">Iczelion's 
+  Win32 Assembly HomePage</A>]</B></font> 
+</CENTER>
+
+</BODY>
+</HTML>
