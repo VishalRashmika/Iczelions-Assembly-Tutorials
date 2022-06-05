@@ -1,0 +1,63 @@
+; Ph.A, 02.01.97
+; PE Image definitions.
+
+; $Id: PEImage.equ 1.1 1997/09/02 09:50:44 Philippe Exp $
+
+; $Log: /Win32Equ/PEImage.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:50:44  Philippe
+; Initial revision
+;
+
+
+
+DOSHeader STRUCT
+             BYTE  60 DUP(?)            ;Various DOS header stuff,
+RVAPEHeader  DWORD ?                    ;RVA of PE address.
+DOSHeader ENDS
+
+
+ImageFileHeader STRUCT
+                      BYTE 'PE',0,0     ;PE signature.
+IFHMachine            WORD  ?           ;Machine type
+IFHNumberOfSections   WORD  ?           ;Number of sections
+IFHTimeDate           DWORD ?           ;Time/Date stamp
+IFHSymbolPtr          DWORD ?           ;RVA of symbol table
+IFHNumberOfSymbols    DWORD ?           ;Number of entries in symbol table
+IFHOptionalHeaderSize WORD  ?           ;Optional Header Size
+IFHCharacteristics    WORD  ?           ;Characteristics flags.
+ImageFileHeader ENDS
+
+
+OptionalHeaderStd STRUCT
+Magic                  WORD  ?          ;Type of executable.
+LMajor                 BYTE  ?          ;Linker major version number.
+LMinor                 BYTE  ?          ;Linker minor version number.
+CodeSize               DWORD ?          ;Size of code sections (sum of)
+InitializedDataSize    DWORD ?          ;Size of initialized sect(s) (sum of)
+UninitializedDataSize  DWORD ?          ;Size of uninitialized sect(s) (sum of)
+EntryPointRVA          DWORD ?          ;Entry point RVA
+BaseOfCode             DWORD ?          ;RVA Base of code sections
+BaseOfData             DWORD ?          ;RVA Base of data sections
+OptionalHeaderStd ENDS
+
+PEHeader STRUCT
+                       ImageFileHeader <>
+                       OptionalHeaderStd <>
+PEHeader ENDS
+
+
+SectHeader STRUCT
+SectName           BYTE 8 DUP (?)       ;Section name
+SectVirtualSize    DWORD ?              ;Section Virtual Size (??)
+SectRVA            DWORD ?              ;Section RVA
+SectRawDataSize    DWORD ?              ;Section Raw Data Size
+SectRawDataPointer DWORD ?              ;RVA to Section, multiple of page size
+SectRelocs         DWORD ?              ;0 for PE Image
+SectLineNumbers    DWORD ?              ;RVA of line-number entries for Section
+SectNumberOfRelocs WORD  ?              ;0 for PE Image
+SectNumberOfLN     WORD  ?              ;Number of line number entries
+SectFlags          DWORD ?              ;Section characteristics (flags)
+SectHeader ENDS

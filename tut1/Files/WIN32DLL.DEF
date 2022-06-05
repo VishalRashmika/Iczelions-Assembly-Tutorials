@@ -1,0 +1,16 @@
+; Win32 example DLL
+
+
+LIBRARY         Win32DLL.DLL
+
+
+DESCRIPTION     "Test assembly language DLL"
+VERSION         1.0
+
+;     entryname[=internalname] [@ordinal[NONAME]] [DATA] [PRIVATE]
+
+
+EXPORTS
+      Foo                 @10
+      Bar                 @11
+

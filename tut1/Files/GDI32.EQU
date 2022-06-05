@@ -1,0 +1,48 @@
+; GDI32 system call PROTO STDCALL\types.
+; Philippe Auphelle, 30 May 1996
+
+; $Id: GDI32.equ 1.1 1997/09/02 09:50:33 Philippe Exp $
+
+; $Log: /Win32Equ/GDI32.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:50:33  Philippe
+; Initial revision
+;
+
+
+                INCLUDELIB GDI32.LIB
+
+
+; These functions are Unicode/ANSI dependant, and will be postfixed at
+; assembly time according to the value of the Unicode equate.
+
+
+
+                UnicAnsiExtern GetTextMetrics       ;GDI32
+                UnicAnsiExtern StartDoc             ;GDI32
+                UnicAnsiExtern TextOut              ;GDI32
+
+
+
+DeleteDC                PROTO STDCALL\
+                                hDC:DWORD
+EndDoc                  PROTO STDCALL\
+                                hDC:DWORD
+EndPage                 PROTO STDCALL\
+                                hDC:DWORD
+GetTextMetrics          PROTO STDCALL\
+                                hDC:DWORD,
+                                lpTM:DWORD
+StartDoc                PROTO STDCALL\
+                                hDC:DWORD,
+                                lpDI:DWORD
+StartPage               PROTO STDCALL\
+                                hDC:DWORD
+TextOut                 PROTO STDCALL\
+                                hDC:DWORD,
+                                nXStart:DWORD,
+                                nYStart:DWORD,
+                                lpString:DWORD,
+                                cbString:DWORD

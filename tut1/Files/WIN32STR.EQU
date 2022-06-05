@@ -1,0 +1,460 @@
+; Various Windows structures.
+;  19.JUN.96 : Philippe Auphelle.
+;       Mostly derived from 03-14-1996 Sven B. Schreiber sbs@orgon.com
+
+; $Id: Win32Strs.equ 1.1 1997/09/02 09:51:15 Philippe Exp $
+
+; $Log: /Win32Equ/Win32Strs.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:51:15  Philippe
+; Initial revision
+;
+
+
+
+;==============================================================================
+;
+;	STRUCTURES
+;
+;==============================================================================
+
+
+;------------------------------------------------------------------------------
+
+DLGTEMPLATE     macro _dtStyle, _dtItems, _dtX, _dtY, _dtCX, _dtCY, _dtText
+_ADDR_          = $
+                DWORD _dtStyle, 0
+                WORD _dtItems
+                WORD _dtX, _dtY, _dtCX, _dtCY
+                WORD 0
+                WORD 0
+                WSTRING <_dtText/0>
+                  if ($-_ADDR_) and 2
+                  WORD 0
+                  endif
+               endm
+
+;------------------------------------------------------------------------------
+;
+DLGITEMTEMPLATE macro _ditStyle, _ditX, _ditY, _ditCX, _ditCY,\
+                      _ditId, _ditClass, _ditText, _ditResId
+;
+_ADDR_          = $
+                DWORD _ditStyle, 0
+                WORD _ditX, _ditY, _ditCX, _ditCY
+                WORD _ditId
+                WORD -1, _ditClass
+                  ifb <_ditResId>
+                  WSTRING <_ditText/0>
+                  else
+                  WORD _ditText, _ditResId
+                  endif
+                WORD 0
+                  if ($-_ADDR_) and 2
+                  WORD 0
+                  endif
+                endm
+
+
+
+BITMAPFILEHEADER STRUCT DWORD
+bfType          WORD 0                  ;file type
+bfSize          DWORD 0                 ;file size
+bfReserved1     WORD 0                  ;(reserved)
+bfReserved2     WORD 0                  ;(reserved)
+bfOffBits       DWORD 0                 ;data offset
+BITMAPFILEHEADER ends
+
+;------------------------------------------------------------------------------
+
+BITMAPINFOHEADER STRUCT DWORD
+biSize          DWORD 0                 ;structure size
+biWidth         LONG 0                  ;bitmap width
+biHeight        LONG 0                  ;bitmap height
+biPlanes        WORD 0                  ;number of color planes
+biBitCount      WORD 0                  ;number of bits per pixel
+biCompression   DWORD 0                 ;compression type
+biSizeImage     DWORD 0                 ;number of data bytes
+biXPelsPerMeter LONG 0                  ;horizontal resolution
+biYPelsPerMeter LONG 0                  ;vertical resolution
+biClrUsed       DWORD 0                 ;number of used colors
+biClrImportant  DWORD 0                 ;number of important colors
+BITMAPINFOHEADER ends
+
+;------------------------------------------------------------------------------
+
+BITMAP       STRUCT DWORD
+bmType       LONG 0                     ;bitmap type
+bmWidth      LONG 0                     ;bitmap width
+bmHeight     LONG 0                     ;bitmap height
+bmWidthBytes LONG 0                     ;bytes per scan line
+bmPlanes     WORD 0                     ;number of color planes
+bmBitsPixel  WORD 0                     ;number of bits per pixel
+bmBits       LPVOID 0                   ;data pointer
+BITMAP       ends
+
+;------------------------------------------------------------------------------
+
+COPYDATASTRUCT  STRUCT DWORD
+dwData          DWORD 0                 ;32-bit data
+cbData          DWORD 0                 ;number of data bytes
+lpData          PVOID 0                 ;data bytes
+COPYDATASTRUCT  ends
+
+;------------------------------------------------------------------------------
+
+CONTEXT         STRUCT DWORD
+cx_ContextFlags DWORD 0                 ;context flags
+; CONTEXT_DEBUG_REGISTERS
+cx_Dr0          DWORD 0                 ;debug register #0
+cx_Dr1          DWORD 0                 ;debug register #1
+cx_Dr2          DWORD 0                 ;debug register #2
+cx_Dr3          DWORD 0                 ;debug register #3
+cx_Dr6          DWORD 0                 ;debug register #6
+cx_Dr7          DWORD 0                 ;debug register #7
+; CONTEXT_FLOATING_POINT
+cx_ControlWord  DWORD 0                 ;fpu context
+cx_StatusWord   DWORD 0
+cx_TagWord      DWORD 0
+cx_ErrorOffset  DWORD 0
+cx_ErrorSelector DWORD 0
+cx_DataOffset   DWORD 0
+cx_DataSelector DWORD 0
+cx_RegisterArea BYTE SIZE_OF_80387_REGISTERS dup (0)
+cx_Cr0NpxState  DWORD 0
+; CONTEXT_SEGMENTS
+cx_SegGs        DWORD 0                 ;gs register
+cx_SegFs        DWORD 0                 ;fs register
+cx_SegEs        DWORD 0                 ;es register
+cx_SegDs        DWORD 0                 ;ds register
+; CONTEXT_INTEGER
+cx_Edi          DWORD 0                 ;edi register
+cx_Esi          DWORD 0                 ;esi register
+cx_Ebx          DWORD 0                 ;ebx register
+cx_Edx          DWORD 0                 ;edx register
+cx_Ecx          DWORD 0                 ;ecx register
+cx_Eax          DWORD 0                 ;eax register
+; CONTEXT_CONTROL
+cx_Ebp          DWORD 0                 ;ebp register
+cx_Eip          DWORD 0                 ;eip register
+cx_SegCs        DWORD 0                 ;cs register
+cx_EFlags       DWORD 0                 ;eflags register
+cx_Esp          DWORD 0                 ;esp register
+cx_SegSs        DWORD 0                 ;ss register
+CONTEXT         ends
+
+;------------------------------------------------------------------------------
+
+DOCINFO STRUCT DWORD                    ;Used by StartDoc function
+    cbSize       DWORD SIZEOF DOCINFO   ;Size of this structure
+    lpszDocName  LPCSTR 0               ;Null-terminated name of document
+    lpszOutput   LPCSTR 0               ;Null-terminated name of output file
+    lpszDatatype LPCSTR 0               ;Win95: Null-terminated type of data.
+                                        ;NT: Ignored.
+    fwType       DWORD 0                ;Win95 Additional info about print job.
+                                        ;NT: Ignored.
+DOCINFO ends
+
+;------------------------------------------------------------------------------
+
+DIALOGATTRIBUTES STRUCT DWORD
+Palette         DWORD 0                 ;palette pointer
+TextBox         DWORD 0                 ;text box list pointer
+DIALOGATTRIBUTES ends
+
+;------------------------------------------------------------------------------
+
+DIALOGPALETTE   STRUCT DWORD
+DlgText      COLORREF  0                ;dialog text color
+DlgBk        COLORREF  0                ;dialog background color
+StaticText   COLORREF  0                ;static text color
+StaticBk     COLORREF  0                ;static background color
+TextBoxText  COLORREF  0                ;text box text color
+TextBoxBk    COLORREF  0                ;text box background color
+EditText     COLORREF  0                ;edit text color
+EditBk       COLORREF  0                ;edit background color
+ListBoxText  COLORREF  0                ;list box text color
+ListBoxBk    COLORREF  0                ;list box background color
+DIALOGPALETTE   ends
+
+;------------------------------------------------------------------------------
+
+DIALOGRECORD    STRUCT DWORD
+hWnd            HWND 0                  ;dialog window handle
+fModeless       BOOL FALSE              ;mode flag
+Attributes      DWORD 0                 ;dialog window attributes list
+Data            DWORD 0                 ;dialog data
+hDlgBrush       HBRUSH 0                ;dialog brush handle
+hStaticBrush    HBRUSH 0                ;static brush handle
+hTextBoxBrush   HBRUSH 0                ;text box brush handle
+hEditBrush      HBRUSH 0                ;edit brush handle
+hListBoxBrush   HBRUSH 0                ;list box brush handle
+DIALOGRECORD    ends
+
+;------------------------------------------------------------------------------
+
+POINT           STRUCT DWORD
+x               LONGINT 0               ;x coordinate
+y               LONGINT 0               ;y coordinate
+POINT           ends
+
+
+;------------------------------------------------------------------------------
+
+MINMAXINFO STRUCT DWORD
+ptReserved      POINT <>                ;Reserved. Do not use.
+ptMaxSize       POINT <>                ;Maximized width and height of window
+ptMaxPosition   POINT <>                ;Left/Top position of maximized window
+ptMinTrackSize  POINT <>                ;Min tracking width and height of win
+ptMaxTrackSize  POINT <>                ;Max tracking width and height of win
+MINMAXINFO ends
+
+;------------------------------------------------------------------------------
+
+MSG STRUCT DWORD
+hwnd            HWND 0                  ;window handle
+message         UINT 0                  ;message id
+wParam          WPARAM 0                ;additional parameter
+lParam          LPARAM 0                ;additional parameter
+time            DWORD  0                ;time stamp
+x               LONGINT 0               ;x coordinate
+y               LONGINT 0               ;y coordinate
+MSG             ends
+
+;------------------------------------------------------------------------------
+
+NETRESOURCE     STRUCT DWORD
+dwScope         DWORD 0                 ;resource scope
+dwType          DWORD 0                 ;resource type
+dwDisplayType   DWORD 0                 ;display type
+dwUsage         DWORD 0                 ;resource usage
+lpLocalName     LPSTR 0                 ;redirected local device
+lpRemoteName    LPSTR 0                 ;remote name
+lpComment       LPSTR 0                 ;provider supplied comment
+lpProvider      LPSTR 0                 ;name of provider
+NETRESOURCE     ends
+
+;------------------------------------------------------------------------------
+
+NMHDR STRUCT DWORD
+hwndFrom        HWND 0                  ;Window handle of control sending msg
+idFrom          UINT 0                  ;ID of control sending msg
+code            UINT 0                  ;Notification code.
+NMHDR ends
+
+;------------------------------------------------------------------------------
+
+OPENFILENAME    STRUCT DWORD
+lStructSize       DWORD SIZEOF OPENFILENAME ;number of bytes
+hwndOwner         HWND 0                ;dialog box owner
+hInstance         HINSTANCE 0           ;dialog box template id
+lpstrFilter       LPCSTR 0              ;filter strings
+lpstrCustomFilter LPSTR 0               ;user-defined filter stings
+nMaxCustFilter    DWORD 0               ;size of custom filter buffer
+nFilterIndex      DWORD 0               ;index into the filter buffer
+lpstrFile         LPSTR 0               ;default file name buffer
+nMaxFile          DWORD 0               ;size of the file name buffer
+lpstrFileTitle    LPSTR 0               ;file title buffer
+nMaxFileTitle     DWORD 0               ;size of the file title buffer
+lpstrInitialDir   LPCSTR 0              ;initial directory
+lpstrTitle        LPCSTR 0              ;dialog box title
+Flags             DWORD 0               ;dialog box creation flags
+nFileOffset       WORD 0                ;file name offset in lpstrFile
+nFileExtension    WORD 0                ;file ext offset in lpstrFile
+lpstrDefExt       LPCSTR 0              ;default extension
+lCustData         LPARAM 0              ;application-defined hook data
+lpfnHook          LPFN 0                ;hook function
+lpTemplateName    LPCSTR 0              ;dialog box template name
+OPENFILENAME    ends
+
+
+;------------------------------------------------------------------------------
+
+PRINTDLG          STRUCT DWORD
+lStructSize         DWORD SIZEOF PRINTDLG  ;Size of this structure
+hwndOwner           HWND 0              ;Handle of window owning dialog box
+hDevMode            HANDLE 0            ;Handle to DEVMOVE structure
+hDevNames           HANDLE 0            ;Handle to DEVNAMES structure
+hDC                 HDC 0               ;Handle to Dev Context or InfoCOntext
+Flags               DWORD 0             ;Flag for Print common dialog
+nFromPage           WORD 0              ;Starting page
+nToPage             WORD 0              ;Ending page
+nMinPage            WORD 0              ;Min value in page range
+nMaxPage            WORD 0              ;Max value in page range
+nCopies             WORD 0              ;Initial number of copies
+hInstance           HINSTANCE 0         ;Handle to print dialog box
+lCustData           DWORD 0             ;Custom data passed to hook proc.
+lpfnPrintHook       DWORD 0             ;Pointer to a print hook function
+lpfnSetupHook       DWORD 0             ;Pointer to a setup hook function
+lpPrintTemplateName LPCTSTR 0           ;Name of print dialog replacement
+lpSetupTemplateName LPCTSTR 0           ;Name of print setup replacement
+hPrintTemplate      HANDLE 0            ;Handle to print dialog template
+hSetupTemplate      HANDLE 0            ;Handle to print setup dialog template
+PRINTDLG          ends
+
+
+
+;------------------------------------------------------------------------------
+
+PAINTSTRUCT     STRUCT DWORD
+hdc          HDC 0                      ;device context handle
+fErase       BOOL FALSE                 ;background erase flag
+leftPaint    LONGINT 0                  ;left margin of clipping rect
+topPaint     LONGINT 0                  ;top margin of clipping rect
+rightPaint   LONGINT 0                  ;right margin of clipping rect
+bottomPaint  LONGINT 0                  ;bottom margin of clipping rect
+fRestore     BOOL FALSE                 ;(reserved)
+fIncUpdate   BOOL FALSE                 ;(reserved)
+rgbReserved  BYTE 32 dup (0)            ;(reserved)
+PAINTSTRUCT     ends
+
+;------------------------------------------------------------------------------
+
+RECT            STRUCT DWORD
+left            LONGINT 0               ;left margin
+top             LONGINT 0               ;top margin
+right           LONGINT 0               ;right margin
+bottom          LONGINT 0               ;bottom margin
+RECT            ends
+
+RECTL           TEXTEQU <RECT>
+
+SIZEL           STRUCT DWORD
+_cx             LONGINT ?
+cy              LONGINT ?
+SIZEL           ENDS
+
+;------------------------------------------------------------------------------
+
+RGBQUAD         STRUCT DWORD
+rgbBlue         BYTE 0                  ;intensity of blue component
+rgbGreen        BYTE 0                  ;intensity of green component
+rgbRed          BYTE 0                  ;intensity of red component
+rgbReserved     BYTE 0                  ;(reserved)
+RGBQUAD         ends
+
+;------------------------------------------------------------------------------
+
+SECURITY_ATTRIBUTES STRUCT DWORD
+sa_nLength              DWORD SIZEOF SECURITY_ATTRIBUTES ;structure size
+sa_lpSecurityDescriptor LPVOID 0        ;security descriptor
+sa_bInheritHandle       BOOL FALSE      ;handle inheritance flag
+SECURITY_ATTRIBUTES ends
+
+
+;------------------------------------------------------------------------------
+
+TBADDBITMAP     STRUCT DWORD
+hInst           HINSTANCE 0             ;resource module instance
+nID             UINT      0             ;resource id
+TBADDBITMAP     ends
+
+;------------------------------------------------------------------------------
+
+TBBUTTON        STRUCT DWORD
+iBitmap         INTEGER 0               ;zero-based button image index
+idCommand       INTEGER 0               ;button command id
+fsState         BYTE 0                  ;button state flags
+fsStyle         BYTE 0                  ;button style
+bReserved       WORD 0                  ;(reserved)
+dwData          DWORD 0                 ;application defined value
+iString         INTEGER 0               ;zero-based button string index
+TBBUTTON        ends
+
+;------------------------------------------------------------------------------
+
+TEXTMETRIC      STRUCT DWORD
+tmHeight           LONGINT 0            ;char height (ascent+descent)
+tmAscent           LONGINT 0            ;units above baseline
+tmDescent          LONGINT 0            ;units below baseline
+tmInternalLeading  LONGINT 0            ;space included in tmHeight
+tmExternalLeading  LONGINT 0            ;extra space between rows
+tmAveCharWidth     LONGINT 0            ;average character width ('x')
+tmMaxCharWidth     LONGINT 0            ;maximum character width
+tmWeight           LONGINT 0            ;font weight
+tmOverhang         LONGINT 0            ;italic flag
+tmDigitizedAspectX LONGINT 0            ;horizontal device aspect
+tmDigitizedAspectY LONGINT 0            ;vertical device aspect
+tmFirstChar        CHAR 0               ;first font character value
+tmLastChar         CHAR 0               ;last font character value
+tmDefaultChar      CHAR 0               ;default substitution character
+tmBreakChar        CHAR 0               ;word break character
+tmItalic           BYTE 0               ;italic font
+tmUnderlined       BYTE 0               ;underline font
+tmStruckOut        BYTE 0               ;strikeout font
+tmPitchAndFamily   BYTE 0               ;font pitch/family
+tmCharSet          BYTE 0               ;font character set
+TEXTMETRIC      ends
+
+;------------------------------------------------------------------------------
+
+TOOLTIPTEXT     STRUCT DWORD
+hdr             NMHDR <>                ;NMHDR structure
+lpszText        LPTSTR 0                ;Pointer to text for a tool
+szText          CHAR 80 dup(0)          ;Tooltip text
+hInst           HINSTANCE 0             ;Handle of instance of string resource
+uFlags          UINT 0                  ;Interpret idFrom of NMHDR struct
+TOOLTIPTEXT     ends
+
+;------------------------------------------------------------------------------
+
+WNDCLASS        STRUCT DWORD
+style           UINT 0                 ;class style
+lpfnWndProc     WNDPROC 0              ;window procedure
+cbClsExtra      INTEGER 0              ;class extra data
+cbWndExtra      INTEGER 0              ;window extra data
+hInstance       HINSTANCE 0            ;class owner
+hIcon           HICON 0                ;icon handle
+hCursor         HCURSOR 0              ;cursor handle
+hbrBackground   HBRUSH 0               ;background color
+lpszMenuName    LPCSTR 0               ;menu name
+lpszClassName   LPCSTR 0               ;class name
+WNDCLASS        ends
+
+;------------------------------------------------------------------------------
+
+WNDPARAMETERS   STRUCT DWORD
+hWnd            HWND 0                  ;window handle
+FontId          DWORD 0                 ;font id
+TextColor       COLORREF 0              ;text color
+BkColor         COLORREF 0              ;background color
+BkMode          DWORD 0                 ;background mode
+WNDPARAMETERS   ends
+
+;==============================================================================
+;
+;	DDE STRUCTURES
+;
+;==============================================================================
+
+DDEACK          STRUCT DWORD
+ddeack_Status   WORD 0                  ;status
+DDEACK          ends
+
+;------------------------------------------------------------------------------
+
+DDEADVISE       STRUCT DWORD
+ddeadvise_Status   WORD 0               ;status
+ddeadvise_cfFormat WORD 0               ;clipboard data format
+DDEADVISE       ends
+
+;------------------------------------------------------------------------------
+
+DDEDATA         STRUCT DWORD
+ddedata_Status   WORD 0                 ;status
+ddedata_cfFormat WORD 0                 ;clipboard data format
+ddedata_Value    BYTE 0                 ;data item
+DDEDATA         ends
+
+;------------------------------------------------------------------------------
+
+DDEPOKE         STRUCT DWORD
+ddepoke_Status   WORD 0                 ;status
+ddepoke_cfFormat WORD 0                 ;clipboard data format
+ddepoke_Value    BYTE 0                 ;data item
+DDEPOKE         ends
+
+;==============================================================================
+

@@ -1,0 +1,669 @@
+; WinSpool includes.
+; Header file for Print APIs
+
+; $Id: WinSpool.equ 1.1 1997/09/02 09:51:28 Philippe Exp $
+
+; $Log: /Win32Equ/WinSpool.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:51:28  Philippe
+; Initial revision
+;
+
+
+                INCLUDELIB WINSPOOL.LIB
+
+
+; These functions are Unicode/ANSI dependant, and will be postfixed at
+; assembly time according to the value of the Unicode equate.
+
+
+
+                UnicAnsiExtern EnumPrinters
+                UnicAnsiExtern OpenPrinter
+                UnicAnsiExtern StartDocPrinter
+
+
+
+PRINTER_INFO_1 STRUCT
+Flags        DWORD 0
+pDescription DWORD 0
+pName        DWORD 0
+pComment     DWORD 0
+PRINTER_INFO_1 ENDS
+
+PRINTER_INFO_2 STRUCT
+pServerName         DWORD 0
+pPrinterName        DWORD 0
+pShareName          DWORD 0
+pPortName           DWORD 0
+pDriverName         DWORD 0
+pComment            DWORD 0
+pLocation           DWORD 0
+pDevMode            DWORD 0
+pSepFile            DWORD 0
+pPrintProcessor     DWORD 0
+pDatatype           DWORD 0
+pParameters         DWORD 0
+pSecurityDescriptor DWORD 0
+Attributes          DWORD 0
+Priority            DWORD 0
+DefaultPriority     DWORD 0
+StartTime           DWORD 0
+UntilTime           DWORD 0
+Status              DWORD 0
+cJobs               DWORD 0
+AveragePPM          DWORD 0
+PRINTER_INFO_2 ENDS
+
+
+PRINTER_INFO_3 STRUCT
+pSecurityDescriptor DWORD 0
+PRINTER_INFO_3 ENDS
+
+PRINTER_INFO_4 STRUCT
+pPrinterName  DWORD 0
+pServerName   DWORD 0
+Attributes    DWORD 0
+PRINTER_INFO_4 ENDS
+
+
+PRINTER_INFO_5 STRUCT
+pPrinterName              DWORD 0
+pPortName                 DWORD 0
+Attributes                DWORD 0
+DeviceNotSelectedTimeout  DWORD 0
+TransmissionRetryTimeout  DWORD 0
+PRINTER_INFO_5 ENDS
+
+
+PRINTER_INFO_6 STRUCT
+dwStatus      DWORD 0
+PRINTER_INFO_6 ENDS
+
+
+
+PRINTER_CONTROL_PAUSE            = 1
+PRINTER_CONTROL_RESUME           = 2
+PRINTER_CONTROL_PURGE            = 3
+PRINTER_CONTROL_SET_STATUS       = 4
+
+PRINTER_STATUS_PAUSED            = 00000001h
+PRINTER_STATUS_ERROR             = 00000002h
+PRINTER_STATUS_PENDING_DELETION  = 00000004h
+PRINTER_STATUS_PAPER_JAM         = 00000008h
+PRINTER_STATUS_PAPER_OUT         = 00000010h
+PRINTER_STATUS_MANUAL_FEED       = 00000020h
+PRINTER_STATUS_PAPER_PROBLEM     = 00000040h
+PRINTER_STATUS_OFFLINE           = 00000080h
+PRINTER_STATUS_IO_ACTIVE         = 00000100h
+PRINTER_STATUS_BUSY              = 00000200h
+PRINTER_STATUS_PRINTING          = 00000400h
+PRINTER_STATUS_OUTPUT_BIN_FULL   = 00000800h
+PRINTER_STATUS_NOT_AVAILABLE     = 00001000h
+PRINTER_STATUS_WAITING           = 00002000h
+PRINTER_STATUS_PROCESSING        = 00004000h
+PRINTER_STATUS_INITIALIZING      = 00008000h
+PRINTER_STATUS_WARMING_UP        = 00010000h
+PRINTER_STATUS_TONER_LOW         = 00020000h
+PRINTER_STATUS_NO_TONER          = 00040000h
+PRINTER_STATUS_PAGE_PUNT         = 00080000h
+PRINTER_STATUS_USER_INTERVENTION = 00100000h
+PRINTER_STATUS_OUT_OF_MEMORY     = 00200000h
+PRINTER_STATUS_DOOR_OPEN         = 00400000h
+PRINTER_STATUS_SERVER_UNKNOWN    = 00800000h
+PRINTER_STATUS_POWER_SAVE        = 01000000h
+
+
+PRINTER_ATTRIBUTE_QUEUED         = 00000001h
+PRINTER_ATTRIBUTE_DIRECT         = 00000002h
+PRINTER_ATTRIBUTE_DEFAULT        = 00000004h
+PRINTER_ATTRIBUTE_SHARED         = 00000008h
+PRINTER_ATTRIBUTE_NETWORK        = 00000010h
+PRINTER_ATTRIBUTE_HIDDEN         = 00000020h
+PRINTER_ATTRIBUTE_LOCAL          = 00000040h
+
+PRINTER_ATTRIBUTE_ENABLE_DEVQ       = 00000080h
+PRINTER_ATTRIBUTE_KEEPPRINTEDJOBS   = 00000100h
+PRINTER_ATTRIBUTE_DO_COMPLETE_FIRST = 00000200h
+
+PRINTER_ATTRIBUTE_WORK_OFFLINE   = 00000400h
+PRINTER_ATTRIBUTE_ENABLE_BIDI    = 00000800h
+PRINTER_ATTRIBUTE_RAW_ONLY       = 00001000h
+
+
+NO_PRIORITY   =  0
+MAX_PRIORITY  = 99
+MIN_PRIORITY  =  1
+DEF_PRIORITY  =  1
+
+JOB_INFO_1 STRUCT
+JobId          DWORD 0
+pPrinterName   DWORD 0
+pMachineName   DWORD 0
+pUserName      DWORD 0
+pDocument      DWORD 0
+pDatatype      DWORD 0
+pStatus        DWORD 0
+Status         DWORD 0
+Priority       DWORD 0
+Position       DWORD 0
+TotalPages     DWORD 0
+PagesPrinted   DWORD 0
+Submitted      SYSTEMTIME <>
+JOB_INFO_1 ENDS
+
+
+JOB_INFO_2 STRUCT
+JobId               DWORD 0
+pPrinterName        DWORD 0
+pMachineName        DWORD 0
+pUserName           DWORD 0
+pDocument           DWORD 0
+pNotifyName         DWORD 0
+pDatatype           DWORD 0
+pPrintProcessor     DWORD 0
+pParameters         DWORD 0
+pDriverName         DWORD 0
+pDevMode            DWORD 0
+pStatus             DWORD 0
+pSecurityDescriptor DWORD 0
+Status              DWORD 0
+Priority            DWORD 0
+Position            DWORD 0
+StartTime           DWORD 0
+UntilTime           DWORD 0
+TotalPages          DWORD 0
+_Size               DWORD 0
+Submitted           SYSTEMTIME <>       ;Time the job was spooled
+Time                DWORD 0             ;How many seconds the job has been printing
+PagesPrinted        DWORD 0
+JOB_INFO_2 ENDS
+
+
+
+JOB_INFO_3 STRUCT
+JobId     DWORD 0
+NextJobId DWORD 0
+Reserved  DWORD 0
+JOB_INFO_3 ENDS
+
+JOB_CONTROL_PAUSE              = 1
+JOB_CONTROL_RESUME             = 2
+JOB_CONTROL_CANCEL             = 3
+JOB_CONTROL_RESTART            = 4
+JOB_CONTROL_DELETE             = 5
+JOB_CONTROL_SENT_TO_PRINTER    = 6
+JOB_CONTROL_LAST_PAGE_EJECTED  = 7
+
+JOB_STATUS_PAUSED               = 00000001h
+JOB_STATUS_ERROR                = 00000002h
+JOB_STATUS_DELETING             = 00000004h
+JOB_STATUS_SPOOLING             = 00000008h
+JOB_STATUS_PRINTING             = 00000010h
+JOB_STATUS_OFFLINE              = 00000020h
+JOB_STATUS_PAPEROUT             = 00000040h
+JOB_STATUS_PRINTED              = 00000080h
+JOB_STATUS_DELETED              = 00000100h
+JOB_STATUS_BLOCKED_DEVQ         = 00000200h
+JOB_STATUS_USER_INTERVENTION    = 00000400h
+JOB_STATUS_RESTART              = 00000800h
+
+JOB_POSITION_UNSPECIFIED        = 0
+
+ADDJOB_INFO_1 STRUCT
+Path  DWORD 0
+JobId DWORD 0
+ADDJOB_INFO_1 ENDS
+
+
+
+DRIVER_INFO_2 STRUCT
+cVersion       DWORD 0
+pName          DWORD 0                  ; QMS 810
+pEnvironment   DWORD 0                  ; Win32 x86
+pDriverPath    DWORD 0                  ; c:\drivers\pscript.dll
+pDataFile      DWORD 0                  ; c:\drivers\QMS810.PPD
+pConfigFile    DWORD 0                  ; c:\drivers\PSCRPTUI.DLL
+DRIVER_INFO_2 ENDS
+
+
+DRIVER_INFO_3 STRUCT
+cVersion         DWORD 0
+pName            DWORD 0                ; QMS 810
+pEnvironment     DWORD 0                ; Win32 x86
+pDriverPath      DWORD 0                ; c:\drivers\pscript.dll
+pDataFile        DWORD 0                ; c:\drivers\QMS810.PPD
+pConfigFile      DWORD 0                ; c:\drivers\PSCRPTUI.DLL
+pHelpFile        DWORD 0                ; c:\drivers\PSCRPTUI.HLP
+pDependentFiles  DWORD 0                ; PSCRIPT.DLL\0QMS810.PPD\0PSCRIPTUI.DLL\0PSCRIPTUI.HLP\0PSTEST.TXT\0\0
+pMonitorName     DWORD 0                ; "PJL monitor"
+pDefaultDataType DWORD 0                ; "EMF"
+DRIVER_INFO_3 ENDS
+
+
+DOC_INFO_1 STRUCT
+pDocName    DWORD 0
+pOutputFile DWORD 0
+pDatatype   DWORD 0
+DOC_INFO_1 ENDS
+
+
+FORM_INFO_1 STRUCT
+Flags         DWORD 0
+pName         DWORD 0
+_Size         SIZEL <>
+ImageableArea RECTL <>
+FORM_INFO_1 ENDS
+
+
+DOC_INFO_2 STRUCT
+pDocName    DWORD 0
+pOutputFile DWORD 0
+pDatatype   DWORD 0
+dwMode      DWORD 0
+JobId       DWORD 0
+DOC_INFO_2 ENDS
+
+
+DI_CHANNEL         = 1                  ; start direct read/write channel,
+DI_READ_SPOOL_JOB  = 3
+
+
+FORM_USER       = 00000000
+FORM_BUILTIN    = 00000001
+FORM_PRINTER    = 00000002
+
+PRINTPROCESSOR_INFO_1 STRUCT
+pName DWORD 0
+PRINTPROCESSOR_INFO_1 ENDS
+
+
+PORT_INFO_1 STRUCT
+pName DWORD 0
+PORT_INFO_1 ENDS
+
+
+PORT_INFO_2 STRUCT
+pPortName    DWORD 0
+pMonitorName DWORD 0
+pDescription DWORD 0
+fPortType    DWORD 0
+Reserved     DWORD 0
+PORT_INFO_2 ENDS
+
+
+PORT_TYPE_WRITE         = 0001
+PORT_TYPE_READ          = 0002
+PORT_TYPE_REDIRECTED    = 0004
+PORT_TYPE_NET_ATTACHED  = 0008
+
+PORT_INFO_3 STRUCT
+dwStatus   DWORD 0
+pszStatus  DWORD 0
+dwSeverity DWORD 0
+PORT_INFO_3 ENDS
+
+
+PORT_STATUS_TYPE_ERROR      = 1
+PORT_STATUS_TYPE_WARNING    = 2
+PORT_STATUS_TYPE_INFO       = 3
+
+PORT_STATUS_OFFLINE                = 1
+PORT_STATUS_PAPER_JAM              = 2
+PORT_STATUS_PAPER_OUT              = 3
+PORT_STATUS_OUTPUT_BIN_FULL        = 4
+PORT_STATUS_PAPER_PROBLEM          = 5
+PORT_STATUS_NO_TONER               = 6
+PORT_STATUS_DOOR_OPEN              = 7
+PORT_STATUS_USER_INTERVENTION      = 8
+PORT_STATUS_OUT_OF_MEMORY          = 9
+
+PORT_STATUS_TONER_LOW              = 10
+
+PORT_STATUS_WARMING_UP             = 11
+PORT_STATUS_POWER_SAVE             = 12
+
+
+MONITOR_INFO_1 STRUCT
+pName DWORD 0
+MONITOR_INFO_1 ENDS
+
+
+MONITOR_INFO_2 STRUCT
+pName        DWORD 0
+pEnvironment DWORD 0
+pDLLName     DWORD 0
+MONITOR_INFO_2 ENDS
+
+
+DATATYPES_INFO_1 STRUCT
+pName DWORD 0
+DATATYPES_INFO_1 ENDS
+
+PRINTER_DEFAULTS STRUCT
+pDatatype     DWORD 0
+pDevMode      DWORD 0
+DesiredAccess DWORD 0
+PRINTER_DEFAULTS ENDS
+
+
+PRINTER_ENUM_DEFAULT     = 00000001h
+PRINTER_ENUM_LOCAL       = 00000002h
+PRINTER_ENUM_CONNECTIONS = 00000004h
+PRINTER_ENUM_FAVORITE    = 00000004h
+PRINTER_ENUM_NAME        = 00000008h
+PRINTER_ENUM_REMOTE      = 00000010h
+PRINTER_ENUM_SHARED      = 00000020h
+PRINTER_ENUM_NETWORK     = 00000040h
+
+PRINTER_ENUM_EXPAND      = 00004000h
+PRINTER_ENUM_CONTAINER   = 00008000h
+
+PRINTER_ENUM_ICONMASK    = 00ff0000h
+PRINTER_ENUM_ICON1       = 00010000h
+PRINTER_ENUM_ICON2       = 00020000h
+PRINTER_ENUM_ICON3       = 00040000h
+PRINTER_ENUM_ICON4       = 00080000h
+PRINTER_ENUM_ICON5       = 00100000h
+PRINTER_ENUM_ICON6       = 00200000h
+PRINTER_ENUM_ICON7       = 00400000h
+PRINTER_ENUM_ICON8       = 00800000h
+
+
+
+ClosePrinter            PROTO STDCALL\
+                                hPrinter:DWORD
+
+EndPagePrinter          PROTO STDCALL\
+                                hPrinter:DWORD
+
+EnumPrinters            PROTO STDCALL\
+                                Flags:DWORD,
+                               _Name:DWORD,
+                               Level:DWORD,
+                               pPrinterEnum:DWORD,
+                               cbBuf:DWORD,
+                               pcbNeeded:DWORD,
+                               pcReturned:DWORD
+
+EnumJobs                PROTO STDCALL\
+                               hPrinter:DWORD,
+                               FirstJob:DWORD,
+                               NoJobs:DWORD,
+                               Level:DWORD,
+                               pJob:DWORD,
+                               cbBuf:DWORD,
+                               pcbNeeded:DWORD,
+                               pcReturned:DWORD
+
+EndDocPrinter           PROTO STDCALL\
+                                hPrinter:DWORD
+
+GetJob                  PROTO STDCALL\
+                               hPrinter:DWORD,
+                               JobId:DWORD,
+                               Level:DWORD,
+                               pJob:DWORD,
+                               cbBuf:DWORD,
+                               pcbNeeded:DWORD
+
+OpenPrinter             PROTO STDCALL\
+                                pPrinterName:DWORD,
+                                phPrinter:DWORD,
+                                pDefault:DWORD
+
+ResetPrinter            PROTO STDCALL\
+                               hPrinter:DWORD,
+                               pDefault:DWORD
+
+SetJob                  PROTO STDCALL\
+                               hPrinter:DWORD,
+                               JobId:DWORD,
+                               Level:DWORD,
+                               pJob:DWORD,
+                               Command:DWORD
+
+SetPrinter              PROTO STDCALL\
+                               hPrinter:DWORD,
+                               Level:DWORD,
+                               pPrinter:DWORD,
+                               Command:DWORD
+
+StartDocPrinter         PROTO STDCALL\
+                                hPrinter:DWORD,
+                                Level:DWORD,
+                                pDocInfo:DWORD
+
+StartPagePrinter        PROTO STDCALL\
+                                hPrinter:DWORD
+
+WritePrinter            PROTO STDCALL\
+                                hPrinter:DWORD,
+                                pBuf:DWORD,
+                                cbBuf:DWORD,
+                                pcWritten:DWORD
+
+
+PRINTER_NOTIFY_TYPE = 00
+JOB_NOTIFY_TYPE     = 01
+
+PRINTER_NOTIFY_FIELD_SERVER_NAME             = 00h
+PRINTER_NOTIFY_FIELD_PRINTER_NAME            = 01h
+PRINTER_NOTIFY_FIELD_SHARE_NAME              = 02h
+PRINTER_NOTIFY_FIELD_PORT_NAME               = 03h
+PRINTER_NOTIFY_FIELD_DRIVER_NAME             = 04h
+PRINTER_NOTIFY_FIELD_COMMENT                 = 05h
+PRINTER_NOTIFY_FIELD_LOCATION                = 06h
+PRINTER_NOTIFY_FIELD_DEVMODE                 = 07h
+PRINTER_NOTIFY_FIELD_SEPFILE                 = 08h
+PRINTER_NOTIFY_FIELD_PRINT_PROCESSOR         = 09h
+PRINTER_NOTIFY_FIELD_PARAMETERS              = 0Ah
+PRINTER_NOTIFY_FIELD_DATATYPE                = 0Bh
+PRINTER_NOTIFY_FIELD_SECURITY_DESCRIPTOR     = 0Ch
+PRINTER_NOTIFY_FIELD_ATTRIBUTES              = 0Dh
+PRINTER_NOTIFY_FIELD_PRIORITY                = 0Eh
+PRINTER_NOTIFY_FIELD_DEFAULT_PRIORITY        = 0Fh
+PRINTER_NOTIFY_FIELD_START_TIME              = 10h
+PRINTER_NOTIFY_FIELD_UNTIL_TIME              = 11h
+PRINTER_NOTIFY_FIELD_STATUS                  = 12h
+PRINTER_NOTIFY_FIELD_STATUS_STRING           = 13h
+PRINTER_NOTIFY_FIELD_CJOBS                   = 14h
+PRINTER_NOTIFY_FIELD_AVERAGE_PPM             = 15h
+PRINTER_NOTIFY_FIELD_TOTAL_PAGES             = 16h
+PRINTER_NOTIFY_FIELD_PAGES_PRINTED           = 17h
+PRINTER_NOTIFY_FIELD_TOTAL_BYTES             = 18h
+PRINTER_NOTIFY_FIELD_BYTES_PRINTED           = 19h
+
+JOB_NOTIFY_FIELD_PRINTER_NAME                = 00h
+JOB_NOTIFY_FIELD_MACHINE_NAME                = 01h
+JOB_NOTIFY_FIELD_PORT_NAME                   = 02h
+JOB_NOTIFY_FIELD_USER_NAME                   = 03h
+JOB_NOTIFY_FIELD_NOTIFY_NAME                 = 04h
+JOB_NOTIFY_FIELD_DATATYPE                    = 05h
+JOB_NOTIFY_FIELD_PRINT_PROCESSOR             = 06h
+JOB_NOTIFY_FIELD_PARAMETERS                  = 07h
+JOB_NOTIFY_FIELD_DRIVER_NAME                 = 08h
+JOB_NOTIFY_FIELD_DEVMODE                     = 09h
+JOB_NOTIFY_FIELD_STATUS                      = 0Ah
+JOB_NOTIFY_FIELD_STATUS_STRING               = 0Bh
+JOB_NOTIFY_FIELD_SECURITY_DESCRIPTOR         = 0Ch
+JOB_NOTIFY_FIELD_DOCUMENT                    = 0Dh
+JOB_NOTIFY_FIELD_PRIORITY                    = 0Eh
+JOB_NOTIFY_FIELD_POSITION                    = 0Fh
+JOB_NOTIFY_FIELD_SUBMITTED                   = 10h
+JOB_NOTIFY_FIELD_START_TIME                  = 11h
+JOB_NOTIFY_FIELD_UNTIL_TIME                  = 12h
+JOB_NOTIFY_FIELD_TIME                        = 13h
+JOB_NOTIFY_FIELD_TOTAL_PAGES                 = 14h
+JOB_NOTIFY_FIELD_PAGES_PRINTED               = 15h
+JOB_NOTIFY_FIELD_TOTAL_BYTES                 = 16h
+JOB_NOTIFY_FIELD_BYTES_PRINTED               = 17h
+
+
+PRINTER_NOTIFY_OPTIONS_TYPE STRUCT
+_Type         WORD  0
+Reserved0     WORD  0
+Reserved1     DWORD 0
+Reserved2     DWORD 0
+Count         DWORD 0
+pFields       DWORD 0
+PRINTER_NOTIFY_OPTIONS_TYPE ENDS
+
+
+PRINTER_NOTIFY_OPTIONS_REFRESH  = 01
+
+PRINTER_NOTIFY_OPTIONS STRUCT
+Version  DWORD 0
+Flags    DWORD 0
+Count    DWORD 0
+pTypes   DWORD 0
+PRINTER_NOTIFY_OPTIONS ENDS
+
+
+
+PRINTER_NOTIFY_INFO_DISCARDED   = 01
+
+PRINTER_NOTIFY_INFO_DATA STRUCT
+_Type     WORD  0
+Field     WORD  0
+Reserved  DWORD 0
+Id        DWORD 0
+    UNION NotifyData
+      adwData DWORD 0,0
+      STRUCT
+        cbBuf DWORD 0
+        pBuf  DWORD 0
+      ENDS
+    ENDS
+PRINTER_NOTIFY_INFO_DATA ENDS
+
+
+
+PRINTER_NOTIFY_INFO STRUCT
+Version      DWORD 0
+Flags        DWORD 0
+Count        DWORD 0
+aData        PRINTER_NOTIFY_INFO_DATA <>
+PRINTER_NOTIFY_INFO ENDS
+
+
+
+PRINTER_CHANGE_ADD_PRINTER               = 00000001h
+PRINTER_CHANGE_SET_PRINTER               = 00000002h
+PRINTER_CHANGE_DELETE_PRINTER            = 00000004h
+PRINTER_CHANGE_FAILED_CONNECTION_PRINTER = 00000008h
+PRINTER_CHANGE_PRINTER                   = 000000FFh
+PRINTER_CHANGE_ADD_JOB                   = 00000100h
+PRINTER_CHANGE_SET_JOB                   = 00000200h
+PRINTER_CHANGE_DELETE_JOB                = 00000400h
+PRINTER_CHANGE_WRITE_JOB                 = 00000800h
+PRINTER_CHANGE_JOB                       = 0000FF00h
+PRINTER_CHANGE_ADD_FORM                  = 00010000h
+PRINTER_CHANGE_SET_FORM                  = 00020000h
+PRINTER_CHANGE_DELETE_FORM               = 00040000h
+PRINTER_CHANGE_FORM                      = 00070000h
+PRINTER_CHANGE_ADD_PORT                  = 00100000h
+PRINTER_CHANGE_CONFIGURE_PORT            = 00200000h
+PRINTER_CHANGE_DELETE_PORT               = 00400000h
+PRINTER_CHANGE_PORT                      = 00700000h
+PRINTER_CHANGE_ADD_PRINT_PROCESSOR       = 01000000h
+PRINTER_CHANGE_DELETE_PRINT_PROCESSOR    = 04000000h
+PRINTER_CHANGE_PRINT_PROCESSOR           = 07000000h
+PRINTER_CHANGE_ADD_PRINTER_DRIVER        = 10000000h
+PRINTER_CHANGE_SET_PRINTER_DRIVER        = 20000000h
+PRINTER_CHANGE_DELETE_PRINTER_DRIVER     = 40000000h
+PRINTER_CHANGE_PRINTER_DRIVER            = 70000000h
+PRINTER_CHANGE_TIMEOUT                   = 80000000h
+PRINTER_CHANGE_ALL                       = 7777FFFFh
+
+
+PRINTER_ERROR_INFORMATION   = 80000000h
+PRINTER_ERROR_WARNING       = 40000000h
+PRINTER_ERROR_SEVERE        = 20000000h
+
+PRINTER_ERROR_OUTOFPAPER    = 00000001h
+PRINTER_ERROR_JAM           = 00000002h
+PRINTER_ERROR_OUTOFTONER    = 00000004h
+
+
+PROVIDOR_INFO_1 STRUCT
+pName        DWORD 0
+pEnvironment DWORD 0
+pDLLName     DWORD 0
+PROVIDOR_INFO_1 ENDS
+
+
+
+; SetPrinterData and GetPrinterData Server Handle Key values
+
+
+SPLREG_DEFAULT_SPOOL_DIRECTORY           TEXTEQU <DefaultSpoolDirectory>
+SPLREG_PORT_THREAD_PRIORITY_DEFAULT      TEXTEQU <PortThreadPriorityDefault>
+SPLREG_PORT_THREAD_PRIORITY              TEXTEQU <PortThreadPriority>
+SPLREG_SCHEDULER_THREAD_PRIORITY_DEFAULT TEXTEQU <SchedulerThreadPriorityDefault>
+SPLREG_SCHEDULER_THREAD_PRIORITY         TEXTEQU <SchedulerThreadPriority>
+SPLREG_BEEP_ENABLED                      TEXTEQU <BeepEnabled>
+SPLREG_NET_POPUP                         TEXTEQU <NetPopup>
+SPLREG_EVENT_LOG                         TEXTEQU <EventLog>
+SPLREG_MAJOR_VERSION                     TEXTEQU <MajorVersion>
+SPLREG_MINOR_VERSION                     TEXTEQU <MinorVersion>
+SPLREG_ARCHITECTURE                      TEXTEQU <Architecture>
+
+
+SERVER_ACCESS_ADMINISTER    = 00000001h
+SERVER_ACCESS_ENUMERATE     = 00000002h
+
+PRINTER_ACCESS_ADMINISTER   = 00000004h
+PRINTER_ACCESS_USE          = 00000008h
+
+JOB_ACCESS_ADMINISTER       = 00000010h
+
+
+
+; Access rights for print servers
+
+SERVER_ALL_ACCESS    = (STANDARD_RIGHTS_REQUIRED   or\
+                        SERVER_ACCESS_ADMINISTER or\
+                        SERVER_ACCESS_ENUMERATE)
+
+SERVER_READ          = (STANDARD_RIGHTS_READ or\
+                        SERVER_ACCESS_ENUMERATE)
+
+SERVER_WRITE         = (STANDARD_RIGHTS_WRITE      or\
+                        SERVER_ACCESS_ADMINISTER or\
+                        SERVER_ACCESS_ENUMERATE)
+
+SERVER_EXECUTE       = (STANDARD_RIGHTS_EXECUTE    or\
+                        SERVER_ACCESS_ENUMERATE)
+
+; Access rights for printers
+
+
+PRINTER_ALL_ACCESS   = (STANDARD_RIGHTS_REQUIRED  or\
+                        PRINTER_ACCESS_ADMINISTER or\
+                        PRINTER_ACCESS_USE)
+
+PRINTER_READ         = (STANDARD_RIGHTS_READ  or\
+                        PRINTER_ACCESS_USE)
+
+PRINTER_WRITE        = (STANDARD_RIGHTS_WRITE or\
+                        PRINTER_ACCESS_USE)
+
+PRINTER_EXECUTE      = (STANDARD_RIGHTS_EXECUTE or\
+                        PRINTER_ACCESS_USE)
+
+; Access rights for jobs
+
+JOB_ALL_ACCESS        = (STANDARD_RIGHTS_REQUIRED or\
+                         JOB_ACCESS_ADMINISTER)
+
+JOB_READ              = (STANDARD_RIGHTS_READ    or\
+                         JOB_ACCESS_ADMINISTER)
+
+JOB_WRITE             = (STANDARD_RIGHTS_WRITE   or\
+                         JOB_ACCESS_ADMINISTER)
+
+JOB_EXECUTE           = (STANDARD_RIGHTS_EXECUTE or\
+                         JOB_ACCESS_ADMINISTER)

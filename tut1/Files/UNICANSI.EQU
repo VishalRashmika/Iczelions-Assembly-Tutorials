@@ -1,0 +1,374 @@
+;   ANSI / UniCode strings handling.
+;  19.JUN.96 : Philippe Auphelle.
+;        LARGE Portions from 03-14-1996 Sven B. Schreiber sbs@orgon.com
+
+; $Id: UnicAnsi.equ 1.1 1997/09/02 09:50:53 Philippe Exp $
+
+; $Log: /Win32Equ/UnicAnsi.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:50:53  Philippe
+; Initial revision
+;
+
+
+;==============================================================================
+;
+;               ANSI / UniCode strings.
+;
+; This include file should be included ahead of any other one.
+; It defines various equates, textequates and macros used to handle
+; Unicode or ANSI string encoding definitions.
+; This include assumes the UniCode equate is clear (0) or set (1) according
+; to the coding system to be used.
+; But of course, Win95 doesn't support UniCode...
+; So if nothing's defined, we default to ASCII. Not the best, but works
+; for both Win95 and NT.
+;==============================================================================
+
+
+                IFNDEF UniCode
+UniCode         = 0                     ;Default to ASCII (always works)
+                ENDIF
+
+; Takes care of Win32syscalls that are encoding dependant:
+; These have a generic name that, by a typical Microsoft kludge, is
+; transformed at compile time in the real target name.
+; The real target name is composed by postfixing the generic name by an
+; "A" (ANSI/ASCII) or "W" (Wide, for Unicode).
+; The great thing with the wonderful MS approach is that you have to handle
+; two different sets of object files when building libraries for both
+; Unicode and ANSI. How nice... This, IMHO, should have been handled at
+; link time and/or runtime. Anyway.
+; The following macro simply generates a text equate that replaces the
+; generic procedure name by its encoded (postfixed) form.
+; Any procedure that's encoding dependant should have a UnicAnsiExtern macro
+; coded ahead of its PROTO definition to resolve its name to something defined
+; in the Microsoft import libraries.
+; There are other implications to the use of Unicode, as the Unicode uses
+; double bytes. For instance, the CHAR typedef is assigned to either a BYTE
+; (for ANSI) or a WORD (for UniCode).
+; An 80 character string can thus be up to 160 bytes long when coded in
+; UniCode.
+; I haven't look at this problem yet, but I expect Sven's macros below to
+; solve the problem...
+
+
+UnicAnsiExtern  MACRO Procedure
+                LOCAL Procedure
+                  IF UniCode EQ 0
+Procedure         TEXTEQU @CatStr(Procedure,A)
+                  ELSE
+Procedure         TEXTEQU @CatStr(Procedure,W)
+                  ENDIF
+                ENDM
+
+
+
+; Alternate to Sven's STRING macro (see below) for generating ANSI or
+; Unicode strings:
+
+; Supported convenience Escape Sequences:
+
+; \n
+; \t
+; \0
+; \1
+
+; Note: The convenience escape letters are case sensitive.
+
+; MASM macro forcing character ("!") only required for "!", ">" and "<".
+; Other characters OK, including "'", '"', etc...
+
+
+$String         MACRO Parm1:REQ
+;; For some undetermined reason, declaring StrChar as LOCAL to the macro
+;; generates errors. MASM macro language truly STINKS.
+                LOCAL CharType, ParmSize, _ESC_, Start, NumChar
+
+                IF UniCode
+CharType        TEXTEQU <WORD>
+                ELSE
+CharType        TEXTEQU <BYTE>
+                ENDIF
+
+ParmSize        SIZESTR <Parm1>
+        _ESC_   = 0                             ;;Not in escape seq.
+        Start   = 2                             ;;Skip leading "'",
+                  REPEAT ParmSize-2             ;;For each char in parm but "'"
+StrChar           SUBSTR <Parm1>,Start,1        ;;extract current char as TEXTEQU,
+                    IFIDNI StrChar,<">          ;;Because we use " already
+                    NumChar = '"'               ;;in the %NumChar assign. below.
+                    ELSE
+%NumChar            = "&StrChar"                ;;Convert it to numeric value,
+                    ENDIF
+
+                    IF _ESC_                    ;;Second byte of Escape sequence
+_ESC_               = 0
+                      if     NumChar eq 06Eh    ;;"n"
+                        CharType 0Dh, 0Ah
+                      elseif NumChar eq 074h    ;;"t"
+                        CharType 09h
+                      elseif NumChar eq 030h    ;;"0"
+                        CharType 0
+                      elseif NumChar eq 031h    ;;"1"
+                        CharType 1
+                      else                      ;; None of these,
+                        CharType "\", NumChar   ;; purge out \<whatever>.
+                      endif                     ;;if NumChar eq ...
+
+                    else                        ;; Not in Escape sequence.
+
+                      if NumChar eq 05Ch        ;;"\" : Esc character?
+_ESC_                   = 1
+                      else
+_ESC_                   = 0
+                        CharType NumChar
+                      endif                     ;; (if "\").
+                    endif                       ;;(if _ESC_)
+
+                  Start = Start + 1             ;;Bump string index.
+                  ENDM
+                ENDM
+
+
+; The rest are original Walk32 macros.
+
+
+ASTRING         macro _STRING_
+_ESC_           = 0
+
+                  forc _CHAR_,<_STRING_>
+
+                    if _ESC_
+_ESC_               = 0
+;
+                      if "&_CHAR_" eq "/"
+                        BYTE "/"
+                      elseif "&_CHAR_" eq "n"
+                        BYTE 0Dh, 0Ah
+                      elseif "&_CHAR_" eq "t"
+                        BYTE 09h
+                      elseif "&_CHAR_" eq ":"
+                        BYTE "!"
+                      elseif "&_CHAR_" eq "-"
+                        BYTE "'"
+                      elseif "&_CHAR_" eq "="
+                        BYTE '"'
+                      elseif "&_CHAR_" eq "|"
+                        BYTE "\"
+                      elseif "&_CHAR_" eq "#"
+                        BYTE "%"
+                      elseif "&_CHAR_" eq "+"
+                        BYTE "&"
+                      elseif "&_CHAR_" eq "("
+                        BYTE "<"
+                      elseif "&_CHAR_" eq ")"
+                        BYTE ">"
+                      elseif "&_CHAR_" eq "0"
+                        BYTE 0
+                      elseif "&_CHAR_" eq "1"
+                        BYTE 1
+                      else
+                        BYTE "/", "&_CHAR_"
+                      endif             ;if "&_CHAR_" eq ...
+
+                    else
+                                        ;if _ESC_
+                      if "&_CHAR_" eq "/"
+_ESC_                   = 1
+                      else
+_ESC_                   = 0
+                        BYTE "&_CHAR_"
+                      endif
+                    endif               ;if _ESC_
+                  endm                  ;forc _CHAR_,<_STRING_>
+                endm                    ;ASTRING macro.
+
+;------------------------------------------------------------------------------
+
+WSTRING         macro          _STRING_
+_ESC_           = 0
+
+                  forc _CHAR_,<_STRING_>
+
+                    if _ESC_
+_ESC_               = 0
+
+                      if "&_CHAR_" eq "/"
+                        WORD "/"
+                      elseif "&_CHAR_" eq "n"
+                        WORD 0Dh, 0Ah
+                      elseif "&_CHAR_" eq "t"
+                        WORD 09h
+                      elseif "&_CHAR_" eq ":"
+                        WORD "!"
+                      elseif "&_CHAR_" eq "-"
+                        WORD "'"
+                      elseif "&_CHAR_" eq "="
+                        WORD '"'
+                      elseif "&_CHAR_" eq "|"
+                        WORD "\"
+                      elseif "&_CHAR_" eq "#"
+                        WORD "%"
+                      elseif "&_CHAR_" eq "+"
+                        WORD "&"
+                      elseif "&_CHAR_" eq "("
+                        WORD "<"
+                      elseif "&_CHAR_" eq ")"
+                        WORD ">"
+                      elseif "&_CHAR_" eq "0"
+                        WORD 0
+                      elseif "&_CHAR_" eq "1"
+                        WORD 1
+                      else
+                        WORD "/", "&_CHAR_"
+                      endif             ;if "&_CHAR_"
+
+                    else                ;if _ESC_
+
+                      if "&_CHAR_" eq "/"
+_ESC_                   = 1
+                      else
+_ESC_                   = 0
+                        WORD "&_CHAR_"
+                      endif
+                    endif               ;if _ESC_
+                  endm                  ;forc _CHAR_,<_STRING_>
+                endm
+
+;------------------------------------------------------------------------------
+
+
+WCHAR           TYPEDEF WORD            ;unicode character
+ACHAR           TYPEDEF BYTE            ;ansi character
+
+                  IF UniCode
+CHAR              TYPEDEF WCHAR
+                  ELSE
+CHAR              TYPEDEF ACHAR
+                  ENDIF
+
+;------------------------------------------------------------------------------
+
+
+STRING          macro _STRING_:REQ
+                  if UniCode
+                  WSTRING <_STRING_>
+                  else
+                  ASTRING <_STRING_>
+                  endif
+                endm
+
+
+
+;------------------------------------------------------------------------------
+
+lodczx          macro _from
+                  if UniCode
+                    movzx eax,word ptr _from
+                  else
+                    movzx eax,byte ptr _from
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+lodc            macro _from
+                  if UniCode
+                    mov ax,_from
+                  else
+                    mov al,_from
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+stoc            macro _to
+                  if UniCode
+                    mov _to,ax
+                  else
+                    mov _to,al
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+xchc            macro _with
+                  if UniCode
+                    xchg ax,_with
+                  else
+                    xchg al,_with
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+cmpc            macro _against
+                  if UniCode
+                    cmp ax,_against
+                  else
+                    cmp al,_against
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+subc            macro _what
+                  if UniCode
+                    sub ax,_what
+                  else
+                    sub al,_what
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+addc            macro _what
+                  if UniCode
+                    add ax,_what
+                  else
+                    add al,_what
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+incc            macro _what
+                  if UniCode
+                    inc _what
+                  inc _what
+                    else
+                  inc _what
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+decc            macro _what
+                  if UniCode
+                    dec _what
+                    dec _what
+                  else
+                    dec _what
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+cc2bc           macro _location
+                  if UniCode
+                    shl _location,1
+                  endif
+                endm
+
+;------------------------------------------------------------------------------
+
+bc2cc           macro _location
+                  if UniCode
+                    shr _location,1
+                  endif
+                endm
+
+;------------------------------------------------------------------------------

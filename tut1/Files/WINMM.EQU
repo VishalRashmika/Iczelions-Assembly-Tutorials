@@ -1,0 +1,23 @@
+; WinMM system call prototypes.
+;
+; Philippe Auphelle, 27 Aug 1996
+
+; $Id: WinMM.equ 1.1 1997/09/02 09:51:24 Philippe Exp $
+
+; $Log: /Win32Equ/WinMM.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:51:24  Philippe
+; Initial revision
+;
+
+
+
+                INCLUDELIB WinMM.LIB
+
+PlaySound               PROTO STDCALL\
+                                pszSound:DWORD,
+                                hmod:DWORD,
+                                fdwSound:DWORD
+

@@ -1,0 +1,72 @@
+; Philippe AUphelle - 08.09.96
+; Message dispatching macros.
+
+; $Id: Win32.mac 1.1 1997/09/02 09:51:00 Philippe Exp $
+
+; $Log: /Win32Equ/Win32.mac $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:51:00  Philippe
+; Initial revision
+;
+
+
+; It would be a good idea to remove the target macros and do things by hand
+; there. It would probably make the code easier to understand (by making the
+; parms apparent).
+; The use of the
+;   ALIAS <MyLabel> = <TrueLabel>
+; would solve the problem of the MsgProcAlias alternate entry point.
+
+CALLBACK        Macro CallBackName:REQ
+$$CBPrefix      CATSTR <CallBackName>,<_>
+                EndM
+
+MESSAGE         Macro MessageID:REQ,TargetProc
+                LOCAL TempString
+                  IFNDEF $$CBPrefix
+                  .ERR CallBack macro must be defined first.
+                  ELSE                  ;;&&CBPrefix defined.
+                    IFB $$CBPrefix
+                    .ERR Message macro used out of a CallBack block.
+                    ELSE                ;; and not blank.
+TempString          TEXTEQU @CatStr (<%$$CBPrefix>,&MessageID)
+TempString          PROTO STDCALL hWnd:DWORD,wMsg:DWORD,wParam:DWORD,lParam:DWORD
+                    CMP EAX,&MessageID
+                    JE TempString
+                    ENDIF
+                  ENDIF
+                EndM
+
+MSGCHAIN        Macro MessageID:REQ,TargetProc:REQ
+                CMP EAX,&MessageID
+                JE &TargetProc
+                EndM
+
+CALLBACKDEFAULT Macro DefaultProc:REQ
+$$CBPrefix      TEXTEQU <>
+                  IFIDNI <DefaultProc>,<None>
+                  MOV EAX,FALSE
+                  RET
+                  ELSE
+%                 JMP &DefaultProc
+                  ENDIF
+                EndM
+
+MSGPROC         Macro ProcName:REQ
+ProcName        PROTO STDCALL hWnd:DWORD,wMsg:DWORD,wParam:DWORD,lParam:DWORD
+ProcName        PROC USES EBX EDI ESI,
+                         hWnd:DWORD,
+                         wMsg:DWORD,
+                       wParam:DWORD,
+                       lParam:DWORD
+                EndM
+
+MSGPROCALIAS    Macro AliasProcName:REQ
+                LOCAL TempString
+TempString      TEXTEQU @CatStr(<&AliasProcName>,<@16>)
+                EXTERNDEF STDCALL TempString:NEAR
+TempString      LABEL NEAR
+                EndM
+

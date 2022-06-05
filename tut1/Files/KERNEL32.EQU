@@ -1,0 +1,1369 @@
+; Kernel32 system call prototypes.
+; Philippe Auphelle, 30 May 1996
+
+; $Header: /WIN32EQU/Kernel32.equ 4     8/11/97 22:09 Philippe $
+
+; Additional system call prototypes.
+; Fred Lepow, 30 June 1997
+
+
+                INCLUDELIB KERNEL32.LIB
+
+
+; These functions are Unicode/ANSI dependant, and will be postfixed at
+; assembly time according to the value of the Unicode equate.
+
+
+                UnicAnsiExtern CreateEvent
+                UnicAnsiExtern CreateFile
+                UnicAnsiExtern CreateFileMapping
+                UnicAnsiExtern CreateMutex
+                UnicAnsiExtern CreateProcess
+                UnicAnsiExtern CreateSemaphore
+
+                UnicAnsiExtern FillConsoleOutputCharacter
+                UnicAnsiExtern FindFirstFile
+                UnicAnsiExtern FindNextFile
+                UnicAnsiExtern FormatMessage
+
+                UnicAnsiExtern GetCommandLine
+                UnicAnsiExtern GetConsoleTitle
+                UnicAnsiExtern GetModuleFileName
+                UnicAnsiExtern GetModuleHandle
+                UnicAnsiExtern GetTempFileName
+                UnicAnsiExtern LoadLibrary
+                UnicAnsiExtern LoadLibraryEx
+                UnicAnsiExtern lstrcat
+                UnicAnsiExtern lstrcmp
+                UnicAnsiExtern lstrcmpi
+                UnicAnsiExtern lstrcpy
+                UnicAnsiExtern lstrlen
+
+                UnicAnsiExtern OpenFileMapping
+                UnicAnsiExtern OpenMutex
+                UnicAnsiExtern OpenSemaphore
+                UnicAnsiExtern OutputDebugString
+
+                UnicAnsiExtern PeekConsoleInput
+
+                UnicAnsiExtern ReadConsole
+                UnicAnsiExtern ReadConsoleInput
+                UnicAnsiExtern ReadConsoleOutput
+                UnicAnsiExtern ReadConsoleOutputCharacter
+
+                UnicAnsiExtern ScrollConsoleScreenBuffer
+                UnicAnsiExtern SetConsoleTitle
+
+                UnicAnsiExtern WriteConsole
+                UnicAnsiExtern WriteConsoleInput
+                UnicAnsiExtern WriteConsoleOutput
+                UnicAnsiExtern WriteConsoleOutputCharacter
+
+
+
+
+AllocConsole                PROTO
+Beep                        PROTO \
+                                dwFreq:DWORD,
+                                dwDuration:DWORD
+CloseHandle                 PROTO \
+                                hObject:DWORD
+CreateConsoleScreenBuffer   PROTO \
+                                dwDesiredAccess:DWORD,
+                                dwShareMode:DWORD,
+                                lpSecurityAttributes:DWORD,
+                                dwFlags:DWORD,
+                                lpScreenBufferData:DWORD
+CreateEvent                 PROTO  \
+                                lpEventAttributes:DWORD,
+                                bManualReset:DWORD,
+                                bInitialState:DWORD,
+                                lpName:DWORD
+CreateFile                  PROTO \
+                                lpFileName:DWORD,
+                                dwDesiredAccess:DWORD,
+                                dwShareMode:DWORD,
+                                lpSecurityAttributes:DWORD,
+                                dwCreationDistribution:DWORD,
+                                dwFlagsAndAttributes:DWORD,
+                                hTemplateFile:DWORD
+CreateFileMapping           PROTO \
+                                hFile:DWORD,
+                                lpFileMappingAttributes:DWORD,
+                                flProtect:DWORD,
+                                dwMaximumSizeHigh:DWORD,
+                                dwMaximumSizeLow:DWORD,
+                                lpName:DWORD
+CreateProcess PROTO \
+            lpApplicationName:DWORD,
+            lpCommandLine:DWORD,
+            lpProcessAttributes:DWORD,
+            lpThreadAttributes:DWORD,
+            bInheritHandles:DWORD,
+            dwCreationFlags:DWORD,
+            lpEnvironment:DWORD,
+            lpCurrentDirectory:DWORD,
+            lpStartupInfo:DWORD,
+            lpProcessInformation:DWORD
+
+CreateMutex                 PROTO \
+                                lpMutexAttributes:DWORD,
+                                bInitialOwner:DWORD,
+                                lpszName:DWORD
+CreateSemaphore             PROTO \
+                                lpSemaphoreAttributes:DWORD,
+                                lInitialCount:DWORD,
+                                lMaximumCount:DWORD,
+                                lpName:DWORD
+CreateThread                PROTO \
+                                lpThreadAttributes:DWORD,
+                                dwStackSize:DWORD,
+                                lpStartAddress:DWORD,
+                                lpParameter:DWORD,
+                                dwCreationFlags:DWORD,
+                                lpThreadId:DWORD
+DebugActiveProcess          PROTO \
+                                dwProcessId:DWORD
+DebugBreak                  PROTO
+DeleteCriticalSection       PROTO \
+                                lpCriticalSection:DWORD
+DuplicateHandle             PROTO \
+                                hSourceProcessHandle:DWORD,
+                                hSourceHandle:DWORD,
+                                hTargetProcessHandle:DWORD,
+                                lpTargetHandle:DWORD,
+                                dwDesiredAccess:DWORD,
+                                bInheritHandle:DWORD,
+                                dwOptions:DWORD
+EndPaint                    PROTO \
+                                hWnd:DWORD,
+                                lpPaint:DWORD
+EnterCriticalSection        PROTO \
+                                lpCriticalSection:DWORD
+ExitProcess                 PROTO \
+                                dwExitCode:DWORD
+ExitThread                  PROTO \
+                                dwExitCode:DWORD
+FillConsoleOutputAttribute  PROTO \
+                                hConsoleOutput:DWORD,
+                                wAttribute:DWORD,
+                                nLength:DWORD,
+                                dwWriteCoord:DWORD,
+                                lpNumberOfAttrsWritten:DWORD
+FillConsoleOutputCharacter  PROTO \
+                                hConsoleOutput:DWORD,
+                                cCharacter:DWORD,
+                                nLength:DWORD,
+                                dwWriteCoord:DWORD,
+                                lpNumberOfCharsWritten:DWORD
+FindFirstFile               PROTO \
+                                lpFileName:DWORD,
+                                lpFindFileData:DWORD
+FindNextFile                PROTO \
+                                hFindFile:DWORD,
+                                lpFindFileData:DWORD
+FindClose                   PROTO \
+                                hFindFile:DWORD
+FlushConsoleInputBuffer     PROTO \
+                                hConsoleInput:WORD
+FlushFileBuffers            PROTO \
+                                hFile:DWORD
+FreeConsole                 PROTO
+FormatMessage               PROTO \
+                                dwFlags:DWORD,
+                                lpSource:DWORD,
+                                dwMessageId:DWORD,
+                                dwLanguageId:DWORD,
+                                lpBuffer:DWORD,
+                                nSize:DWORD,
+                                va_list:DWORD
+
+FORMAT_MESSAGE_ALLOCATE_BUFFER  EQU     000000100h
+FORMAT_MESSAGE_IGNORE_INSERTS   EQU     000000200h
+FORMAT_MESSAGE_FROM_STRING      EQU     000000400h
+FORMAT_MESSAGE_FROM_HMODULE     EQU     000000800h
+FORMAT_MESSAGE_FROM_SYSTEM      EQU     000001000h
+FORMAT_MESSAGE_ARGUMENT_ARRAY   EQU     000002000h
+FORMAT_MESSAGE_MAX_WIDTH_MASK   EQU     0000000ffh
+
+FreeLibrary                 PROTO \
+                                hLibModule:DWORD
+GenerateConsoleCtrlEvent    PROTO \
+                                dwCtrlEvent:DWORD,
+                                dwProcessGroupId:DWORD
+GetCommandLine              PROTO
+GetCommConfig               PROTO \
+                                hCommDev:DWORD,
+                                lpCC:DWORD,
+                                lpdwSize:DWORD
+GetCommProperties           PROTO \
+                                hFile:DWORD,
+                                lpCommProp:DWORD
+GetCommState                PROTO \
+                                hFile:DWORD,
+                                lpDCB:DWORD
+GetCommTimeouts             PROTO \
+                                hFile:DWORD,
+                                lpCommTimeOuts:DWORD
+GetConsoleCP                PROTO
+
+
+GetConsoleCursorInfo        PROTO \
+                                hConsoleOutput:DWORD,
+                                lpConsoleCursorInfo:DWORD
+GetConsoleMode              PROTO \
+                                hConsoleHandle:DWORD,
+                                lpMode:DWORD
+GetConsoleOutputCP          PROTO
+GetConsoleScreenBufferInfo  PROTO \
+                                hConsoleOutput:DWORD,
+                                lpConsoleScreenBufferInfo:DWORD
+GetConsoleTitle             PROTO \
+                                lpConsoleTitle:DWORD,
+                                nSize:DWORD
+GetCurrentProcess           PROTO
+GetCurrentThread            PROTO
+GetFileSize                 PROTO \
+                                hFile:DWORD,
+                                lpFileSizeHigh:DWORD
+GetLargestConsoleWindowSize PROTO \
+                                hConsoleOutput:DWORD
+GetLastError                PROTO
+GetNumberOfConsoleInputEvents  PROTO \
+                                hConsoleInput:DWORD,
+                                lpNumberOfEvents:DWORD
+GetNumberOfConsoleMouseButtons PROTO \
+                                lpNumberOfMouseButtons:DWORD
+GetStdHandle                PROTO \
+                                nStdHandle:DWORD
+GetLocalTime                PROTO \
+                                lpSystemTime:DWORD
+GetProcAddress              PROTO \
+                                hModule:DWORD,
+                                lpProcName:DWORD
+GetModuleFileName           PROTO \
+                                hModule:DWORD,
+                                lpStr:DWORD,
+                                nSize:DWORD
+GetModuleHandle             PROTO \
+                                lpModuleHandle:DWORD
+GetOverlappedResult         PROTO \
+                                hFile:DWORD,
+                                lpOverlapped:DWORD,
+                                lpNumberOfBytesTransferred:DWORD,
+                                bWait:DWORD
+GetSystemTime               PROTO \
+                                lpSystemTime:DWORD
+GetSystemTimeAsFileTime     PROTO \
+                                lpSystemTimeAsFileTime:DWORD
+GetTempFileName             PROTO \
+                                 lpPathName:DWORD,
+                                 lpPrefixString:DWORD,
+                                 uUnique:DWORD,
+                                 lpTempFileName:DWORD
+GetTickCount                PROTO
+InitializeCriticalSection   PROTO \
+                                lpCriticalSection:DWORD
+LeaveCriticalSection        PROTO \
+                                lpCriticalSection:DWORD
+LoadLibrary                 PROTO \
+                                lpLibFileName:DWORD
+LoadLibraryEx               PROTO \
+                                lpLibFileName:DWORD,
+                                hFile:DWORD,
+                                dwFlags:DWORD
+LocalAlloc                  PROTO \
+                                uFlags:DWORD,
+                                uBytes:DWORD
+LocalFree                   PROTO \
+                                hMem:DWORD
+LockFile                    PROTO \
+                                hFile:DWORD,
+                                dwFileOffsetLow:DWORD,
+                                dwFileOffsetHigh:DWORD,
+                                nNumberOfBytesToLockLow:DWORD,
+                                nNumberOfBytesToLockHigh:DWORD
+lstrcat                     PROTO \
+                                lpString1:DWORD,
+                                lpString2:DWORD
+lstrcmp                     PROTO \
+                                lpString1:DWORD,
+                                lpString2:DWORD
+lstrcmpi                    PROTO \
+                                lpString1:DWORD,
+                                lpString2:DWORD
+lstrcpy                     PROTO \
+                                lpString1:DWORD,
+                                lpString2:DWORD
+lstrlen                     PROTO \
+                                lpString:DWORD
+MapViewOfFile               PROTO \
+                                hFileMappingObject:DWORD,
+                                dwDesiredAccess:DWORD,
+                                dwFileOffsetHigh:DWORD,
+                                dwFileOffsetLow:DWORD,
+                                dwNumberOfBytesToMap:DWORD
+MoveFile                    PROTO \
+                                lpExistingFileName:DWORD,
+                                lpNewFileName:DWORD
+MoveFileEx                  PROTO \
+                                lpExistingFileName:DWORD,
+                                lpNewFileName:DWORD,
+                                dwFlags:DWORD
+OpenFile                    PROTO \
+                                lpFileName:DWORD,
+                                lpReOpenBuff:DWORD,
+                                uStyle:DWORD
+OpenFileMapping             PROTO \
+                                dwDesiredAccess:DWORD,
+                                bInheritHandle:DWORD,
+                                lpName:DWORD
+OpenMutex                   PROTO \
+                                dwDesiredAccess:DWORD,
+                                bInheritHandle:DWORD,
+                                lpName:DWORD
+OpenSemaphore               PROTO \
+                                dwDesiredAccess:DWORD,
+                                bInheritHandle:DWORD,
+                                lpName:DWORD
+OutputDebugString           PROTO \
+                                lpOutputstring:DWORD
+PeekConsoleInput            PROTO \
+                                hConsoleInput:DWORD,
+                                lpBuffer:DWORD,
+                                nLength:DWORD,
+                                lpNumberOfEventsRead:DWORD
+PulseEvent                  PROTO \
+                                hEvent:DWORD
+ReadConsole                 PROTO \
+                                hConsoleInput:DWORD,
+                                lpBuffer:DWORD,
+                                nNumberOfCharsToRead:DWORD,
+                                lpNumberOfCharsRead:DWORD,
+                                lpReserved:DWORD
+ReadConsoleInput            PROTO \
+                                hConsoleInput:DWORD,
+                                lpBuffer:DWORD,
+                                nLength:DWORD,
+                                lpNumberOfEventsRead:DWORD
+ReadConsoleOutput           PROTO \
+                                hConsoleOutput:DWORD,
+                                lpBuffer:DWORD,
+                                dwBufferSize:DWORD,
+                                dwBufferCoord:DWORD,
+                                lpReadRegion:DWORD
+ReadConsoleOutputAttribute  PROTO \
+                                hConsoleOutput:DWORD,
+                                lpAttribute:DWORD,
+                                nLength:DWORD,
+                                dwReadCoord:DWORD,
+                                lpNumberOfAttrsRead:DWORD
+ReadConsoleOutputCharacter  PROTO \
+                                hConsoleOutput:DWORD,
+                                lpCharacter:DWORD,
+                                nLength:DWORD,
+                                dwReadCoord:DWORD,
+                                lpNumberOfCharsRead:DWORD
+ReadFile                     PROTO \
+                                hFile:DWORD,
+                                lpBuffer:DWORD,
+                                nNumberOfBytesToRead:DWORD,
+                                lpNumberOfBytesRead:DWORD,
+                                lpOverlapped:DWORD
+ReleaseSemaphore             PROTO \
+                                hSemaphore:DWORD,
+                                lReleaseCount:DWORD,
+                                lpPreviousCount:DWORD
+ReleaseMutex                 PROTO \
+                                hMutex:DWORD
+ResetEvent                   PROTO \
+                                hEvent:DWORD
+ResumeThread                 PROTO \
+                                hThread:DWORD
+ScrollConsoleScreenBuffer    PROTO \
+                                hConsoleOutput:DWORD,
+                                lpScrollRectangle:DWORD,
+                                lpClipRectangle:DWORD,
+                                dwDestinationOrigin:DWORD,
+                                lpFill:DWORD
+SetCommConfig                PROTO \
+                                hCommDev:DWORD,
+                                lpCC:DWORD,
+                                dwSize:DWORD
+SetCommState                 PROTO \
+                                hFile:DWORD,
+                                lpDCB:DWORD
+SetCommTimeouts              PROTO \
+                                hFile:DWORD,
+                                lpCommTimeOuts:DWORD
+SetConsoleActiveScreenBuffer PROTO \
+                                hConsoleOutput:DWORD
+SetConsoleCP                 PROTO \
+                                 wCodePageID:DWORD
+SetConsoleCtrlHandler        PROTO \
+                                HandlerRoutine:DWORD,
+                                bAdd:DWORD
+SetConsoleCtrlHandler        PROTO \
+                                HandlerRoutine:DWORD,
+                                AddHandler:DWORD
+SetConsoleCursorInfo         PROTO \
+                                hConsoleOutput:DWORD,
+                                lpConsoleCursorInfo:DWORD
+SetConsoleCursorPosition     PROTO \
+                                hConsoleOutput:DWORD,
+                                dwCursorPosition:DWORD
+SetConsoleMode               PROTO \
+                                hConsoleHandle:DWORD,
+                                dwMode:DWORD
+SetConsoleOutputCP           PROTO \
+                                wCodePageID:DWORD
+SetConsoleScreenBufferSize   PROTO \
+                                hConsoleOutput:DWORD,
+                                dwSize:DWORD
+SetConsoleTextAttribute      PROTO \
+                                hConsoleOutput:DWORD,
+                                wAttributes:DWORD
+SetConsoleTitle              PROTO \
+                                lpConsoleTitle:DWORD
+SetConsoleWindowInfo         PROTO \
+                                hConsoleOutput:DWORD,
+                                bAbsolute:DWORD,
+                                lpConsoleWindow:DWORD
+SetEvent                     PROTO \
+                                hEvent:DWORD
+SetFilePointer               PROTO \
+                             hFile:DWORD,
+                             lDistanceToMove:DWORD,
+                             lpDistanceToMoveHigh:DWORD,
+                             dwMoveMethod:DWORD
+SetStdHandle                 PROTO \
+                                nStdHandle:DWORD,
+                                hHandle:DWORD
+SetThreadPriority            PROTO \
+                                hThread:DWORD,
+                                nPriority:DWORD
+SetupComm                    PROTO \
+                                hFile:DWORD,
+                                dwInQueue:DWORD,
+                                dwOutQueue:DWORD
+Sleep                        PROTO \
+                                dwMilliSeconds:DWORD
+SleepEx                      PROTO \
+                                dwMilliSeconds:DWORD,
+                                bAlertable:DWORD
+SuspendThread                PROTO \
+                                hThread:DWORD
+UnlockFile                   PROTO \
+                                hFile:DWORD,
+                                dwFileOffsetLow:DWORD,
+                                dwFileOffsetHigh:DWORD,
+                                nNumberOfBytesToLockLow:DWORD,
+                                nNumberOfBytesToLockHigh:DWORD
+UnmapViewOfFile              PROTO \
+                                lpBaseAddress:DWORD
+WaitForSingleObject          PROTO \
+                                hHandle:DWORD,
+                                dwMilliseconds:DWORD
+WriteConsole                 PROTO \
+                                hConsoleOutput:DWORD,
+                                lpBuffer:DWORD,
+                                nNumberOfCharsToWrite:DWORD,
+                                lpNumberOfCharsWritten:DWORD,
+                                lpReserved:DWORD
+WriteConsoleInput            PROTO \
+                                hConsoleInput:DWORD,
+                                lpBuffer:DWORD,
+                                nLength:DWORD,
+                                lpNumberOfEventsWritten:DWORD
+WriteConsoleOutput           PROTO \
+                                hConsoleOutput:DWORD,
+                                lpBuffer:DWORD,
+                                dwBufferSize:DWORD,
+                                dwBufferCoord:DWORD,
+                                lpWriteRegion:DWORD
+WriteConsoleOutputAttribute  PROTO \
+                                hConsoleOutput:DWORD,
+                                lpAttribute:DWORD,
+                                nLength:DWORD,
+                                dwWriteCoord:DWORD,
+                                lpNumberOfAttrsWritten:DWORD
+WriteConsoleOutputCharacter  PROTO \
+                                hConsoleOutput:DWORD,
+                                lpCharacter:DWORD,
+                                nLength:DWORD,
+                                dwWriteCoord:DWORD,
+                                lpNumberOfCharsWritten:DWORD
+WriteFile                    PROTO \
+                                hFile:DWORD,
+                                lpBuffer:DWORD,nNumberOfBytesToWrite:DWORD,
+                                lpNumberOfBytesWritten:DWORD,
+                                lpOverlapped:DWORD
+
+
+OSVERSIONINFO   STRUCT DWORD
+dwOSVersionInfoSize DWORD SIZEOF OSVERSIONINFO ;structure size
+dwMajorVersion      DWORD 0             ;major version number
+dwMinorVersion      DWORD 0             ;minor version number
+dwBuildNumber       DWORD 0             ;build number
+dwPlatformId        DWORD 0             ;platform id
+szCSDVersion        CHAR 128 dup (0)    ;info string
+OSVERSIONINFO   ends
+
+
+PROCESS_INFORMATION STRUCT DWORD
+hProcess        HANDLE 0                ;process handle
+hThread         HANDLE 0                ;thread handle
+dwProcessId     DWORD 0                 ;process id
+dwThreadId      DWORD 0                 ;thread id
+PROCESS_INFORMATION ends
+
+
+SYSTEMTIME      STRUCT DWORD
+wYear           WORD 0                 ;current year
+wMonth          WORD 0                 ;current month (1..12)
+wDayOfWeek      WORD 0                 ;day of week (0 = sunday)
+wDay            WORD 0                 ;current day of the month
+wHour           WORD 0                 ;current hour
+wMinute         WORD 0                 ;current minute
+wSecond         WORD 0                 ;current second
+wMilliseconds   WORD 0                 ;current millisecond
+SYSTEMTIME      ends
+
+
+FILETIME struct DWORD
+dwLowDateTime   DWORD 0                 ;low-order 32 bits
+dwHighDateTime  DWORD 0                 ;high-order 32 bits
+FILETIME ends
+
+
+
+; Used by CreateProcess and others.
+
+STARTUPINFO     STRUCT DWORD
+cb              DWORD SIZEOF STARTUPINFO;structure size
+lpReserved      DWORD 0                 ;(reserved)
+lpDesktop       DWORD 0                 ;desktop name
+lpTitle         DWORD 0                 ;console window title
+dwX             DWORD 0                 ;window origin (column)
+dwY             DWORD 0                 ;window origin (row)
+dwXSize         DWORD 0                 ;window width
+dwYSize         DWORD 0                 ;window height
+dwXCountChars   DWORD 0                 ;screen buffer width
+dwYCountChars   DWORD 0                 ;screen buffer height
+dwFillAttribute DWORD 0                 ;console window initialization
+dwFlags         DWORD 0                 ;structure member flags
+wShowWindow     WORD  0                 ;ShowWindow() parameter
+cbReserved2     WORD  0                 ;(reserved)
+lpReserved2     DWORD 0                 ;(reserved)
+hStdInput       DWORD 0                 ;standard input handle
+hStdOutput      DWORD 0                 ;standard output handle
+hStdError       DWORD 0                 ;standard error handle
+STARTUPINFO     ENDS
+
+
+
+; Various File related structures.
+
+
+OFSTRUCT        STRUCT DWORD
+cBytes          BYTE 0                  ;structure size
+fFixedDisk      BYTE 0                  ;fixed-disk flag
+nErrCode        WORD 0                  ;error code
+Reserved1       WORD 0                  ;(reserved)
+Reserved2       WORD 0                  ;(reserved)
+szPathName      BYTE OFS_MAXPATHNAME DUP (0) ;path name
+OFSTRUCT        ends
+
+
+WIN32_FIND_DATA struct DWORD
+dwFileAttributes   DWORD 0              ;file attributes
+ftCreationTime     DWORD 0, 0           ;time of file creation
+ftLastAccessTime   DWORD 0, 0           ;time of last file access
+ftLastWriteTime    DWORD 0, 0           ;time of last write access
+nFileSizeHigh      DWORD 0              ;high-order word of file size
+nFileSizeLow       DWORD 0              ;low-order word of file size
+dwReserved0        DWORD 0              ;(reserved)
+dwReserved1        DWORD 0              ;(reserved)
+cFileName          CHAR MAX_PATH dup (0);matching file name
+cAlternateFileName CHAR 14 dup (0)      ;8.3 alias name
+WIN32_FIND_DATA ends
+
+
+BY_HANDLE_FILE_INFORMATION struct DWORD
+dwFileAttributes      DWORD 0           ;file attributes
+ftCreationTime        DWORD 0, 0        ;time of file creation
+ftLastAccessTime      DWORD 0, 0        ;time of last file access
+ftLastWriteTime       DWORD 0, 0        ;time of last write access
+dwVolumeSerialNumber  DWORD 0           ;volume serial number
+nFileSizeHigh         DWORD 0           ;high-order word of file size
+nFileSizeLow          DWORD 0           ;low-order word of file size
+nNumberOfLinks        DWORD 0           ;number of links to the file
+nFileIndexHigh        DWORD 0           ;high-order word of identifier
+nFileIndexLow         DWORD 0           ;low-order word of identifier
+BY_HANDLE_FILE_INFORMATION ends
+
+
+
+; status codes
+
+STATUS_WAIT_0                  = 000000000h
+STATUS_ABANDONED_WAIT_0        = 000000080h
+STATUS_USER_APC                = 0000000C0h
+STATUS_TIMEOUT                 = 000000102h
+STATUS_PENDING                 = 000000103h
+STATUS_SEGMENT_NOTIFICATION    = 040000005h
+STATUS_GUARD_PAGE_VIOLATION    = 080000001h
+STATUS_DATATYPE_MISALIGNMENT   = 080000002h
+STATUS_BREAKPOINT              = 080000003h
+STATUS_SINGLE_STEP             = 080000004h
+STATUS_ACCESS_VIOLATION        = 0C0000005h
+STATUS_IN_PAGE_ERROR           = 0C0000006h
+STATUS_NO_MEMORY               = 0C0000017h
+STATUS_ILLEGAL_INSTRUCTION     = 0C000001Dh
+STATUS_NONCONTINUABLE_EXCEPTION = 0C0000025h
+STATUS_INVALID_DISPOSITION     = 0C0000026h
+STATUS_ARRAY_BOUNDS_EXCEEDED   = 0C000008Ch
+STATUS_FLOAT_DENORMAL_OPERAND  = 0C000008Dh
+STATUS_FLOAT_DIVIDE_BY_ZERO    = 0C000008Eh
+STATUS_FLOAT_INEXACT_RESULT    = 0C000008Fh
+STATUS_FLOAT_INVALID_OPERATION = 0C0000090h
+STATUS_FLOAT_OVERFLOW          = 0C0000091h
+STATUS_FLOAT_STACK_CHECK       = 0C0000092h
+STATUS_FLOAT_UNDERFLOW         = 0C0000093h
+STATUS_INTEGER_DIVIDE_BY_ZERO  = 0C0000094h
+STATUS_INTEGER_OVERFLOW        = 0C0000095h
+STATUS_PRIVILEGED_INSTRUCTION  = 0C0000096h
+STATUS_STACK_OVERFLOW          = 0C00000FDh
+STATUS_CONTROL_C_EXIT          = 0C000013Ah
+
+
+; wait status codes
+
+WAIT_FAILED                = -1
+WAIT_OBJECT_0              = STATUS_WAIT_0              ; == 000h
+
+WAIT_ABANDONED             = STATUS_ABANDONED_WAIT_0    ; == 080h
+WAIT_ABANDONED_0           = STATUS_ABANDONED_WAIT_0
+
+WAIT_TIMEOUT               = STATUS_TIMEOUT             ; == 102h
+WAIT_IO_COMPLETION         = STATUS_USER_APC            ; == 0C0h
+STILL_ACTIVE               = STATUS_PENDING             ; == 103h
+
+MAXIMUM_WAIT_OBJECTS       =  64
+MAXIMUM_SUSPEND_COUNT      = 127
+INFINITE                   =  -1
+
+
+; standard access types
+
+DELETE                     = 00010000h
+READ_CONTROL               = 00020000h
+WRITE_DAC                  = 00040000h
+WRITE_OWNER                = 00080000h
+SYNCHRONIZE                = 00100000h
+
+SPECIFIC_RIGHTS_ALL        = 0000FFFFh
+STANDARD_RIGHTS_REQUIRED   = 000F0000h
+STANDARD_RIGHTS_ALL        = 001F0000h
+
+STANDARD_RIGHTS_READ       = READ_CONTROL
+STANDARD_RIGHTS_WRITE      = READ_CONTROL
+STANDARD_RIGHTS_EXECUTE    = READ_CONTROL
+
+MUTANT_QUERY_STATE         = 00001h
+MUTEX_ALL_ACCESS           = (STANDARD_RIGHTS_REQUIRED or SYNCHRONIZE or\
+                              MUTANT_QUERY_STATE)
+
+SEMAPHORE_MODIFY_STATE     = 00002h
+SEMAPHORE_ALL_ACCESS       = (STANDARD_RIGHTS_REQUIRED or SYNCHRONIZE or 03h)
+
+EVENT_MODIFY_STATE         = 00002h
+EVENT_ALL_ACCESS           = (STANDARD_RIGHTS_REQUIRED or SYNCHRONIZE or 03h)
+
+
+
+; thread access flags
+
+THREAD_TERMINATE           = 0001h
+THREAD_SUSPEND_RESUME      = 0002h
+THREAD_GET_CONTEXT         = 0008h
+THREAD_SET_CONTEXT         = 0010h
+THREAD_SET_INFORMATION     = 0020h
+THREAD_QUERY_INFORMATION   = 0040h
+THREAD_SET_THREAD_TOKEN    = 0080h
+THREAD_IMPERSONATE         = 0100h
+THREAD_DIRECT_IMPERSONATION = 0200h
+
+THREAD_ALL_ACCESS          = STANDARD_RIGHTS_REQUIRED+\
+                             SYNCHRONIZE+\
+                             03FFh
+
+; thread priorities
+
+THREAD_BASE_PRIORITY_IDLE  = -15
+THREAD_BASE_PRIORITY_MIN   =  -2
+THREAD_BASE_PRIORITY_MAX   =   2
+THREAD_BASE_PRIORITY_LOWRT =  15
+
+THREAD_PRIORITY_LOWEST         = THREAD_BASE_PRIORITY_MIN
+THREAD_PRIORITY_BELOW_NORMAL   = THREAD_PRIORITY_LOWEST+1
+THREAD_PRIORITY_NORMAL         = 0
+THREAD_PRIORITY_ABOVE_NORMAL   = THREAD_PRIORITY_HIGHEST-1
+THREAD_PRIORITY_HIGHEST        = THREAD_BASE_PRIORITY_MAX
+
+THREAD_PRIORITY_TIME_CRITICAL  = THREAD_BASE_PRIORITY_LOWRT
+THREAD_PRIORITY_IDLE           = THREAD_BASE_PRIORITY_IDLE
+
+THREAD_PRIORITY_ERROR_RETURN   =  -1
+
+
+; process access flags
+
+PROCESS_TERMINATE          = 0001h
+PROCESS_CREATE_THREAD      = 0002h
+PROCESS_VM_OPERATION       = 0008h
+PROCESS_VM_READ            = 0010h
+PROCESS_VM_WRITE           = 0020h
+PROCESS_DUP_HANDLE         = 0040h
+PROCESS_CREATE_PROCESS     = 0080h
+PROCESS_SET_QUOTA          = 0100h
+PROCESS_SET_INFORMATION    = 0200h
+PROCESS_QUERY_INFORMATION  = 0400h
+
+PROCESS_ALL_ACCESS         = STANDARD_RIGHTS_REQUIRED+\
+                             SYNCHRONIZE+\
+                             0FFFh
+
+
+; Memory Attributes.
+
+PAGE_NOACCESS              = 00000001h
+PAGE_READONLY              = 00000002h
+PAGE_READWRITE             = 00000004h
+PAGE_WRITECOPY             = 00000008h
+PAGE_EXECUTE               = 00000010h
+PAGE_EXECUTE_READ          = 00000020h
+PAGE_EXECUTE_READWRITE     = 00000040h
+PAGE_EXECUTE_WRITECOPY     = 00000080h
+PAGE_GUARD                 = 00000100h
+PAGE_NOCACHE               = 00000200h
+
+MEM_COMMIT                 = 00001000h
+MEM_RESERVE                = 00002000h
+MEM_DECOMMIT               = 00004000h
+MEM_RELEASE                = 00008000h
+MEM_FREE                   = 00010000h
+MEM_PRIVATE                = 00020000h
+MEM_MAPPED                 = 00040000h
+MEM_TOP_DOWN               = 00100000h
+
+SEC_FILE                   = 00800000h
+SEC_IMAGE                  = 01000000h
+SEC_RESERVE                = 04000000h
+SEC_COMMIT                 = 08000000h
+SEC_NOCACHE                = 10000000h
+
+MEM_IMAGE                  = SEC_IMAGE
+
+SECTION_QUERY              = 00000001h
+SECTION_MAP_WRITE          = 00000002h
+SECTION_MAP_READ           = 00000004h
+SECTION_MAP_EXECUTE        = 00000008h
+SECTION_EXTEND_SIZE        = 00000010h
+
+SECTION_ALL_ACCESS         = STANDARD_RIGHTS_REQUIRED+\
+                             SECTION_QUERY+\
+                             SECTION_MAP_WRITE+\
+                             SECTION_MAP_READ+\
+                             SECTION_MAP_EXECUTE+\
+                             SECTION_EXTEND_SIZE
+
+FILE_MAP_COPY              = SECTION_QUERY
+FILE_MAP_WRITE             = SECTION_MAP_WRITE
+FILE_MAP_READ              = SECTION_MAP_READ
+FILE_MAP_ALL_ACCESS        = SECTION_ALL_ACCESS
+
+
+
+; Critical section structures.
+
+LIST_ENTRY STRUCT DWORD
+FLink            DWORD ?
+BLink            DWORD ?
+LIST_ENTRY ENDS
+
+CRITICAL_SECTION_DEBUG  STRUCT DWORD
+_Type                   WORD  ?
+CreatorBackTraceIndex   WORD  ?
+CriticalSection         DWORD ?         ;Pointer to CRITICAL_SECTION
+ProcessLocksList        LIST_ENTRY  <>
+EntryCount              DWORD ?
+ContentionCount         DWORD ?
+Depth                   DWORD ?
+OwnerBackTrace          DWORD 2 DUP (?)
+CRITICAL_SECTION_DEBUG  ENDS
+
+
+CRITICAL_SECTION STRUCT DWORD
+DebugInfo        DWORD ?                ;Pointer to CRITICAL_SECTION_DEBUG
+LockCount        DWORD ?
+RecursionCount   DWORD ?
+OwningThread     DWORD ?                ;From the thread's ClientId->UniqueThread
+LockSemaphore    DWORD ?
+Reserved         DWORD ?
+CRITICAL_SECTION ENDS
+
+
+
+OVERLAPPED      STRUCT DWORD
+Internal        DWORD 0                 ;== STATUS_PENDING until I/O completed.
+InternalHigh    DWORD 0                 ;Number of bytes actually transferred.
+_Offset         DWORD 0                 ;Offset in file where to begin IO
+_OffsetHigh     DWORD 0                 ;(set to zero for non-file IO!)
+hEvent          DWORD 0                 ;Event handle to be signaled at end.
+OVERLAPPED      ENDS
+
+
+
+; Console equates and structures.
+
+
+COORD STRUCT
+X   WORD 0
+Y   WORD 0
+COORD ENDS
+
+SMALL_RECT STRUCT
+Left    WORD 0
+Top     WORD 0
+Right   WORD 0
+Bottom  WORD 0
+SMALL_RECT ENDS
+
+KEY_EVENT_RECORD STRUCT
+bKeyDown          DWORD 0
+wRepeatCount      WORD 0
+wVirtualKeyCode   WORD 0
+wVirtualScanCode  WORD 0
+    union uChar
+      UnicodeChar   WCHAR '?'
+      AsciiChar     ACHAR '?'
+    ENDS
+dwControlKeyState DWORD 0
+KEY_EVENT_RECORD ENDS
+
+;
+; ControlKeyState flags
+;
+
+RIGHT_ALT_PRESSED     = 0001h           ; the right alt key is pressed.
+LEFT_ALT_PRESSED      = 0002h           ; the left alt key is pressed.
+RIGHT_CTRL_PRESSED    = 0004h           ; the right ctrl key is pressed.
+LEFT_CTRL_PRESSED     = 0008h           ; the left ctrl key is pressed.
+SHIFT_PRESSED         = 0010h           ; the shift key is pressed.
+NUMLOCK_ON            = 0020h           ; the numlock light is on.
+SCROLLLOCK_ON         = 0040h           ; the scrolllock light is on.
+CAPSLOCK_ON           = 0080h           ; the capslock light is on.
+ENHANCED_KEY          = 0100h           ; the key is enhanced.
+
+MOUSE_EVENT_RECORD STRUCT
+dwMousePosition    COORD <>
+dwButtonState      DWORD 0
+dwControlKeyState  DWORD 0
+dwEventFlags       DWORD 0
+MOUSE_EVENT_RECORD ENDS
+
+;
+; ButtonState flags
+;
+
+FROM_LEFT_1ST_BUTTON_PRESSED    = 00001h
+RIGHTMOST_BUTTON_PRESSED        = 00002h
+FROM_LEFT_2ND_BUTTON_PRESSED    = 00004h
+FROM_LEFT_3RD_BUTTON_PRESSED    = 00008h
+FROM_LEFT_4TH_BUTTON_PRESSED    = 00010h
+
+;
+; EventFlags
+;
+
+MOUSE_MOVED     = 00001h
+DOUBLE_CLICK    = 00002h
+
+
+WINDOW_BUFFER_SIZE_RECORD STRUCT
+dwSize      COORD <>
+WINDOW_BUFFER_SIZE_RECORD ENDS
+
+MENU_EVENT_RECORD STRUCT
+dwCommandId DWORD 0
+MENU_EVENT_RECORD ENDS
+
+FOCUS_EVENT_RECORD STRUCT
+bSetFocus   DWORD 0
+FOCUS_EVENT_RECORD ENDS
+
+INPUT_RECORD STRUCT
+EventType  WORD 0
+  UNION Event
+  KeyEvent              KEY_EVENT_RECORD <>
+  MouseEZvent           MOUSE_EVENT_RECORD <>
+  WindowBufferSizeEvent WINDOW_BUFFER_SIZE_RECORD <>
+  MenuEvent             MENU_EVENT_RECORD <>
+  FocusEvent            FOCUS_EVENT_RECORD <>
+  ENDS
+INPUT_RECORD ENDS
+
+;
+;  EventType flags:
+;
+
+KEY_EVENT                  = 00001h     ; Event contains key event record
+MOUSE_EVENT                = 00002h     ; Event contains mouse event record
+WINDOW_BUFFER_SIZE_EVENT   = 00004h     ; Event contains window change event record
+MENU_EVENT                 = 00008h     ; Event contains menu event record
+FOCUS_EVENT                = 00010h     ; event contains focus change
+
+CHAR_INFO STRUCT
+  UNION uChar
+  UnicodeChar WCHAR '?'
+  AsciiChar   WCHAR '?'
+  ENDS
+Attributes  WORD 0
+CHAR_INFO ENDS
+
+;
+; Attributes flags:
+;
+
+FOREGROUND_BLUE            = 00001h     ; text color contains blue.
+FOREGROUND_GREEN           = 00002h     ; text color contains green.
+FOREGROUND_RED             = 00004h     ; text color contains red.
+FOREGROUND_INTENSITY       = 00008h     ; text color is intensified.
+BACKGROUND_BLUE            = 00010h     ; background color contains blue.
+BACKGROUND_GREEN           = 00020h     ; background color contains green.
+BACKGROUND_RED             = 00040h     ; background color contains red.
+BACKGROUND_INTENSITY       = 00080h     ; background color is intensified.
+
+
+CONSOLE_SCREEN_BUFFER_INFO STRUCT
+dwSize              COORD <>
+dwCursorPosition    COORD <>
+wAttributes         WORD  0
+srWindow            SMALL_RECT <>
+dwMaximumWindowSize COORD <>
+CONSOLE_SCREEN_BUFFER_INFO ENDS
+
+CONSOLE_CURSOR_INFO STRUCT
+dwSize   DWORD 0
+bVisible DWORD  0
+CONSOLE_CURSOR_INFO ENDS
+
+CTRL_C_EVENT               = 0
+CTRL_BREAK_EVENT           = 1
+CTRL_CLOSE_EVENT           = 2
+; 3 is reserved!
+; 4 is reserved!
+CTRL_LOGOFF_EVENT          = 5
+CTRL_SHUTDOWN_EVENT        = 6
+
+;
+;  Input Mode flags:
+;
+
+ENABLE_PROCESSED_INPUT     = 00001h
+ENABLE_LINE_INPUT          = 00002h
+ENABLE_ECHO_INPUT          = 00004h
+ENABLE_WINDOW_INPUT        = 00008h
+ENABLE_MOUSE_INPUT         = 00010h
+
+;
+; Output Mode flags:
+;
+
+ENABLE_PROCESSED_OUTPUT    = 00001h
+ENABLE_WRAP_AT_EOL_OUTPUT  = 00002h
+
+
+
+CONSOLE_TEXTMODE_BUFFER  = 1
+
+
+CR                       = 13           ;Basic ASCII control characters.
+LF                       = 10
+BEL                      = 7
+BELL                     = BEL
+
+
+; Comm32 (serial) & Modem stuff.
+
+
+SP_SERIALCOMM      = 00000001h
+
+PST_UNSPECIFIED    = 00000000h
+PST_RS232          = 00000001h
+PST_PARALLELPORT   = 00000002h
+PST_RS422          = 00000003h
+PST_RS423          = 00000004h
+PST_RS449          = 00000005h
+PST_FAX            = 00000021h
+PST_SCANNER        = 00000022h
+PST_NETWORK_BRIDGE = 00000100h
+PST_LAT            = 00000101h
+PST_TCPIP_TELNET   = 00000102h
+PST_X25            = 00000103h
+
+PCF_DTRDSR         = 0001h
+PCF_RTSCTS         = 0002h
+PCF_RLSD           = 0004h
+PCF_PARITY_CHECK   = 0008h
+PCF_XONXOFF        = 0010h
+PCF_SETXCHAR       = 0020h
+PCF_TOTALTIMEOUTS  = 0040h
+PCF_INTTIMEOUTS    = 0080h
+PCF_SPECIALCHARS   = 0100h
+PCF_16BITMODE      = 0200h
+
+SP_PARITY          = 0001h
+SP_BAUD            = 0002h
+SP_DATABITS        = 0004h
+SP_STOPBITS        = 0008h
+SP_HANDSHAKING     = 0010h
+SP_PARITY_CHECK    = 0020h
+SP_RLSD            = 0040h
+
+BAUD_075           = 00000001h
+BAUD_110           = 00000002h
+BAUD_134_5         = 00000004h
+BAUD_150           = 00000008h
+BAUD_300           = 00000010h
+BAUD_600           = 00000020h
+BAUD_1200          = 00000040h
+BAUD_1800          = 00000080h
+BAUD_2400          = 00000100h
+BAUD_4800          = 00000200h
+BAUD_7200          = 00000400h
+BAUD_9600          = 00000800h
+BAUD_14400         = 00001000h
+BAUD_19200         = 00002000h
+BAUD_38400         = 00004000h
+BAUD_56K           = 00008000h
+BAUD_128K          = 00010000h
+BAUD_USER          = 10000000h
+
+DATABITS_5         = 0001h
+DATABITS_6         = 0002h
+DATABITS_7         = 0004h
+DATABITS_8         = 0008h
+DATABITS_16        = 0010h
+DATABITS_16X       = 0020h
+STOPBITS_10        = 0001h
+STOPBITS_15        = 0002h
+STOPBITS_20        = 0004h
+PARITY_NONE        = 0100h
+PARITY_ODD         = 0200h
+PARITY_EVEN        = 0400h
+PARITY_MARK        = 0800h
+PARITY_SPACE       = 1000h
+
+
+
+; COMSTAT flags.
+
+fCtsHold        = 00000000000000001b
+fDsrHold        = 00000000000000010b
+fRlsdHold       = 00000000000000100b
+fXoffHold       = 00000000000001000b
+fXoffSent       = 00000000000010000b
+fEof            = 00000000000100000b
+fTxim           = 00000000001000000b
+
+
+COMSTAT   STRUCT DWORD
+COMSTATFlags    DWORD ?                 ;See flags above.
+cbInQue         DWORD ?
+cbOutQue        DWORD ?
+COMSTAT   ENDS
+
+
+
+; DCB Parity
+
+NOPARITY        EQU     0t
+ODDPARITY       EQU     1t
+EVENPARITY      EQU     2t
+MARKPARITY      EQU     3t
+SPACEPARITY     EQU     4t
+
+
+; DCB StopBits
+
+ONESTOPBIT      EQU     0t
+ONE5STOPBITS    EQU     1t
+TWOSTOPBITS     EQU     2t
+
+IGNORE          EQU     0t
+INFINITE        EQU     0ffffffffh
+
+
+; DCB BaudRate
+
+CBR_110         EQU     110t
+CBR_300         EQU     300t
+CBR_600         EQU     600t
+CBR_1200        EQU     1200t
+CBR_2400        EQU     2400t
+CBR_4800        EQU     4800t
+CBR_9600        EQU     9600t
+CBR_14400       EQU     14400t
+CBR_19200       EQU     19200t
+CBR_38400       EQU     38400t
+CBR_56000       EQU     56000t
+CBR_128000      EQU     128000t
+CBR_256000      EQU     256000t
+
+
+; ClearCommError constants.
+
+CE_RXOVER       EQU     000000001h
+CE_OVERRUN      EQU     000000002h
+CE_RXPARITY     EQU     000000004h
+CE_FRAME        EQU     000000008h
+CE_BREAK        EQU     000000010h
+CE_TXFULL       EQU     000000100h
+CE_PTO          EQU     000000200h
+CE_IOE          EQU     000000400h
+CE_DNS          EQU     000000800h
+CE_OOP          EQU     000001000h
+CE_MODE         EQU     000008000h
+
+
+; CommEvent mask.
+
+EV_RXCHAR       EQU     000000001h
+EV_RXFLAG       EQU     000000002h
+EV_TXEMPTY      EQU     000000004h
+EV_CTS          EQU     000000008h
+EV_DSR          EQU     000000010h
+EV_RLSD         EQU     000000020h
+EV_BREAK        EQU     000000040h
+EV_ERR          EQU     000000080h
+EV_RING         EQU     000000100h
+EV_PERR         EQU     000000200h
+EV_RX80FULL     EQU     000000400h
+EV_EVENT1       EQU     000000800h
+EV_EVENT2       EQU     000001000h
+
+
+; EscapeCommFunction constants.
+
+SETXOFF         EQU     1t
+SETXON          EQU     2t
+SETRTS          EQU     3t
+CLRRTS          EQU     4t
+SETDTR          EQU     5t
+CLRDTR          EQU     6t
+RESETDEV        EQU     7t
+SETBREAK        EQU     8t
+CLRBREAK        EQU     9t
+
+
+; PurgeComm constants.
+
+PURGE_TXABORT   EQU     0001h
+PURGE_RXABORT   EQU     0002h
+PURGE_TXCLEAR   EQU     0004h
+PURGE_RXCLEAR   EQU     0008h
+
+
+; GetCommModemStatus constants.
+
+MS_CTS_ON       EQU     0010h
+MS_DSR_ON       EQU     0020h
+MS_RING_ON      EQU     0040h
+MS_RLSD_ON      EQU     0080h
+
+
+; DCB Flags
+
+fBinary                 = 00000000000000001b ;Binary Mode (skip EOF check)
+fParity                 = 00000000000000010b ;Enable parity checking
+fOutxCtsFlow            = 00000000000000100b ;CTS handshaking on output
+fOutxDsrFlow            = 00000000000001000b ;DSR handshaking on output
+fDtrControlMask         = 00000000000110000b ;DTR Flow control mask.
+  DTR_CONTROL_DISABLE   =           0000000b   ;DTR always disabled.
+  DTR_CONTROL_ENABLE    =           0010000b   ;DTR enabled when device Open.
+  DTR_CONTROL_HANDSHAKE =           0100000b   ;Enable DTR handshaking.
+fDsrSensitivity         = 00000000001000000b ;DSR Sensitivity
+fTXContinueOnXoff       = 00000000010000000b ;Continue TX when Xoff sent
+fOutX                   = 00000000100000000b ;Enable output X-ON/X-OFF
+fInX                    = 00000001000000000b ;Enable input X-ON/X-OFF
+fErrorChar              = 00000010000000000b ;Enable Err Replacement
+fNull                   = 00000100000000000b ;Enable Null stripping
+fRtsControlMask         = 00011000000000000b ;Rts Flow control mask.
+  RTS_CONTROL_DISABLE   =   000000000000000b   ;RTS always disabled.
+  RTS_CONTROL_ENABLE    =   001000000000000b   ;RTS enabled when device Open.
+  RTS_CONTROL_HANDSHAKE =   010000000000000b   ;RTS handshaking (input control)
+  RTS_CONTROL_TOGGLE    =   011000000000000b   ;Switched carried (on when Txing)
+fAbortOnError           = 00100000000000000b ;Abort all reads and writes on Error
+
+
+DCB STRUCT DWORD
+DCBlength   DWORD SIZEOF DCB            ;sizeof(DCB)
+BaudRate    DWORD ?                     ;Baudrate at which running
+DCBFlags    DWORD ?                     ;Set of flags, see above.
+
+wReserved   WORD  ?                     ;Not currently used
+XonLim      WORD  ?                     ;Transmit X-ON threshold
+
+XoffLim     WORD  ?                     ;Transmit X-OFF threshold
+ByteSize    BYTE  ?                     ;Number of bits/byte, 4-8
+Parity      BYTE  ?                     ;0-4=None,Odd,Even,Mark,Space
+
+StopBits    BYTE  ?                     ;0,1,2 = 1, 1.5, 2
+XonChar     BYTE  ?                     ;Tx and Rx X-ON character
+XoffChar    BYTE  ?                     ;Tx and Rx X-OFF character
+ErrorChar   BYTE  ?                     ;Error replacement char
+
+EofChar     BYTE  ?                     ;End of Input character
+EvtChar     BYTE  ?                     ;Received Event character
+wReserved1  WORD  ?                     ;Fill for now.
+DCB ENDS
+
+
+COMMTIMEOUTS STRUCT DWORD
+ReadIntervalTimeout          DWORD ?    ;Maximum time between read chars.
+ReadTotalTimeoutMultiplier   DWORD ?    ;Multiplier of characters.
+ReadTotalTimeoutConstant     DWORD ?    ;Constant in milliseconds.
+WriteTotalTimeoutMultiplier  DWORD ?    ;Multiplier of characters.
+WriteTotalTimeoutConstant    DWORD ?    ;Constant in milliseconds.
+COMMTIMEOUTS ENDS
+
+
+MODEMSETTINGS STRUCT DWORD
+dwActualSize            DWORD SIZEOF MODEMSETTINGS
+dwRequiredSize          DWORD ?
+dwDevSpecificOffset     DWORD ?
+dwDevSpecificSize       DWORD ?
+; static local options (read/write)
+dwCallSetupFailTimer    DWORD ?         ;seconds
+dwInactivityTimeout     DWORD ?         ;seconds
+dwSpeakerVolume         DWORD ?         ;level
+dwSpeakerMode           DWORD ?         ;mode
+dwPreferredModemOptions DWORD ?         ;bitmap
+; negotiated options (read only) for current or last call
+dwNegotiatedModemOptions DWORD ?        ; bitmap
+dwNegotiatedDCERate      DWORD ?        ; bit/s
+; Variable portion for proprietary expansion
+abVariablePortion       BYTE 4 DUP(0)
+MODEMSETTINGS ENDS
+
+COMMCONFIG STRUCT DWORD
+dwSize            DWORD SIZEOF COMMCONFIG ;Size of the entire struct
+wVersion          WORD  ?               ;version of the structure
+wReserved         WORD  ?               ;alignment
+ccDCB             DCB   {}              ;device control block
+dwProviderSubType DWORD ?               ;ordinal value for identifying
+                                        ;provider-defined data structure format
+dwProviderOffset  DWORD ?               ;Specifies the offset of provider specific
+                                        ;data field in bytes from the start
+dwProviderSize    DWORD ?               ;size of the provider-specific data field
+wcProviderData    MODEMSETTINGS {}      ;Provider-specific data.
+COMMCONFIG ENDS
+
+
+
+MODEMDEVCAPS STRUCT DWORD
+dwActualSize         DWORD SIZEOF MODEMDEVCAPS
+dwRequiredSize       DWORD ?
+dwDevSpecificOffset  DWORD ?
+dwDevSpecificSize    DWORD ?
+; product and version identification
+dwModemProviderVersion     DWORD ?
+dwModemManufacturerOffset  DWORD ?
+dwModemManufacturerSize    DWORD ?
+dwModemModelOffset         DWORD ?
+dwModemModelSize           DWORD ?
+dwModemVersionOffset       DWORD ?
+dwModemVersionSize         DWORD ?
+; local option capabilities
+dwDialOptions        DWORD ?            ; bitmap of supported values
+dwCallSetupFailTimer DWORD ?            ; maximum in seconds
+dwInactivityTimeout  DWORD ?            ; maximum in seconds
+dwSpeakerVolume      DWORD ?            ; bitmap of supported values
+dwSpeakerMode        DWORD ?            ; bitmap of supported values
+dwModemOptions       DWORD ?            ; bitmap of supported values
+dwMaxDTERate         DWORD ?            ; maximum value in bit/s
+dwMaxDCERate         DWORD ?            ; maximum value in bit/s
+; Variable portion for proprietary expansion
+abVariablePortion    BYTE 0
+MODEMDEVCAPS ENDS
+
+
+; Set dwProvSpec1 to COMMPROP_INITIALIZED to indicate that wPacketLength
+; is valid before a call to GetCommProperties().
+
+COMMPROP_INITIALIZED    = 0E73CF52Eh
+
+COMMPROP           STRUCT DWORD
+wPacketLength       WORD  SIZEOF COMMPROP
+wPacketVersion      WORD  ?
+dwServiceMask       DWORD ?
+dwReserved1         DWORD ?
+dwMaxTxQueue        DWORD ?
+dwMaxRxQueue        DWORD ?
+dwMaxBaud           DWORD ?
+dwProvSubType       DWORD ?
+dwProvCapabilities  DWORD ?
+dwSettableParams    DWORD ?
+dwSettableBaud      DWORD ?
+wSettableData       WORD  ?
+wSettableStopParity WORD  ?
+dwCurrentTxQueue    DWORD ?
+dwCurrentRxQueue    DWORD ?
+dwProvSpec1         DWORD COMMPROP_INITIALIZED
+dwProvSpec2         DWORD ?
+wcProvChar          MODEMDEVCAPS {}     ;Start of provider data.
+COMMPROP           ENDS
+
+
+; Dial Options
+DIALOPTION_BILLING    = 00000040h       ; Supports wait for bong "$"
+DIALOPTION_QUIET      = 00000080h       ; Supports wait for quiet "@"
+DIALOPTION_DIALTONE   = 00000100h       ; Supports wait for dial tone "W"
+
+; SpeakerVolume for MODEMDEVCAPS
+MDMVOLFLAG_LOW        = 00000001h       ;Low
+MDMVOLFLAG_MEDIUM     = 00000002h       ;Medium
+MDMVOLFLAG_HIGH       = 00000004h       ;High
+
+; SpeakerVolume for MODEMSETTINGS
+MDMVOL_LOW            = 00000000h       ;Low
+MDMVOL_MEDIUM         = 00000001h       ;Medium
+MDMVOL_HIGH           = 00000002h       ;High
+
+; SpeakerMode for MODEMDEVCAPS
+MDMSPKRFLAG_OFF       = 00000001h       ;Turn speaker off.
+MDMSPKRFLAG_DIAL      = 00000002h       ;Speaker on during call setup, except dial.
+MDMSPKRFLAG_ON        = 00000004h       ;Speaker always on.
+MDMSPKRFLAG_CALLSETUP = 00000008h       ;Speaker on, except during call setup.
+
+; SpeakerMode for MODEMSETTINGS
+MDMSPKR_OFF           = 00000000h       ;Turn speaker off.
+MDMSPKR_DIAL          = 00000001h       ;Speaker on during call setup, except dial.
+MDMSPKR_ON            = 00000002h       ;Speaker always on.
+MDMSPKR_CALLSETUP     = 00000003h       ;Speaker on, except during call setup.
+
+; Modem Options
+MDM_COMPRESSION       = 00000001h       ;Use compression.
+MDM_ERROR_CONTROL     = 00000002h       ;Use error control.
+MDM_FORCED_EC         = 00000004h       ;Force error control.
+MDM_CELLULAR          = 00000008h       ;Cellular error control (?)
+MDM_FLOWCONTROL_HARD  = 00000010h       ;RTS/CTS
+MDM_FLOWCONTROL_SOFT  = 00000020h       ;XON/XOFF
+MDM_CCITT_OVERRIDE    = 00000040h       ;Non-CCITT modulations.
+MDM_SPEED_ADJUST      = 00000080h       ;Allow speed negociation fallback.
+MDM_TONE_DIAL         = 00000100h       ;Can toggle between tone and pulse.
+MDM_BLIND_DIAL        = 00000200h       ;Can blind dial (skip tone detection)
+MDM_V23_OVERRIDE      = 00000400h       ;Supports V.23. Must have CCITT
+                                        ;Override too.

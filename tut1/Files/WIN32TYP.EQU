@@ -1,0 +1,77 @@
+;  19.JUN.96 : Philippe Auphelle.
+;              Mostly from 03-14-1996 Sven B. Schreiber sbs@orgon.com
+
+; $Id: Win32Types.equ 1.1 1997/09/02 09:51:19 Philippe Exp $
+
+; $Log: /Win32Equ/Win32Types.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:51:19  Philippe
+; Initial revision
+;
+
+
+
+;==============================================================================
+;
+;	BASIC TYPES
+;
+;==============================================================================
+
+
+ATOM            TYPEDEF DWORD           ;string atom
+BOOL            TYPEDEF DWORD           ;boolean variable
+COLORREF        TYPEDEF DWORD           ;rgb color
+DWORDLONG       TYPEDEF QWORD           ;long double word
+HACCEL          TYPEDEF DWORD           ;accelerator handle
+HANDLE          TYPEDEF DWORD           ;unspecified handle
+HBITMAP         TYPEDEF DWORD           ;bitmap handle
+HBRUSH          TYPEDEF DWORD           ;brush handle
+HCOLORSPACE     TYPEDEF DWORD           ;color space handle
+HCURSOR         TYPEDEF DWORD           ;cursor handle
+HDC             TYPEDEF DWORD           ;device context handle
+HDWP            TYPEDEF DWORD           ;defer win pos handle
+HENHMETAFILE    TYPEDEF DWORD           ;enh. metafile handle
+HFILE           TYPEDEF DWORD           ;file handle
+HFONT           TYPEDEF DWORD           ;font handle
+HGLOBAL         TYPEDEF DWORD           ;global handle
+HHOOK           TYPEDEF DWORD           ;hook handle
+HICON           TYPEDEF DWORD           ;icon handle
+HINSTANCE       TYPEDEF DWORD           ;instance handle
+HINTERNET       TYPEDEF DWORD           ;internet handle
+HLOCAL          TYPEDEF DWORD           ;local handle
+HMENU           TYPEDEF DWORD           ;menu handle
+HMETAFILE       TYPEDEF DWORD           ;metafile handle
+HPALETTE        TYPEDEF DWORD           ;palette handle
+HPEN            TYPEDEF DWORD           ;pen handle
+HRGN            TYPEDEF DWORD           ;region handle
+HRSRC           TYPEDEF DWORD           ;resource handle
+HSTR            TYPEDEF DWORD           ;string handle
+HTASK           TYPEDEF DWORD           ;task handle
+HTREEITEM       TYPEDEF DWORD           ;tree view item handle
+HWND            TYPEDEF DWORD           ;window handle
+INTEGER         TYPEDEF DWORD           ;standard integer
+LOCALHANDLE     TYPEDEF DWORD           ;local handle
+LONG            TYPEDEF DWORD           ;long integer
+LONGINT         TYPEDEF DWORD           ;long integer
+LPARAM          TYPEDEF DWORD           ;long parameter
+LPBOOL          TYPEDEF DWORD           ;long ptr to boolean
+LPBYTE          TYPEDEF DWORD           ;long ptr to byte
+LPCSTR          TYPEDEF DWORD           ;long ptr to string
+LPCTSTR         TYPEDEF DWORD           ;long ptr to string
+LPCVOID         TYPEDEF DWORD           ;long ptr to buffer
+LPDWORD         TYPEDEF DWORD           ;long ptr to dword
+LPFN            TYPEDEF DWORD           ;long ptr to function
+LPINT           TYPEDEF DWORD           ;long ptr to integer
+LPLONG          TYPEDEF DWORD           ;long ptr to long int
+LPSTR           TYPEDEF DWORD           ;long ptr to string
+LPTSTR          TYPEDEF DWORD           ;long ptr to string
+LPVOID          TYPEDEF DWORD           ;long ptr to buffer
+LPWORD          TYPEDEF DWORD           ;long ptr to word
+LRESULT         TYPEDEF DWORD           ;long result
+POINTER         TYPEDEF DWORD           ;pointer to anything
+PVOID           TYPEDEF DWORD           ;pointer to buffer
+UINT            TYPEDEF DWORD           ;unsigned integer
+WNDPROC         TYPEDEF DWORD           ;window procedure
+WPARAM          TYPEDEF DWORD           ;dword parameter

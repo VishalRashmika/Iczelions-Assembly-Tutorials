@@ -1,0 +1,39 @@
+; Win32Test resource equates.
+
+
+IDR_MENU1               =   101
+IDD_ABOUTBOX            =   101
+IDR_ACCELERATOR1        =   102
+IDD_DIALOGBOX           =   103
+IDI_W32PROTO            =   103
+IDR_TOOLBAR             =   108
+IDXX_STATUSBAR          =   109
+IDXX_TIMER              =   110
+IDR_MEOW                =   110
+IDC_EDIT1               =  1000
+
+
+ID_FILE_SAVEAS          = 40005
+ID_FILE_EXIT            = 40007
+ID_OPTIONS_TITLE        = 40011
+ID_HELP_CONTENT         = 40012
+ID_HELP_ABOUT           = 40013
+
+ID_BUTTON_NEW           = 40023
+ID_BUTTON_OPEN          = 40024
+ID_BUTTON_SAVE          = 40025
+ID_BUTTON_CUT           = 40026
+ID_BUTTON_COPY          = 40027
+ID_BUTTON_PASTE         = 40028
+ID_BUTTON_PRINT         = 40029
+ID_BUTTON_HELP          = 40030
+
+
+; Status bar section equates
+
+SBPARTS          EQU 4                  ;Number of parts we want on status bar.
+
+SBPART_MESSAGE   EQU 0                  ;Part for message.
+SBPART_MESSAGE2  EQU 1                  ;Part for other message.
+SBPART_MOUSEMOVE EQU 2                  ;Part for Mouse position.
+SBPART_TIME      EQU 3                  ;Part for current time.

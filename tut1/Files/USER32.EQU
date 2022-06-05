@@ -1,0 +1,231 @@
+; User32 system call prototypes.
+; Philippe Auphelle, 30 May 1996
+
+; $Id: User32.equ 1.1 1997/09/02 09:50:56 Philippe Exp $
+
+; $Log: /Win32Equ/User32.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:50:56  Philippe
+; Initial revision
+;
+
+
+                INCLUDELIB USER32.LIB
+
+; These functions are Unicode/ANSI dependant, and will be postfixed at
+; assembly time according to the value of the Unicode equate.
+
+                UnicAnsiExtern CharLower
+                UnicAnsiExtern CharLowerBuff
+                UnicAnsiExtern CharNext
+                UnicAnsiExtern CharPrev
+                UnicAnsiExtern CharUpper
+                UnicAnsiExtern CharUpperBuff
+                UnicAnsiExtern CreateWindowEx
+
+                UnicAnsiExtern DefWindowProc
+                UnicAnsiExtern DefDlgProc
+                UnicAnsiExtern DialogBoxParam
+                UnicAnsiExtern DispatchMessage
+                UnicAnsiExtern DrawText
+
+                UnicAnsiExtern FindWindow
+
+                UnicAnsiExtern GetDlgItemText
+                UnicAnsiExtern GetMessage
+
+                UnicAnsiExtern IsCharAlpha
+                UnicAnsiExtern IsCharAlphaNumeric
+                UnicAnsiExtern IsCharLower
+                UnicAnsiExtern IsCharUpper
+
+                UnicAnsiExtern LoadAccelerators
+                UnicAnsiExtern LoadCursor
+                UnicAnsiExtern LoadIcon
+                UnicAnsiExtern LoadMenu
+                UnicAnsiExtern LoadString
+
+                UnicAnsiExtern MessageBox
+
+                UnicAnsiExtern RegisterClass
+
+                UnicAnsiExtern SendMessage
+                UnicAnsiExtern SetDlgItemText
+
+                UnicAnsiExtern TranslateAccelerator
+
+                UnicAnsiExtern WinHelp
+                UnicAnsiExtern wsprintf
+                UnicAnsiExtern wvsprintf
+
+
+BeginPaint              PROTO STDCALL\
+                                hWnd:DWORD,
+                                lpPaint:DWORD
+CharLower               PROTO STDCALL\
+                                lpsz:DWORD
+CharLowerBuff           PROTO STDCALL\
+                                lpsz:DWORD,
+                                cchLength:DWORD
+CharNext                PROTO STDCALL\
+                                lpsz:DWORD
+CharPrev                PROTO STDCALL\
+                                lpszStart:DWORD,
+                                lpszCurrent:DWORD
+CharUpper               PROTO STDCALL\
+                                lpsz:DWORD
+CharUpperBuff           PROTO STDCALL\
+                                lpsz:DWORD,
+                                cchLength:DWORD
+CreateWindowEx          PROTO STDCALL\
+                                dwExStyle:DWORD,lpClassName:DWORD,
+                                lpWindowName:DWORD,dwStyle:DWORD,
+                                x:DWORD,y:DWORD,
+                                nWidth:DWORD,nHeight:DWORD,
+                                hWndParent:DWORD,hMenu:DWORD,
+                                hInstance:DWORD,lpParm:DWORD
+DefWindowProc           PROTO STDCALL\
+                                hWnd:DWORD,
+                                Msg:DWORD,
+                                wParam:DWORD,
+                                lParam:DWORD
+DefDlgProc              PROTO STDCALL\
+                                hWnd:DWORD,
+                                Msg:DWORD,
+                                wParam:DWORD,
+                                lParam:DWORD
+DialogBoxParam          PROTO STDCALL\
+                                hInstance:DWORD,
+                                lpTemplateName:DWORD,
+                                hWndParent:DWORD,
+                                lpDialogProcFunc:DWORD,
+                                dwInitParam:DWORD
+DispatchMessage         PROTO STDCALL\
+                                lpMsg:DWORD
+DrawText                PROTO STDCALL\
+                                hDC:DWORD,
+                                lpString:DWORD,
+                                nCount:DWORD,
+                                lpRect:DWORD,
+                                uFormat:DWORD
+EndDialog               PROTO STDCALL\
+                                hDlg:DWORD,
+                                nResult:DWORD
+FindWindow              PROTO STDCALL\
+                                lpClassName:DWORD,
+                                lpWindowName:DWORD
+GetDlgItem              PROTO STDCALL\
+                                hDlg:DWORD,
+                                nlDDlgItem:DWORD
+GetDlgItemText          PROTO STDCALL\
+                                hDlg:DWORD,
+                                nlDDlgItem:DWORD,
+                                lpString:DWORD,
+                                nMaxCount:DWORD
+GetMessage              PROTO STDCALL\
+                                lpMsg:DWORD,
+                                hWnd:DWORD,
+                                wMsgFilterMin:DWORD,
+                                wMsgFilterMax:DWORD
+GetSystemMetrics        PROTO STDCALL\
+                                nIndex:DWORD
+GetWindowRect           PROTO STDCALL\
+                                hWnd:DWORD,
+                                lpRect:DWORD
+InvalidateRect          PROTO STDCALL\
+                                hWnd:DWORD,
+                                lpRect:DWORD,
+                                bErase:DWORD
+KillTimer               PROTO STDCALL\
+                                hWnd:DWORD,
+                                uIDEvent:DWORD
+IsCharAlpha             PROTO STDCALL\
+                                charact:CHAR
+IsCharAlphaNumeric      PROTO STDCALL\
+                                charact:CHAR
+IsCharLower             PROTO STDCALL\
+                                charact:CHAR
+IsCharUpper             PROTO STDCALL\
+                                charact:CHAR
+LoadAccelerators        PROTO STDCALL\
+                                hInstance:DWORD,
+                                lpTableName:DWORD
+LoadCursor              PROTO STDCALL\
+                                hInstance:DWORD,
+                                lpCursorName:DWORD
+LoadIcon                PROTO STDCALL\
+                                hInstance:DWORD,
+                                lpIconName:DWORD
+LoadMenu                PROTO STDCALL\
+                                hInstance:DWORD,
+                                lpMenuName:DWORD
+LoadString              PROTO STDCALL\
+                                hInstance:DWORD,
+                                uID:DWORD,
+                                lpBuffer:DWORD,
+                                nBufferMax:DWORD
+MessageBeep             PROTO STDCALL\
+                                uType:DWORD
+MessageBox              PROTO STDCALL\
+                                hWnd:DWORD,
+                                lpText:DWORD,
+                                lpCaption:DWORD,
+                                uType:DWORD
+MoveWindow              PROTO STDCALL\
+                                hWnd:DWORD,
+                                X:DWORD,
+                                Y:DWORD,
+                                nWidth:DWORD,
+                                nHeight:DWORD,
+                                bRepaint:DWORD
+PostQuitMessage         PROTO STDCALL\
+                                nExitCode:DWORD
+RegisterClass           PROTO STDCALL\
+                                lpWndClass:DWORD
+SetDlgItemText          PROTO STDCALL\
+                                hwndDlg:DWORD,
+                                idControl:DWORD,
+                                lpsz:DWORD
+SetFocus                PROTO STDCALL\
+                                hWnd:DWORD
+SendMessage             PROTO STDCALL\
+                                hWnd:DWORD,
+                                Msg:DWORD,
+                                wParam:DWORD,
+                                lParam:DWORD
+SetTimer                PROTO STDCALL\
+                                hWnd:DWORD,
+                                nlDEvent:DWORD,
+                                uElapse:DWORD,
+                                lpTimerFunc:DWORD
+ShowWindow              PROTO STDCALL\
+                                hWnd:DWORD,
+                                nCmdShow:DWORD
+TranslateAccelerator    PROTO STDCALL\
+                                hWnd:DWORD,
+                                hAccTable:DWORD,
+                                lpMsg:DWORD
+TranslateMessage        PROTO STDCALL\
+                                lpMsg:DWORD
+UpdateWindow            PROTO STDCALL\
+                                hWnd:DWORD
+WinHelp                 PROTO STDCALL\
+                                hWnd:DWORD,
+                                lpszHelp:DWORD,
+                                uCommand:DWORD,
+                                dwData:DWORD
+wsprintf                PROTO STDCALL\
+                                lpOut:DWORD,
+                                lpFmt:DWORD,
+                                va_list:DWORD
+
+; MASM Documentation claims VARARG changes STDCALL behavior to C behavior (caller
+; must remove parms from stack).
+; But Assembler WANTS C declaration if VARARG anyway...
+
+wvsprintf               PROTO C\
+                                lpOutput:DWORD,
+                                lpFormat:DWORD,
+                                va_list:VARARG

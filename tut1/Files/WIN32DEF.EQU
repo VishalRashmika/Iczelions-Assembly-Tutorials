@@ -1,0 +1,3118 @@
+; Win32 definitions
+;  19.JUN.96 : Philippe Auphelle.
+;              Mostly from 03-14-1996 Sven B. Schreiber sbs@orgon.com
+
+; $Id: Win32Defs.equ 1.1 1997/09/02 09:51:03 Philippe Exp $
+
+; $Log: /Win32Equ/Win32Defs.equ $
+; 
+; 1     18/09/97 14:24 Philippe
+; Initial checkin into SourceSafe.
+; Revision 1.1  1997/09/02 09:51:03  Philippe
+; Initial revision
+;
+
+
+
+; The following equates allow direct access to the incoming parms from
+; stack level 0 of a callback procedure such as a WinProc.
+; These textequ are only valid if and when NOTHING has been pushed to
+; the stack. This supposes that no "enter" sequence (push EBP/mov EBP,ESP)
+; has been executed, and thus that the PROC declaration doesn't mention any
+; parm.
+; If the PROC does declare parms, you don't need these equates anyway.
+
+ESPhWnd         textequ <[esp+04]>      ;window handle
+ESPhDlg         textequ <[esp+04]>      ;dialog handle
+ESPwMsg         textequ <[esp+08]>      ;message id
+ESPwParam       textequ <[esp+12]>      ;additional parameter
+ESPlParam       textequ <[esp+16]>      ;additional parameter
+
+
+;==============================================================================
+;
+;	BASIC CONSTANTS
+;
+;==============================================================================
+
+
+NULL                       = 0          ;null
+FALSE                      = 0          ;boolean false
+TRUE                       = 1          ;boolean true
+
+;------------------------------------------------------------------------------
+
+BUTTON                     = 0080h      ;button class
+EDIT                       = 0081h      ;edit class
+STATIC                     = 0082h      ;static class
+LISTBOX                    = 0083h      ;list box class
+SCROLLBAR                  = 0084h      ;scroll bar class
+COMBOBOX                   = 0085h      ;combo box class
+
+;------------------------------------------------------------------------------
+
+MAX_PATH                   = 260        ;maximum path length
+OFS_MAXPATHNAME            = 128        ;max OFSTRUCT path len
+
+;------------------------------------------------------------------------------
+
+INVALID_HANDLE_VALUE       = 0FFFFFFFFh ;invalid handle
+INVALID_FILE_SIZE          = 0FFFFFFFFh ;invalid file size
+INVALID_FILE_POINTER       = 0FFFFFFFFh ;invalid file pointer
+
+;==============================================================================
+;
+;	WIN32 CONSTANTS
+;
+;==============================================================================
+
+; ========================
+; bitmap compression types
+; ========================
+
+BI_RGB                     = 0
+BI_RLE8                    = 1
+BI_RLE4                    = 2
+BI_BITFIELDS               = 3
+
+;------------------------------------------------------------------------------
+
+; =======================
+; button control messages
+; =======================
+
+BM_GETCHECK                = 00F0h
+BM_SETCHECK                = 00F1h
+BM_GETSTATE                = 00F2h
+BM_SETSTATE                = 00F3h
+BM_SETSTYLE                = 00F4h
+BM_CLICK                   = 00F5h
+BM_GETIMAGE                = 00F6h
+BM_SETIMAGE                = 00F7h
+
+;------------------------------------------------------------------------------
+
+; ============================
+; button control notifications
+; ============================
+
+BN_CLICKED                 = 0000h
+BN_PAINT                   = 0001h
+BN_HILITE                  = 0002h
+BN_UNHILITE                = 0003h
+BN_DISABLE                 = 0004h
+BN_DOUBLECLICKED           = 0005h
+BN_SETFOCUS                = 0006h
+BN_KILLFOCUS               = 0007h
+
+BN_PUSHED                  = BN_HILITE
+BN_UNPUSHED                = BN_UNHILITE
+BN_DBLCLK                  = BN_DOUBLECLICKED
+
+
+;------------------------------------------------------------------------------
+;
+; ==================
+; combo box messages
+; ==================
+;
+CB_GETEDITSEL              = 0140h
+CB_LIMITTEXT               = 0141h
+CB_SETEDITSEL              = 0142h
+CB_ADDSTRING               = 0143h
+CB_DELETESTRING            = 0144h
+CB_DIR                     = 0145h
+CB_GETCOUNT                = 0146h
+CB_GETCURSEL               = 0147h
+CB_GETLBTEXT               = 0148h
+CB_GETLBTEXTLEN            = 0149h
+CB_INSERTSTRING            = 014Ah
+CB_RESETCONTENT            = 014Bh
+CB_FINDSTRING              = 014Ch
+CB_SELECTSTRING            = 014Dh
+CB_SETCURSEL               = 014Eh
+CB_SHOWDROPDOWN            = 014Fh
+CB_GETITEMDATA             = 0150h
+CB_SETITEMDATA             = 0151h
+CB_GETDROPPEDCONTROLRECT   = 0152h
+CB_SETITEMHEIGHT           = 0153h
+CB_GETITEMHEIGHT           = 0154h
+CB_SETEXTENDEDUI           = 0155h
+CB_GETEXTENDEDUI           = 0156h
+CB_GETDROPPEDSTATE         = 0157h
+CB_FINDSTRINGEXACT         = 0158h
+CB_SETLOCALE               = 0159h
+CB_GETLOCALE               = 015Ah
+CB_GETTOPINDEX             = 015Bh
+CB_SETTOPINDEX             = 015Ch
+CB_GETHORIZONTALEXTENT     = 015Dh
+CB_SETHORIZONTALEXTENT     = 015Eh
+CB_GETDROPPEDWIDTH         = 015Fh
+CB_SETDROPPEDWIDTH         = 0160h
+CB_INITSTORAGE             = 0161h
+CB_MSGMAX                  = 0162h
+
+;------------------------------------------------------------------------------
+
+; =======================
+; combo box return values
+; =======================
+
+CB_OKAY                    =  0
+CB_ERR                     = -1
+CB_ERRSPACE                = -2
+
+;------------------------------------------------------------------------------
+
+; ======================
+; CreateDIBitmap() codes
+; ======================
+
+CBM_INIT                   = 4
+
+;------------------------------------------------------------------------------
+
+; ============================
+; combo box notification codes
+; ============================
+
+CBN_ERRSPACE               = -1
+CBN_SELCHANGE              =  1
+CBN_DBLCLK                 =  2
+CBN_SETFOCUS               =  3
+CBN_KILLFOCUS              =  4
+CBN_EDITCHANGE             =  5
+CBN_EDITUPDATE             =  6
+CBN_DROPDOWN               =  7
+CBN_CLOSEUP                =  8
+CBN_SELENDOK               =  9
+CBN_SELENDCANCEL           = 10
+
+;------------------------------------------------------------------------------
+
+; =================
+; clipboard formats
+; =================
+
+CF_TEXT                    = 0001h
+CF_BITMAP                  = 0002h
+CF_METAFILEPICT            = 0003h
+CF_SYLK                    = 0004h
+CF_DIF                     = 0005h
+CF_TIFF                    = 0006h
+CF_OEMTEXT                 = 0007h
+CF_DIB                     = 0008h
+CF_PALETTE                 = 0009h
+CF_PENDATA                 = 000Ah
+CF_RIFF                    = 000Bh
+CF_WAVE                    = 000Ch
+CF_UNICODETEXT             = 000Dh
+CF_ENHMETAFILE             = 000Eh
+CF_HDROP                   = 000Fh
+CF_LOCALE                  = 0010h
+CF_MAX                     = 0011h
+
+CF_OWNERDISPLAY            = 0080h
+CF_DSPTEXT                 = 0081h
+CF_DSPBITMAP               = 0082h
+CF_DSPMETAFILEPICT         = 0083h
+CF_DSPENHMETAFILE          = 008Eh
+
+CF_PRIVATEFIRST            = 0200h
+CF_PRIVATELAST             = 02FFh
+;
+CF_GDIOBJFIRST             = 0300h
+CF_GDIOBJLAST              = 03FFh
+
+;------------------------------------------------------------------------------
+
+; ===========
+; color types
+; ===========
+
+COLOR_SCROLLBAR            =  0
+COLOR_BACKGROUND           =  1
+COLOR_ACTIVECAPTION        =  2
+COLOR_INACTIVECAPTION      =  3
+COLOR_MENU                 =  4
+COLOR_WINDOW               =  5
+COLOR_WINDOWFRAME          =  6
+COLOR_MENUTEXT             =  7
+COLOR_WINDOWTEXT           =  8
+COLOR_CAPTIONTEXT          =  9
+COLOR_ACTIVEBORDER         = 10
+COLOR_INACTIVEBORDER       = 11
+COLOR_APPWORKSPACE         = 12
+COLOR_HIGHLIGHT            = 13
+COLOR_HIGHLIGHTTEXT        = 14
+COLOR_BTNFACE              = 15
+COLOR_BTNSHADOW            = 16
+COLOR_GRAYTEXT             = 17
+COLOR_BTNTEXT              = 18
+COLOR_INACTIVECAPTIONTEXT  = 19
+COLOR_BTNHIGHLIGHT         = 20
+COLOR_3DDKSHADOW           = 21
+COLOR_3DLIGHT              = 22
+COLOR_INFOTEXT             = 23
+COLOR_INFOBK               = 24
+
+COLOR_DESKTOP              = COLOR_BACKGROUND
+COLOR_3DFACE               = COLOR_BTNFACE
+COLOR_3DSHADOW             = COLOR_BTNSHADOW
+COLOR_3DHIGHLIGHT          = COLOR_BTNHIGHLIGHT
+COLOR_3DHILIGHT            = COLOR_BTNHIGHLIGHT
+COLOR_BTNHILIGHT           = COLOR_BTNHIGHLIGHT
+
+;------------------------------------------------------------------------------
+
+; ===================
+; network connections
+; ===================
+
+CONNECT_UPDATE_PROFILE     = 00000001h
+CONNECT_UPDATE_RECENT      = 00000002h
+CONNECT_TEMPORARY          = 00000004h
+CONNECT_INTERACTIVE        = 00000008h
+CONNECT_PROMPT             = 00000010h
+CONNECT_NEED_DRIVE         = 00000020h
+CONNECT_REFCOUNT           = 00000040h
+CONNECT_REDIRECT           = 00000080h
+CONNECT_LOCALDRIVE         = 00000100h
+CONNECT_CURRENT_MEDIA      = 00000200h
+
+NETPROPERTY_PERSISTENT     = 1
+
+;------------------------------------------------------------------------------
+
+; ====================
+; thread context flags
+; ====================
+
+CONTEXT_i386               = 00010000h
+CONTEXT_i486               = 00010000h
+
+CONTEXT_CONTROL            = CONTEXT_i386+00000001h
+CONTEXT_INTEGER            = CONTEXT_i386+00000002h
+CONTEXT_SEGMENTS           = CONTEXT_i386+00000004h
+CONTEXT_FLOATING_POINT     = CONTEXT_i386+00000008h
+CONTEXT_DEBUG_REGISTERS    = CONTEXT_i386+00000010h
+
+CONTEXT_FULL               = CONTEXT_CONTROL+\
+                               CONTEXT_INTEGER+\
+                               CONTEXT_SEGMENTS
+
+SIZE_OF_80387_REGISTERS    = 80
+
+;------------------------------------------------------------------------------
+
+; ==========
+; code pages
+; ==========
+
+CP_ACP                     = 0
+CP_OEMCP                   = 1
+CP_MACCP                   = 2
+
+;------------------------------------------------------------------------------
+
+; ============
+; class styles
+; ============
+
+CS_VREDRAW                 = 00000001h
+CS_HREDRAW                 = 00000002h
+CS_KEYCVTWINDOW            = 00000004h
+CS_DBLCLKS                 = 00000008h
+CS_OWNDC                   = 00000020h
+CS_CLASSDC                 = 00000040h
+CS_PARENTDC                = 00000080h
+CS_NOKEYCVT                = 00000100h
+CS_NOCLOSE                 = 00000200h
+CS_SAVEBITS                = 00000800h
+CS_BYTEALIGNCLIENT         = 00001000h
+CS_BYTEALIGNWINDOW         = 00002000h
+CS_GLOBALCLASS             = 00004000h
+CS_IME                     = 00010000h
+
+;------------------------------------------------------------------------------
+
+; ===================
+; control color types
+; ===================
+
+CTLCOLOR_MSGBOX            = 0
+CTLCOLOR_EDIT              = 1
+CTLCOLOR_LISTBOX           = 2
+CTLCOLOR_BTN               = 3
+CTLCOLOR_DLG               = 4
+CTLCOLOR_SCROLLBAR         = 5
+CTLCOLOR_STATIC            = 6
+CTLCOLOR_MAX               = 7
+
+;------------------------------------------------------------------------------
+
+; =======================
+; CreateWindow() commands
+; =======================
+
+CW_USEDEFAULT              = 80000000h
+
+;------------------------------------------------------------------------------
+
+; ===================
+; device capabilities
+; ===================
+
+DC_FIELDS                  =  1
+DC_PAPERS                  =  2
+DC_PAPERSIZE               =  3
+DC_MINEXTENT               =  4
+DC_MAXEXTENT               =  5
+DC_BINS                    =  6
+DC_DUPLEX                  =  7
+DC_SIZE                    =  8
+DC_EXTRA                   =  9
+DC_VERSION                 = 10
+DC_DRIVER                  = 11
+DC_BINNAMES                = 12
+DC_ENUMRESOLUTIONS         = 13
+DC_FILEDEPENDENCIES        = 14
+DC_TRUETYPE                = 15
+DC_PAPERNAMES              = 16
+DC_ORIENTATION             = 17
+DC_COPIES                  = 18
+
+;------------------------------------------------------------------------------
+
+; ====================
+; dib color table id's
+; ====================
+
+DIB_RGB_COLORS             = 0
+DIB_PAL_COLORS             = 1
+
+
+;------------------------------------------------------------------------------
+
+; ===============================
+; DLLEntryPoint fdwReason values.
+; ===============================
+
+DLL_PROCESS_DETACH         = 0
+DLL_PROCESS_ATTACH         = 1
+DLL_THREAD_ATTACH          = 2
+DLL_THREAD_DETACH          = 3
+
+
+;------------------------------------------------------------------------------
+
+; ======================
+; device mode selections
+; ======================
+
+DM_UPDATE                  = 1
+DM_COPY                    = 2
+DM_PROMPT                  = 4
+DM_MODIFY                  = 8
+
+DM_IN_BUFFER               = DM_MODIFY
+DM_IN_PROMPT               = DM_PROMPT
+DM_OUT_BUFFER              = DM_COPY
+DM_OUT_DEFAULT             = DM_UPDATE
+
+;------------------------------------------------------------------------------
+
+; =======================
+; DrawText() format flags
+; =======================
+
+DT_TOP                     = 00000000h
+DT_LEFT                    = 00000000h
+DT_CENTER                  = 00000001h
+DT_RIGHT                   = 00000002h
+DT_VCENTER                 = 00000004h
+DT_BOTTOM                  = 00000008h
+DT_WORDBREAK               = 00000010h
+DT_SINGLELINE              = 00000020h
+DT_EXPANDTABS              = 00000040h
+DT_TABSTOP                 = 00000080h
+DT_NOCLIP                  = 00000100h
+DT_EXTERNALLEADING         = 00000200h
+DT_CALCRECT                = 00000400h
+DT_NOPREFIX                = 00000800h
+DT_INTERNAL                = 00001000h
+DT_EDITCONTROL             = 00002000h
+DT_PATH_ELLIPSIS           = 00004000h
+DT_END_ELLIPSIS            = 00008000h
+DT_MODIFYSTRING            = 00010000h
+DT_RTLREADING              = 00020000h
+DT_WORD_ELLIPSIS           = 00040000h
+
+;------------------------------------------------------------------------------
+
+; =====================
+; edit control messages
+; =====================
+
+EM_GETSEL                  = 00B0h
+EM_SETSEL                  = 00B1h
+EM_GETRECT                 = 00B2h
+EM_SETRECT                 = 00B3h
+EM_SETRECTNP               = 00B4h
+EM_SCROLL                  = 00B5h
+EM_LINESCROLL              = 00B6h
+EM_SCROLLCARET             = 00B7h
+EM_GETMODIFY               = 00B8h
+EM_SETMODIFY               = 00B9h
+EM_GETLINECOUNT            = 00BAh
+EM_LINEINDEX               = 00BBh
+EM_SETHANDLE               = 00BCh
+EM_GETHANDLE               = 00BDh
+EM_GETTHUMB                = 00BEh
+EM_LINELENGTH              = 00C1h
+EM_REPLACESEL              = 00C2h
+EM_GETLINE                 = 00C4h
+EM_LIMITTEXT               = 00C5h
+EM_CANUNDO                 = 00C6h
+EM_UNDO                    = 00C7h
+EM_FMTLINES                = 00C8h
+EM_LINEFROMCHAR            = 00C9h
+EM_SETTABSTOPS             = 00CBh
+EM_SETPASSWORDCHAR         = 00CCh
+EM_EMPTYUNDOBUFFER         = 00CDh
+EM_GETFIRSTVISIBLELINE     = 00CEh
+EM_SETREADONLY             = 00CFh
+EM_SETWORDBREAKPROC        = 00D0h
+EM_GETWORDBREAKPROC        = 00D1h
+EM_GETPASSWORDCHAR         = 00D2h
+EM_SETMARGINS              = 00D3h
+EM_GETMARGINS              = 00D4h
+EM_GETLIMITTEXT            = 00D5h
+EM_POSFROMCHAR             = 00D6h
+EM_CHARFROMPOS             = 00D7h
+
+EM_SETLIMITTEXT            = EM_LIMITTEXT
+;
+;------------------------------------------------------------------------------
+;
+; ==========================
+; edit control notifications
+; ==========================
+;
+EN_SETFOCUS                = 0100h
+EN_KILLFOCUS               = 0200h
+EN_CHANGE                  = 0300h
+EN_UPDATE                  = 0400h
+EN_ERRSPACE                = 0500h
+EN_MAXTEXT                 = 0501h
+EN_HSCROLL                 = 0601h
+EN_VSCROLL                 = 0602h
+;
+;------------------------------------------------------------------------------
+;
+; ===========
+; error codes
+; ===========
+;
+ERROR_SUCCESS                    =    0
+NO_ERROR                         =    0
+;
+ERROR_INVALID_FUNCTION           =    1
+ERROR_FILE_NOT_FOUND             =    2
+ERROR_PATH_NOT_FOUND             =    3
+ERROR_TOO_MANY_OPEN_FILES        =    4
+ERROR_ACCESS_DENIED              =    5
+ERROR_INVALID_HANDLE             =    6
+ERROR_ARENA_TRASHED              =    7
+ERROR_NOT_ENOUGH_MEMORY          =    8
+ERROR_INVALID_BLOCK              =    9
+ERROR_BAD_ENVIRONMENT            =   10
+ERROR_BAD_FORMAT                 =   11
+ERROR_INVALID_ACCESS             =   12
+ERROR_INVALID_DATA               =   13
+ERROR_OUTOFMEMORY                =   14
+ERROR_INVALID_DRIVE              =   15
+ERROR_CURRENT_DIRECTORY          =   16
+ERROR_NOT_SAME_DEVICE            =   17
+ERROR_NO_MORE_FILES              =   18
+ERROR_WRITE_PROTECT              =   19
+ERROR_BAD_UNIT                   =   20
+ERROR_NOT_READY                  =   21
+ERROR_BAD_COMMAND                =   22
+ERROR_CRC                        =   23
+ERROR_BAD_LENGTH                 =   24
+ERROR_SEEK                       =   25
+ERROR_NOT_DOS_DISK               =   26
+ERROR_SECTOR_NOT_FOUND           =   27
+ERROR_OUT_OF_PAPER               =   28
+ERROR_WRITE_FAULT                =   29
+ERROR_READ_FAULT                 =   30
+ERROR_GEN_FAILURE                =   31
+ERROR_SHARING_VIOLATION          =   32
+ERROR_LOCK_VIOLATION             =   33
+ERROR_WRONG_DISK                 =   34
+ERROR_SHARING_BUFFER_EXCEEDED    =   36
+ERROR_HANDLE_EOF                 =   38
+ERROR_HANDLE_DISK_FULL           =   39
+ERROR_NOT_SUPPORTED              =   50
+ERROR_REM_NOT_LIST               =   51
+ERROR_DUP_NAME                   =   52
+ERROR_BAD_NETPATH                =   53
+ERROR_NETWORK_BUSY               =   54
+ERROR_DEV_NOT_EXIST              =   55
+ERROR_TOO_MANY_CMDS              =   56
+ERROR_ADAP_HDW_ERR               =   57
+ERROR_BAD_NET_RESP               =   58
+ERROR_UNEXP_NET_ERR              =   59
+ERROR_BAD_REM_ADAP               =   60
+ERROR_PRINTQ_FULL                =   61
+ERROR_NO_SPOOL_SPACE             =   62
+ERROR_PRINT_CANCELLED            =   63
+ERROR_NETNAME_DELETED            =   64
+ERROR_NETWORK_ACCESS_DENIED      =   65
+ERROR_BAD_DEV_TYPE               =   66
+ERROR_BAD_NET_NAME               =   67
+ERROR_TOO_MANY_NAMES             =   68
+ERROR_TOO_MANY_SESS              =   69
+ERROR_SHARING_PAUSED             =   70
+ERROR_REQ_NOT_ACCEP              =   71
+ERROR_REDIR_PAUSED               =   72
+ERROR_FILE_EXISTS                =   80
+ERROR_CANNOT_MAKE                =   82
+ERROR_FAIL_I24                   =   83
+ERROR_OUT_OF_STRUCTURES          =   84
+ERROR_ALREADY_ASSIGNED           =   85
+ERROR_INVALID_PASSWORD           =   86
+ERROR_INVALID_PARAMETER          =   87
+ERROR_NET_WRITE_FAULT            =   88
+ERROR_NO_PROC_SLOTS              =   89
+ERROR_TOO_MANY_SEMAPHORES        =  100
+ERROR_EXCL_SEM_ALREADY_OWNED     =  101
+ERROR_SEM_IS_SET                 =  102
+ERROR_TOO_MANY_SEM_REQUESTS      =  103
+ERROR_INVALID_AT_INTERRUPT_TIME  =  104
+ERROR_SEM_OWNER_DIED             =  105
+ERROR_SEM_USER_LIMIT             =  106
+ERROR_DISK_CHANGE                =  107
+ERROR_DRIVE_LOCKED               =  108
+ERROR_BROKEN_PIPE                =  109
+ERROR_OPEN_FAILED                =  110
+ERROR_BUFFER_OVERFLOW            =  111
+ERROR_DISK_FULL                  =  112
+ERROR_NO_MORE_SEARCH_HANDLES     =  113
+ERROR_INVALID_TARGET_HANDLE      =  114
+ERROR_INVALID_CATEGORY           =  117
+ERROR_INVALID_VERIFY_SWITCH      =  118
+ERROR_BAD_DRIVER_LEVEL           =  119
+ERROR_CALL_NOT_IMPLEMENTED       =  120
+ERROR_SEM_TIMEOUT                =  121
+ERROR_INSUFFICIENT_BUFFER        =  122
+ERROR_INVALID_NAME               =  123
+ERROR_INVALID_LEVEL              =  124
+ERROR_NO_VOLUME_LABEL            =  125
+ERROR_MOD_NOT_FOUND              =  126
+ERROR_PROC_NOT_FOUND             =  127
+ERROR_WAIT_NO_CHILDREN           =  128
+ERROR_CHILD_NOT_COMPLETE         =  129
+ERROR_DIRECT_ACCESS_HANDLE       =  130
+ERROR_NEGATIVE_SEEK              =  131
+ERROR_SEEK_ON_DEVICE             =  132
+ERROR_IS_JOIN_TARGET             =  133
+ERROR_IS_JOINED                  =  134
+ERROR_IS_SUBSTED                 =  135
+ERROR_NOT_JOINED                 =  136
+ERROR_NOT_SUBSTED                =  137
+ERROR_JOIN_TO_JOIN               =  138
+ERROR_SUBST_TO_SUBST             =  139
+ERROR_JOIN_TO_SUBST              =  140
+ERROR_SUBST_TO_JOIN              =  141
+ERROR_BUSY_DRIVE                 =  142
+ERROR_SAME_DRIVE                 =  143
+ERROR_DIR_NOT_ROOT               =  144
+ERROR_DIR_NOT_EMPTY              =  145
+ERROR_IS_SUBST_PATH              =  146
+ERROR_IS_JOIN_PATH               =  147
+ERROR_PATH_BUSY                  =  148
+ERROR_IS_SUBST_TARGET            =  149
+ERROR_SYSTEM_TRACE               =  150
+ERROR_INVALID_EVENT_COUNT        =  151
+ERROR_TOO_MANY_MUXWAITERS        =  152
+ERROR_INVALID_LIST_FORMAT        =  153
+ERROR_LABEL_TOO_LONG             =  154
+ERROR_TOO_MANY_TCBS              =  155
+ERROR_SIGNAL_REFUSED             =  156
+ERROR_DISCARDED                  =  157
+ERROR_NOT_LOCKED                 =  158
+ERROR_BAD_THREADID_ADDR          =  159
+ERROR_BAD_ARGUMENTS              =  160
+ERROR_BAD_PATHNAME               =  161
+ERROR_SIGNAL_PENDING             =  162
+ERROR_MAX_THRDS_REACHED          =  164
+ERROR_LOCK_FAILED                =  167
+ERROR_BUSY                       =  170
+ERROR_CANCEL_VIOLATION           =  173
+ERROR_ATOMIC_LOCKS_NOT_SUPPORTED =  174
+ERROR_INVALID_SEGMENT_NUMBER     =  180
+ERROR_INVALID_ORDINAL            =  182
+ERROR_ALREADY_EXISTS             =  183
+ERROR_INVALID_FLAG_NUMBER        =  186
+ERROR_SEM_NOT_FOUND              =  187
+ERROR_INVALID_STARTING_CODESEG   =  188
+ERROR_INVALID_STACKSEG           =  189
+ERROR_INVALID_MODULETYPE         =  190
+ERROR_INVALID_EXE_SIGNATURE      =  191
+ERROR_EXE_MARKED_INVALID         =  192
+ERROR_BAD_EXE_FORMAT             =  193
+ERROR_ITERATED_DATA_EXCEEDS_64k  =  194
+ERROR_INVALID_MINALLOCSIZE       =  195
+ERROR_DYNLINK_FROM_INVALID_RING  =  196
+ERROR_IOPL_NOT_ENABLED           =  197
+ERROR_INVALID_SEGDPL             =  198
+ERROR_AUTODATASEG_EXCEEDS_64k    =  199
+ERROR_RING2SEG_MUST_BE_MOVABLE   =  200
+ERROR_RELOC_CHAIN_XEEDS_SEGLIM   =  201
+ERROR_INFLOOP_IN_RELOC_CHAIN     =  202
+ERROR_ENVVAR_NOT_FOUND           =  203
+ERROR_NO_SIGNAL_SENT             =  205
+ERROR_FILENAME_EXCED_RANGE       =  206
+ERROR_RING2_STACK_IN_USE         =  207
+ERROR_META_EXPANSION_TOO_LONG    =  208
+ERROR_INVALID_SIGNAL_NUMBER      =  209
+ERROR_THREAD_1_INACTIVE          =  210
+ERROR_LOCKED                     =  212
+ERROR_TOO_MANY_MODULES           =  214
+ERROR_NESTING_NOT_ALLOWED        =  215
+ERROR_BAD_PIPE                   =  230
+ERROR_PIPE_BUSY                  =  231
+ERROR_NO_DATA                    =  232
+ERROR_PIPE_NOT_CONNECTED         =  233
+ERROR_MORE_DATA                  =  234
+ERROR_VC_DISCONNECTED            =  240
+ERROR_INVALID_EA_NAME            =  254
+ERROR_EA_LIST_INCONSISTENT       =  255
+ERROR_NO_MORE_ITEMS              =  259
+ERROR_CANNOT_COPY                =  266
+ERROR_DIRECTORY                  =  267
+ERROR_EAS_DIDNT_FIT              =  275
+ERROR_EA_FILE_CORRUPT            =  276
+ERROR_EA_TABLE_FULL              =  277
+ERROR_INVALID_EA_HANDLE          =  278
+ERROR_EAS_NOT_SUPPORTED          =  282
+ERROR_NOT_OWNER                  =  288
+ERROR_TOO_MANY_POSTS             =  298
+ERROR_PARTIAL_COPY               =  299
+ERROR_MR_MID_NOT_FOUND           =  317
+ERROR_INVALID_ADDRESS            =  487
+ERROR_ARITHMETIC_OVERFLOW        =  534
+ERROR_PIPE_CONNECTED             =  535
+ERROR_PIPE_LISTENING             =  536
+ERROR_EA_ACCESS_DENIED           =  994
+ERROR_OPERATION_ABORTED          =  995
+ERROR_IO_INCOMPLETE              =  996
+ERROR_IO_PENDING                 =  997
+ERROR_NOACCESS                   =  998
+ERROR_SWAPERROR                  =  999
+ERROR_STACK_OVERFLOW             = 1001
+ERROR_INVALID_MESSAGE            = 1002
+ERROR_CAN_NOT_COMPLETE           = 1003
+ERROR_INVALID_FLAGS              = 1004
+ERROR_UNRECOGNIZED_VOLUME        = 1005
+ERROR_FILE_INVALID               = 1006
+ERROR_FULLSCREEN_MODE            = 1007
+ERROR_NO_TOKEN                   = 1008
+ERROR_BADDB                      = 1009
+ERROR_BADKEY                     = 1010
+ERROR_CANTOPEN                   = 1011
+ERROR_CANTREAD                   = 1012
+ERROR_CANTWRITE                  = 1013
+ERROR_REGISTRY_RECOVERED         = 1014
+ERROR_REGISTRY_CORRUPT           = 1015
+ERROR_REGISTRY_IO_FAILED         = 1016
+ERROR_NOT_REGISTRY_FILE          = 1017
+ERROR_KEY_DELETED                = 1018
+ERROR_NO_LOG_SPACE               = 1019
+ERROR_KEY_HAS_CHILDREN           = 1020
+ERROR_CHILD_MUST_BE_VOLATILE     = 1021
+ERROR_NOTIFY_ENUM_DIR            = 1022
+ERROR_DEPENDENT_SERVICES_RUNNING = 1051
+ERROR_INVALID_SERVICE_CONTROL    = 1052
+ERROR_SERVICE_REQUEST_TIMEOUT    = 1053
+ERROR_SERVICE_NO_THREAD          = 1054
+ERROR_SERVICE_DATABASE_LOCKED    = 1055
+ERROR_SERVICE_ALREADY_RUNNING    = 1056
+ERROR_INVALID_SERVICE_ACCOUNT    = 1057
+ERROR_SERVICE_DISABLED           = 1058
+ERROR_CIRCULAR_DEPENDENCY        = 1059
+ERROR_SERVICE_DOES_NOT_EXIST     = 1060
+ERROR_SERVICE_CANNOT_ACCEPT_CTRL = 1061
+ERROR_SERVICE_NOT_ACTIVE         = 1062
+ERROR_FAILED_SERVICE_CONTROLLER_CONNECT = 1063
+ERROR_EXCEPTION_IN_SERVICE       = 1064
+ERROR_DATABASE_DOES_NOT_EXIST    = 1065
+ERROR_SERVICE_SPECIFIC_ERROR     = 1066
+ERROR_PROCESS_ABORTED            = 1067
+ERROR_SERVICE_DEPENDENCY_FAIL    = 1068
+ERROR_SERVICE_LOGON_FAILED       = 1069
+ERROR_SERVICE_START_HANG         = 1070
+ERROR_INVALID_SERVICE_LOCK       = 1071
+ERROR_SERVICE_MARKED_FOR_DELETE  = 1072
+ERROR_SERVICE_EXISTS             = 1073
+ERROR_ALREADY_RUNNING_LKG        = 1074
+ERROR_SERVICE_DEPENDENCY_DELETED = 1075
+ERROR_BOOT_ALREADY_ACCEPTED      = 1076
+ERROR_SERVICE_NEVER_STARTED      = 1077
+ERROR_DUPLICATE_SERVICE_NAME     = 1078
+ERROR_END_OF_MEDIA               = 1100
+ERROR_FILEMARK_DETECTED          = 1101
+ERROR_BEGINNING_OF_MEDIA         = 1102
+ERROR_SETMARK_DETECTED           = 1103
+ERROR_NO_DATA_DETECTED           = 1104
+ERROR_PARTITION_FAILURE          = 1105
+ERROR_INVALID_BLOCK_LENGTH       = 1106
+ERROR_DEVICE_NOT_PARTITIONED     = 1107
+ERROR_UNABLE_TO_LOCK_MEDIA       = 1108
+ERROR_UNABLE_TO_UNLOAD_MEDIA     = 1109
+ERROR_MEDIA_CHANGED              = 1110
+ERROR_BUS_RESET                  = 1111
+ERROR_NO_MEDIA_IN_DRIVE          = 1112
+ERROR_NO_UNICODE_TRANSLATION     = 1113
+ERROR_DLL_INIT_FAILED            = 1114
+ERROR_SHUTDOWN_IN_PROGRESS       = 1115
+ERROR_NO_SHUTDOWN_IN_PROGRESS    = 1116
+ERROR_IO_DEVICE                  = 1117
+ERROR_SERIAL_NO_DEVICE           = 1118
+ERROR_IRQ_BUSY                   = 1119
+ERROR_MORE_WRITES                = 1120
+ERROR_COUNTER_TIMEOUT            = 1121
+ERROR_FLOPPY_ID_MARK_NOT_FOUND   = 1122
+ERROR_FLOPPY_WRONG_CYLINDER      = 1123
+ERROR_FLOPPY_UNKNOWN_ERROR       = 1124
+ERROR_FLOPPY_BAD_REGISTERS       = 1125
+ERROR_DISK_RECALIBRATE_FAILED    = 1126
+ERROR_DISK_OPERATION_FAILED      = 1127
+ERROR_DISK_RESET_FAILED          = 1128
+ERROR_EOM_OVERFLOW               = 1129
+ERROR_NOT_ENOUGH_SERVER_MEMORY   = 1130
+ERROR_POSSIBLE_DEADLOCK          = 1131
+ERROR_MAPPED_ALIGNMENT           = 1132
+ERROR_SET_POWER_STATE_VETOED     = 1140
+ERROR_SET_POWER_STATE_FAILED     = 1141
+ERROR_OLD_WIN_VERSION            = 1150
+ERROR_APP_WRONG_OS               = 1151
+ERROR_SINGLE_INSTANCE_APP        = 1152
+ERROR_RMODE_APP                  = 1153
+ERROR_INVALID_DLL                = 1154
+ERROR_NO_ASSOCIATION             = 1155
+ERROR_DDE_FAIL                   = 1156
+ERROR_DLL_NOT_FOUND              = 1157
+ERROR_BAD_USERNAME               = 2202
+ERROR_NOT_CONNECTED              = 2250
+ERROR_OPEN_FILES                 = 2401
+ERROR_ACTIVE_CONNECTIONS         = 2402
+ERROR_DEVICE_IN_USE              = 2404
+ERROR_BAD_DEVICE                 = 1200
+ERROR_CONNECTION_UNAVAIL         = 1201
+ERROR_DEVICE_ALREADY_REMEMBERED  = 1202
+ERROR_NO_NET_OR_BAD_PATH         = 1203
+ERROR_BAD_PROVIDER               = 1204
+ERROR_CANNOT_OPEN_PROFILE        = 1205
+ERROR_BAD_PROFILE                = 1206
+ERROR_NOT_CONTAINER              = 1207
+ERROR_EXTENDED_ERROR             = 1208
+ERROR_INVALID_GROUPNAME          = 1209
+ERROR_INVALID_COMPUTERNAME       = 1210
+ERROR_INVALID_EVENTNAME          = 1211
+ERROR_INVALID_DOMAINNAME         = 1212
+ERROR_INVALID_SERVICENAME        = 1213
+ERROR_INVALID_NETNAME            = 1214
+ERROR_INVALID_SHARENAME          = 1215
+ERROR_INVALID_PASSWORDNAME       = 1216
+ERROR_INVALID_MESSAGENAME        = 1217
+ERROR_INVALID_MESSAGEDEST        = 1218
+ERROR_SESSION_CREDENTIAL_CONFLICT   = 1219
+ERROR_REMOTE_SESSION_LIMIT_EXCEEDED = 1220
+ERROR_DUP_DOMAINNAME             = 1221
+ERROR_NO_NETWORK                 = 1222
+ERROR_CANCELLED                  = 1223
+ERROR_USER_MAPPED_FILE           = 1224
+ERROR_CONNECTION_REFUSED         = 1225
+ERROR_GRACEFUL_DISCONNECT        = 1226
+ERROR_ADDRESS_ALREADY_ASSOCIATED = 1227
+ERROR_ADDRESS_NOT_ASSOCIATED     = 1228
+ERROR_CONNECTION_INVALID         = 1229
+ERROR_CONNECTION_ACTIVE          = 1230
+ERROR_NETWORK_UNREACHABLE        = 1231
+ERROR_HOST_UNREACHABLE           = 1232
+ERROR_PROTOCOL_UNREACHABLE       = 1233
+ERROR_PORT_UNREACHABLE           = 1234
+ERROR_REQUEST_ABORTED            = 1235
+ERROR_CONNECTION_ABORTED         = 1236
+ERROR_RETRY                      = 1237
+ERROR_CONNECTION_COUNT_LIMIT     = 1238
+ERROR_LOGIN_TIME_RESTRICTION     = 1239
+ERROR_LOGIN_WKSTA_RESTRICTION    = 1240
+ERROR_INCORRECT_ADDRESS          = 1241
+ERROR_ALREADY_REGISTERED         = 1242
+ERROR_SERVICE_NOT_FOUND          = 1243
+ERROR_NOT_AUTHENTICATED          = 1244
+ERROR_NOT_LOGGED_ON              = 1245
+ERROR_CONTINUE                   = 1246
+ERROR_ALREADY_INITIALIZED        = 1247
+ERROR_NO_MORE_DEVICES            = 1248
+ERROR_NOT_ALL_ASSIGNED           = 1300
+ERROR_SOME_NOT_MAPPED            = 1301
+ERROR_NO_QUOTAS_FOR_ACCOUNT      = 1302
+ERROR_LOCAL_USER_SESSION_KEY     = 1303
+ERROR_NULL_LM_PASSWORD           = 1304
+ERROR_UNKNOWN_REVISION           = 1305
+ERROR_REVISION_MISMATCH          = 1306
+ERROR_INVALID_OWNER              = 1307
+ERROR_INVALID_PRIMARY_GROUP      = 1308
+ERROR_NO_IMPERSONATION_TOKEN     = 1309
+ERROR_CANT_DISABLE_MANDATORY     = 1310
+ERROR_NO_LOGON_SERVERS           = 1311
+ERROR_NO_SUCH_LOGON_SESSION      = 1312
+ERROR_NO_SUCH_PRIVILEGE          = 1313
+ERROR_PRIVILEGE_NOT_HELD         = 1314
+ERROR_INVALID_ACCOUNT_NAME       = 1315
+ERROR_USER_EXISTS                = 1316
+ERROR_NO_SUCH_USER               = 1317
+ERROR_GROUP_EXISTS               = 1318
+ERROR_NO_SUCH_GROUP              = 1319
+ERROR_MEMBER_IN_GROUP            = 1320
+ERROR_MEMBER_NOT_IN_GROUP        = 1321
+ERROR_LAST_ADMIN                 = 1322
+ERROR_WRONG_PASSWORD             = 1323
+ERROR_ILL_FORMED_PASSWORD        = 1324
+ERROR_PASSWORD_RESTRICTION       = 1325
+ERROR_LOGON_FAILURE              = 1326
+ERROR_ACCOUNT_RESTRICTION        = 1327
+ERROR_INVALID_LOGON_HOURS        = 1328
+ERROR_INVALID_WORKSTATION        = 1329
+ERROR_PASSWORD_EXPIRED           = 1330
+ERROR_ACCOUNT_DISABLED           = 1331
+ERROR_NONE_MAPPED                = 1332
+ERROR_TOO_MANY_LUIDS_REQUESTED   = 1333
+ERROR_LUIDS_EXHAUSTED            = 1334
+ERROR_INVALID_SUB_AUTHORITY      = 1335
+ERROR_INVALID_ACL                = 1336
+ERROR_INVALID_SID                = 1337
+ERROR_INVALID_SECURITY_DESCR     = 1338
+ERROR_BAD_INHERITANCE_ACL        = 1340
+ERROR_SERVER_DISABLED            = 1341
+ERROR_SERVER_NOT_DISABLED        = 1342
+ERROR_INVALID_ID_AUTHORITY       = 1343
+ERROR_ALLOTTED_SPACE_EXCEEDED    = 1344
+ERROR_INVALID_GROUP_ATTRIBUTES   = 1345
+ERROR_BAD_IMPERSONATION_LEVEL    = 1346
+ERROR_CANT_OPEN_ANONYMOUS        = 1347
+ERROR_BAD_VALIDATION_CLASS       = 1348
+ERROR_BAD_TOKEN_TYPE             = 1349
+ERROR_NO_SECURITY_ON_OBJECT      = 1350
+ERROR_CANT_ACCESS_DOMAIN_INFO    = 1351
+ERROR_INVALID_SERVER_STATE       = 1352
+ERROR_INVALID_DOMAIN_STATE       = 1353
+ERROR_INVALID_DOMAIN_ROLE        = 1354
+ERROR_NO_SUCH_DOMAIN             = 1355
+ERROR_DOMAIN_EXISTS              = 1356
+ERROR_DOMAIN_LIMIT_EXCEEDED      = 1357
+ERROR_INTERNAL_DB_CORRUPTION     = 1358
+ERROR_INTERNAL_ERROR             = 1359
+ERROR_GENERIC_NOT_MAPPED         = 1360
+ERROR_BAD_DESCRIPTOR_FORMAT      = 1361
+ERROR_NOT_LOGON_PROCESS          = 1362
+ERROR_LOGON_SESSION_EXISTS       = 1363
+ERROR_NO_SUCH_PACKAGE            = 1364
+ERROR_BAD_LOGON_SESSION_STATE    = 1365
+ERROR_LOGON_SESSION_COLLISION    = 1366
+ERROR_INVALID_LOGON_TYPE         = 1367
+ERROR_CANNOT_IMPERSONATE         = 1368
+ERROR_RXACT_INVALID_STATE        = 1369
+ERROR_RXACT_COMMIT_FAILURE       = 1370
+ERROR_SPECIAL_ACCOUNT            = 1371
+ERROR_SPECIAL_GROUP              = 1372
+ERROR_SPECIAL_USER               = 1373
+ERROR_MEMBERS_PRIMARY_GROUP      = 1374
+ERROR_TOKEN_ALREADY_IN_USE       = 1375
+ERROR_NO_SUCH_ALIAS              = 1376
+ERROR_MEMBER_NOT_IN_ALIAS        = 1377
+ERROR_MEMBER_IN_ALIAS            = 1378
+ERROR_ALIAS_EXISTS               = 1379
+ERROR_LOGON_NOT_GRANTED          = 1380
+ERROR_TOO_MANY_SECRETS           = 1381
+ERROR_SECRET_TOO_LONG            = 1382
+ERROR_INTERNAL_DB_ERROR          = 1383
+ERROR_TOO_MANY_CONTEXT_IDS       = 1384
+ERROR_LOGON_TYPE_NOT_GRANTED     = 1385
+ERROR_NT_CROSS_ENCRYPTION_REQUIRED = 1386
+ERROR_NO_SUCH_MEMBER             = 1387
+ERROR_INVALID_MEMBER             = 1388
+ERROR_TOO_MANY_SIDS              = 1389
+ERROR_LM_CROSS_ENCRYPTION_REQUIRED = 1390
+ERROR_NO_INHERITANCE             = 1391
+ERROR_FILE_CORRUPT               = 1392
+ERROR_DISK_CORRUPT               = 1393
+ERROR_NO_USER_SESSION_KEY        = 1394
+ERROR_LICENSE_QUOTA_EXCEEDED     = 1395
+ERROR_INVALID_WINDOW_HANDLE      = 1400
+ERROR_INVALID_MENU_HANDLE        = 1401
+ERROR_INVALID_CURSOR_HANDLE      = 1402
+ERROR_INVALID_ACCEL_HANDLE       = 1403
+ERROR_INVALID_HOOK_HANDLE        = 1404
+ERROR_INVALID_DWP_HANDLE         = 1405
+ERROR_TLW_WITH_WSCHILD           = 1406
+ERROR_CANNOT_FIND_WND_CLASS      = 1407
+ERROR_WINDOW_OF_OTHER_THREAD     = 1408
+ERROR_HOTKEY_ALREADY_REGISTERED  = 1409
+ERROR_CLASS_ALREADY_EXISTS       = 1410
+ERROR_CLASS_DOES_NOT_EXIST       = 1411
+ERROR_CLASS_HAS_WINDOWS          = 1412
+ERROR_INVALID_INDEX              = 1413
+ERROR_INVALID_ICON_HANDLE        = 1414
+ERROR_PRIVATE_DIALOG_INDEX       = 1415
+ERROR_LISTBOX_ID_NOT_FOUND       = 1416
+ERROR_NO_WILDCARD_CHARACTERS     = 1417
+ERROR_CLIPBOARD_NOT_OPEN         = 1418
+ERROR_HOTKEY_NOT_REGISTERED      = 1419
+ERROR_WINDOW_NOT_DIALOG          = 1420
+ERROR_CONTROL_ID_NOT_FOUND       = 1421
+ERROR_INVALID_COMBOBOX_MESSAGE   = 1422
+ERROR_WINDOW_NOT_COMBOBOX        = 1423
+ERROR_INVALID_EDIT_HEIGHT        = 1424
+ERROR_DC_NOT_FOUND               = 1425
+ERROR_INVALID_HOOK_FILTER        = 1426
+ERROR_INVALID_FILTER_PROC        = 1427
+ERROR_HOOK_NEEDS_HMOD            = 1428
+ERROR_GLOBAL_ONLY_HOOK           = 1429
+ERROR_JOURNAL_HOOK_SET           = 1430
+ERROR_HOOK_NOT_INSTALLED         = 1431
+ERROR_INVALID_LB_MESSAGE         = 1432
+ERROR_SETCOUNT_ON_BAD_LB         = 1433
+ERROR_LB_WITHOUT_TABSTOPS        = 1434
+ERROR_DESTROY_OBJECT_OF_OTHER_THREAD = 1435
+ERROR_CHILD_WINDOW_MENU          = 1436
+ERROR_NO_SYSTEM_MENU             = 1437
+ERROR_INVALID_MSGBOX_STYLE       = 1438
+ERROR_INVALID_SPI_VALUE          = 1439
+ERROR_SCREEN_ALREADY_LOCKED      = 1440
+ERROR_HWNDS_HAVE_DIFF_PARENT     = 1441
+ERROR_NOT_CHILD_WINDOW           = 1442
+ERROR_INVALID_GW_COMMAND         = 1443
+ERROR_INVALID_THREAD_ID          = 1444
+ERROR_NON_MDICHILD_WINDOW        = 1445
+ERROR_POPUP_ALREADY_ACTIVE       = 1446
+ERROR_NO_SCROLLBARS              = 1447
+ERROR_INVALID_SCROLLBAR_RANGE    = 1448
+ERROR_INVALID_SHOWWIN_COMMAND    = 1449
+ERROR_NO_SYSTEM_RESOURCES        = 1450
+ERROR_NONPAGED_SYSTEM_RESOURCES  = 1451
+ERROR_PAGED_SYSTEM_RESOURCES     = 1452
+ERROR_WORKING_SET_QUOTA          = 1453
+ERROR_PAGEFILE_QUOTA             = 1454
+ERROR_COMMITMENT_LIMIT           = 1455
+ERROR_MENU_ITEM_NOT_FOUND        = 1456
+ERROR_EVENTLOG_FILE_CORRUPT      = 1500
+ERROR_EVENTLOG_CANT_START        = 1501
+ERROR_LOG_FILE_FULL              = 1502
+ERROR_EVENTLOG_FILE_CHANGED      = 1503
+ERROR_INVALID_USER_BUFFER        = 1784
+ERROR_UNRECOGNIZED_MEDIA         = 1785
+ERROR_NO_TRUST_LSA_SECRET        = 1786
+ERROR_NO_TRUST_SAM_ACCOUNT       = 1787
+ERROR_TRUSTED_DOMAIN_FAILURE     = 1788
+ERROR_TRUSTED_RELATIONSHIP_FAILURE = 1789
+ERROR_TRUST_FAILURE              = 1790
+ERROR_NETLOGON_NOT_STARTED       = 1792
+ERROR_ACCOUNT_EXPIRED            = 1793
+ERROR_REDIRECTOR_HAS_OPEN_HANDLES  = 1794
+ERROR_PRINTER_DRIVER_ALREADY_INSTALLED = 1795
+ERROR_UNKNOWN_PORT               = 1796
+ERROR_UNKNOWN_PRINTER_DRIVER     = 1797
+ERROR_UNKNOWN_PRINTPROCESSOR     = 1798
+ERROR_INVALID_SEPARATOR_FILE     = 1799
+ERROR_INVALID_PRIORITY           = 1800
+ERROR_INVALID_PRINTER_NAME       = 1801
+ERROR_PRINTER_ALREADY_EXISTS     = 1802
+ERROR_INVALID_PRINTER_COMMAND    = 1803
+ERROR_INVALID_DATATYPE           = 1804
+ERROR_INVALID_ENVIRONMENT        = 1805
+ERROR_NOLOGON_INTERDOMAIN_TRUST_ACCOUNT = 1807
+ERROR_NOLOGON_WORKSTATION_TRUST_ACCOUNT = 1808
+ERROR_NOLOGON_SERVER_TRUST_ACCOUNT = 1809
+ERROR_DOMAIN_TRUST_INCONSISTENT  = 1810
+ERROR_SERVER_HAS_OPEN_HANDLES    = 1811
+ERROR_RESOURCE_DATA_NOT_FOUND    = 1812
+ERROR_RESOURCE_TYPE_NOT_FOUND    = 1813
+ERROR_RESOURCE_NAME_NOT_FOUND    = 1814
+ERROR_RESOURCE_LANG_NOT_FOUND    = 1815
+ERROR_NOT_ENOUGH_QUOTA           = 1816
+ERROR_INVALID_TIME               = 1901
+ERROR_INVALID_FORM_NAME          = 1902
+ERROR_INVALID_FORM_SIZE          = 1903
+ERROR_ALREADY_WAITING            = 1904
+ERROR_PRINTER_DELETED            = 1905
+ERROR_INVALID_PRINTER_STATE      = 1906
+ERROR_PASSWORD_MUST_CHANGE       = 1907
+ERROR_DOMAIN_CONTROLLER_NOT_FOUND = 1908
+ERROR_ACCOUNT_LOCKED_OUT         = 1909
+ERROR_INVALID_PIXEL_FORMAT       = 2000
+ERROR_BAD_DRIVER                 = 2001
+ERROR_INVALID_WINDOW_STYLE       = 2002
+ERROR_METAFILE_NOT_SUPPORTED     = 2003
+ERROR_TRANSFORM_NOT_SUPPORTED    = 2004
+ERROR_CLIPPING_NOT_SUPPORTED     = 2005
+ERROR_UNKNOWN_PRINT_MONITOR      = 3000
+ERROR_PRINTER_DRIVER_IN_USE      = 3001
+ERROR_SPOOL_FILE_NOT_FOUND       = 3002
+ERROR_SPL_NO_STARTDOC            = 3003
+ERROR_SPL_NO_ADDJOB              = 3004
+ERROR_PRINT_PROCESSOR_ALREADY_INSTALLED = 3005
+ERROR_PRINT_MONITOR_ALREADY_INSTALLED   = 3006
+ERROR_WINS_INTERNAL              = 4000
+ERROR_CAN_NOT_DEL_LOCAL_WINS     = 4001
+ERROR_STATIC_INIT                = 4002
+ERROR_INC_BACKUP                 = 4003
+ERROR_FULL_BACKUP                = 4004
+ERROR_REC_NON_EXISTENT           = 4005
+ERROR_RPL_NOT_ALLOWED            = 4006
+ERROR_NO_BROWSER_SERVERS_FOUND   = 6118
+
+
+;------------------------------------------------------------------------------
+
+; =============
+; font families
+; =============
+
+FF_DONTCARE                = 0000h
+FF_ROMAN                   = 0010h
+FF_SWISS                   = 0020h
+FF_MODERN                  = 0030h
+FF_SCRIPT                  = 0040h
+FF_DECORATIVE              = 0050h
+
+;------------------------------------------------------------------------------
+
+; ===============
+; file attributes
+; ===============
+
+FILE_ATTRIBUTE_READONLY    = 00000001h
+FILE_ATTRIBUTE_HIDDEN      = 00000002h
+FILE_ATTRIBUTE_SYSTEM      = 00000004h
+FILE_ATTRIBUTE_DIRECTORY   = 00000010h
+FILE_ATTRIBUTE_ARCHIVE     = 00000020h
+FILE_ATTRIBUTE_NORMAL      = 00000080h
+FILE_ATTRIBUTE_TEMPORARY   = 00000100h
+FILE_ATTRIBUTE_COMPRESSED  = 00000800h
+
+;------------------------------------------------------------------------------
+
+; ===================
+; file creation flags
+; ===================
+
+FILE_FLAG_WRITE_THROUGH    = 80000000h
+FILE_FLAG_OVERLAPPED       = 40000000h
+FILE_FLAG_NO_BUFFERING     = 20000000h
+FILE_FLAG_RANDOM_ACCESS    = 10000000h
+FILE_FLAG_SEQUENTIAL_SCAN  = 08000000h
+FILE_FLAG_DELETE_ON_CLOSE  = 04000000h
+FILE_FLAG_BACKUP_SEMANTICS = 02000000h
+FILE_FLAG_POSIX_SEMANTICS  = 01000000h
+
+;------------------------------------------------------------------------------
+
+; ==================
+; file notifications
+; ==================
+
+FILE_NOTIFY_CHANGE_FILE_NAME  = 0001h
+FILE_NOTIFY_CHANGE_DIR_NAME   = 0002h
+FILE_NOTIFY_CHANGE_ATTRIBUTES = 0004h
+FILE_NOTIFY_CHANGE_SIZE       = 0008h
+FILE_NOTIFY_CHANGE_LAST_WRITE = 0010h
+FILE_NOTIFY_CHANGE_SECURITY   = 0100h
+
+;------------------------------------------------------------------------------
+
+; =================
+; file access types
+; =================
+
+GENERIC_ALL                = 10000000h
+GENERIC_EXECUTE            = 20000000h
+GENERIC_WRITE              = 40000000h
+GENERIC_READ               = 80000000h
+
+GENERIC_READWRITE          = GENERIC_READ+GENERIC_WRITE
+
+;------------------------------------------------------------------------------
+
+; ================
+; file share modes
+; ================
+
+FILE_SHARE_NONE            = 0000h
+FILE_SHARE_READ            = 0001h
+FILE_SHARE_WRITE           = 0002h
+
+FILE_SHARE_READWRITE       = FILE_SHARE_READ+FILE_SHARE_WRITE
+
+
+; ======================
+; File Optional Actions
+; ======================
+
+DUPLICATE_CLOSE_SOURCE      = 0001h
+DUPLICATE_SAME_ACCESS       = 0002h
+
+;------------------------------------------------------------------------------
+
+; ========================
+; SetFilePointer() methods
+; ========================
+
+FILE_BEGIN                 = 0
+FILE_CURRENT               = 1
+FILE_END                   = 2
+
+;------------------------------------------------------------------------------
+
+; =================
+; file system flags
+; =================
+
+FILE_CASE_SENSITIVE_SEARCH = 00000001h
+FILE_CASE_PRESERVED_NAMES  = 00000002h
+FILE_UNICODE_ON_DISK       = 00000004h
+FILE_PERSISTENT_ACLS       = 00000008h
+FILE_FILE_COMPRESSION      = 00000010h
+FILE_VOLUME_IS_COMPRESSED  = 00008000h
+;
+FS_CASE_SENSITIVE          = FILE_CASE_SENSITIVE_SEARCH
+FS_CASE_IS_PRESERVED       = FILE_CASE_PRESERVED_NAMES
+FS_UNICODE_STORED_ON_DISK  = FILE_UNICODE_ON_DISK
+FS_PERSISTENT_ACLS         = FILE_PERSISTENT_ACLS
+FS_FILE_COMPRESSION        = FILE_FILE_COMPRESSION
+FS_VOL_IS_COMPRESSED       = FILE_VOLUME_IS_COMPRESSED
+
+;------------------------------------------------------------------------------
+
+; ============
+; font weights
+; ============
+
+FW_DONTCARE                = 000
+FW_THIN                    = 100
+FW_EXTRALIGHT              = 200
+FW_LIGHT                   = 300
+FW_NORMAL                  = 400
+FW_MEDIUM                  = 500
+FW_SEMIBOLD                = 600
+FW_BOLD                    = 700
+FW_EXTRABOLD               = 800
+FW_HEAVY                   = 900
+;
+FW_ULTRALIGHT              = FW_EXTRALIGHT
+FW_REGULAR                 = FW_NORMAL
+FW_DEMIBOLD                = FW_SEMIBOLD
+FW_ULTRABOLD               = FW_EXTRABOLD
+FW_BLACK                   = FW_HEAVY
+
+;------------------------------------------------------------------------------
+
+; ======================
+; GetClassLong() offsets
+; ======================
+
+GCL_MENUNAME               = -08
+GCL_HBRBACKGROUND          = -10
+GCL_HCURSOR                = -12
+GCL_HICON                  = -14
+GCL_HMODULE                = -16
+GCL_CBWNDEXTRA             = -18
+GCL_CBCLSEXTRA             = -20
+GCL_WNDPROC                = -24
+GCL_STYLE                  = -26
+GCW_ATOM                   = -32
+GCL_HICONSM                = -34
+;------------------------------------------------------------------------------
+
+; ===================
+; global memory flags
+; ===================
+
+GMEM_FIXED                 = 0000h
+GMEM_MOVEABLE              = 0002h
+GMEM_NOCOMPACT             = 0010h
+GMEM_NODISCARD             = 0020h
+GMEM_ZEROINIT              = 0040h
+GMEM_MODIFY                = 0080h
+GMEM_DISCARDABLE           = 0100h
+GMEM_NOT_BANKED            = 1000h
+GMEM_SHARE                 = 2000h
+GMEM_DDESHARE              = 2000h
+GMEM_NOTIFY                = 4000h
+GMEM_INVALID_HANDLE        = 8000h
+;
+GMEM_VALID_FLAGS           = 7F72h
+GMEM_LOWER                 = GMEM_NOT_BANKED
+
+;------------------------------------------------------------------------------
+;
+; ================
+; GetWindow() id's
+; ================
+
+GW_HWNDFIRST               = 0
+GW_HWNDLAST                = 1
+GW_HWNDNEXT                = 2
+GW_HWNDPREV                = 3
+GW_OWNER                   = 4
+GW_CHILD                   = 5
+;
+GW_MAX                     = 5
+
+;------------------------------------------------------------------------------
+
+; =======================
+; GetWindowLong() offsets
+; =======================
+
+GWL_WNDPROC                = -04
+GWL_HINSTANCE              = -06
+GWL_HWNDPARENT             = -08
+GWL_STYLE                  = -16
+GWL_EXSTYLE                = -20
+GWL_USERDATA               = -21
+GWL_ID                     = -12
+
+;------------------------------------------------------------------------------
+
+; ==================
+; WinHelp() commands
+; ==================
+
+HELP_CONTEXT               = 0001h
+HELP_QUIT                  = 0002h
+HELP_INDEX                 = 0003h
+HELP_CONTENTS              = 0003h
+HELP_HELPONHELP            = 0004h
+HELP_SETINDEX              = 0005h
+HELP_SETCONTENTS           = 0005h
+HELP_CONTEXTPOPUP          = 0008h
+HELP_FORCEFILE             = 0009h
+HELP_CONTEXTMENU           = 000Ah
+HELP_FINDER                = 000Bh
+HELP_WM_HELP               = 000Ch
+HELP_SETPOPUP_POS          = 000Dh
+HELP_TCARD_DATA            = 0010h
+HELP_TCARD_OTHER_CALLER    = 0011h
+HELP_KEY                   = 0101h
+HELP_COMMAND               = 0102h
+HELP_PARTIALKEY            = 0105h
+HELP_MULTIKEY              = 0201h
+HELP_SETWINPOS             = 0203h
+HELP_TCARD                 = 8000h
+
+
+;------------------------------------------------------------------------------
+
+; =======================
+; hit test position codes
+; =======================
+
+HTERROR                    = -2
+HTTRANSPARENT              = -1
+HTNOWHERE                  =  0
+HTCLIENT                   =  1
+HTCAPTION                  =  2
+HTSYSMENU                  =  3
+HTGROWBOX                  =  4
+HTSIZE                     =  HTGROWBOX
+HTMENU                     =  5
+HTHSCROLL                  =  6
+HTVSCROLL                  =  7
+HTMINBUTTON                =  8
+HTREDUCE                   =  HTMINBUTTON
+HTMAXBUTTON                =  9
+HTZOOM                     =  HTMAXBUTTON
+
+
+HTLEFT                     = 10
+HTSIZEFIRST                = HTLEFT
+HTRIGHT                    = 11
+HTTOP                      = 12
+HTTOPLEFT                  = 13
+HTTOPRIGHT                 = 14
+HTBOTTOM                   = 15
+HTBOTTOMLEFT               = 16
+HTBOTTOMRIGHT              = 17
+HTSIZELAST                 = HTBOTTOMRIGHT
+
+HTBORDER                   = 18
+HTOBJECT                   = 19
+HTCLOSE                    = 20
+HTHELP                     = 21
+
+
+;------------------------------------------------------------------------------
+
+; ===================
+; toolbar bitmap id's
+; ===================
+
+IDB_STD_SMALL_COLOR        =  0
+IDB_STD_LARGE_COLOR        =  1
+IDB_VIEW_SMALL_COLOR       =  4
+IDB_VIEW_LARGE_COLOR       =  5
+
+HINST_COMMCTRL             = -1
+
+;------------------------------------------------------------------------------
+
+; ====================
+; standard cursor id's
+; ====================
+
+IDC_ARROW                  = 32512
+IDC_IBEAM                  = 32513
+IDC_WAIT                   = 32514
+IDC_CROSS                  = 32515
+IDC_UPARROW                = 32516
+IDC_SIZE                   = 32640      ;obsolete, use IDC_SIZEALL
+IDC_ICON                   = 32641      ;obsolete, use IDC_ARROW
+IDC_SIZENWSE               = 32642
+IDC_SIZENESW               = 32643
+IDC_SIZEWE                 = 32644
+IDC_SIZENS                 = 32645
+IDC_SIZEALL                = 32646
+IDC_NO                     = 32648
+IDC_APPSTARTING            = 32650
+IDC_HELP                   = 32651
+
+;------------------------------------------------------------------------------
+
+; ==================
+; standard icon id's
+; ==================
+
+IDI_APPLICATION            = 32512
+IDI_HAND                   = 32513
+IDI_QUESTION               = 32514
+IDI_EXCLAMATION            = 32515
+IDI_ASTERISK               = 32516
+IDI_WINLOGO                = 32517
+
+;------------------------------------------------------------------------------
+
+; =============================
+; keyboard message lParam flags
+; =============================
+
+KF_EXTENDED                = 0100h
+KF_DLGMODE                 = 0800h
+KF_MENUMODE                = 1000h
+KF_ALTDOWN                 = 2000h
+KF_REPEAT                  = 4000h
+KF_UP                      = 8000h
+
+;------------------------------------------------------------------------------
+
+; ================
+; listbox messages
+; ================
+
+LB_ADDSTRING               = 0180h
+LB_INSERTSTRING            = 0181h
+LB_DELETESTRING            = 0182h
+LB_SELITEMRANGEEX          = 0183h
+LB_RESETCONTENT            = 0184h
+LB_SETSEL                  = 0185h
+LB_SETCURSEL               = 0186h
+LB_GETSEL                  = 0187h
+LB_GETCURSEL               = 0188h
+LB_GETTEXT                 = 0189h
+LB_GETTEXTLEN              = 018Ah
+LB_GETCOUNT                = 018Bh
+LB_SELECTSTRING            = 018Ch
+LB_DIR                     = 018Dh
+LB_GETTOPINDEX             = 018Eh
+LB_FINDSTRING              = 018Fh
+LB_GETSELCOUNT             = 0190h
+LB_GETSELITEMS             = 0191h
+LB_SETTABSTOPS             = 0192h
+LB_GETHORIZONTALEXTENT     = 0193h
+LB_SETHORIZONTALEXTENT     = 0194h
+LB_SETCOLUMNWIDTH          = 0195h
+LB_ADDFILE                 = 0196h
+LB_SETTOPINDEX             = 0197h
+LB_GETITEMRECT             = 0198h
+LB_GETITEMDATA             = 0199h
+LB_SETITEMDATA             = 019Ah
+LB_SELITEMRANGE            = 019Bh
+LB_SETANCHORINDEX          = 019Ch
+LB_GETANCHORINDEX          = 019Dh
+LB_SETCARETINDEX           = 019Eh
+LB_GETCARETINDEX           = 019Fh
+LB_SETITEMHEIGHT           = 01A0h
+LB_GETITEMHEIGHT           = 01A1h
+LB_FINDSTRINGEXACT         = 01A2h
+LB_SETLOCALE               = 01A5h
+LB_GETLOCALE               = 01A6h
+LB_SETCOUNT                = 01A7h
+LB_INITSTORAGE             = 01A8h
+LB_ITEMFROMPOINT           = 01A9h
+LB_MSGMAX                  = 01B0h
+
+;------------------------------------------------------------------------------
+
+; =====================
+; listbox return values
+; =====================
+
+LB_OKAY                    =  0
+LB_ERR                     = -1
+LB_ERRSPACE                = -2
+
+;------------------------------------------------------------------------------
+
+; ==========================
+; listbox notification codes
+; ==========================
+
+LBN_ERRSPACE               = -2
+LBN_SELCHANGE              =  1
+LBN_DBLCLK                 =  2
+LBN_SELCANCEL              =  3
+LBN_SETFOCUS               =  4
+LBN_KILLFOCUS              =  5
+
+;------------------------------------------------------------------------------
+
+; ==================
+; local memory flags
+; ==================
+
+LMEM_FIXED                 = 0000h
+LMEM_MOVEABLE              = 0002h
+LMEM_NOCOMPACT             = 0010h
+LMEM_NODISCARD             = 0020h
+LMEM_ZEROINIT              = 0040h
+LMEM_MODIFY                = 0080h
+LMEM_LOCKCOUNT             = 00FFh
+LMEM_DISCARDABLE           = 0F00h
+LMEM_DISCARDED             = 4000h
+LMEM_INVALID_HANDLE        = 8000h
+
+LMEM_VALID_FLAGS           = 0F72h
+
+NONZEROLHND                = LMEM_MOVEABLE
+NONZEROLPTR                = LMEM_FIXED
+
+LHND                       = LMEM_ZEROINIT+LMEM_MOVEABLE
+LPTR                       = LMEM_ZEROINIT+LMEM_FIXED
+
+;------------------------------------------------------------------------------
+
+; ==================
+; list view messages
+; ==================
+
+LVM_FIRST                  = 1000h
+
+LVM_GETBKCOLOR             = LVM_FIRST+000
+LVM_SETBKCOLOR             = LVM_FIRST+001
+LVM_GETIMAGELIST           = LVM_FIRST+002
+LVM_SETIMAGELIST           = LVM_FIRST+003
+LVM_GETITEMCOUNT           = LVM_FIRST+004
+LVM_GETITEMA               = LVM_FIRST+005
+LVM_SETITEMA               = LVM_FIRST+006
+LVM_INSERTITEMA            = LVM_FIRST+007
+LVM_DELETEITEM             = LVM_FIRST+008
+LVM_DELETEALLITEMS         = LVM_FIRST+009
+LVM_GETCALLBACKMASK        = LVM_FIRST+010
+LVM_SETCALLBACKMASK        = LVM_FIRST+011
+LVM_GETNEXTITEM            = LVM_FIRST+012
+LVM_FINDITEMA              = LVM_FIRST+013
+LVM_GETITEMRECT            = LVM_FIRST+014
+LVM_SETITEMPOSITION        = LVM_FIRST+015
+LVM_GETITEMPOSITION        = LVM_FIRST+016
+LVM_GETSTRINGWIDTHA        = LVM_FIRST+017
+LVM_HITTEST                = LVM_FIRST+018
+LVM_ENSUREVISIBLE          = LVM_FIRST+019
+LVM_SCROLL                 = LVM_FIRST+020
+LVM_REDRAWITEMS            = LVM_FIRST+021
+LVM_ARRANGE                = LVM_FIRST+022
+LVM_EDITLABELA             = LVM_FIRST+023
+LVM_GETEDITCONTROL         = LVM_FIRST+024
+LVM_GETCOLUMNA             = LVM_FIRST+025
+LVM_SETCOLUMNA             = LVM_FIRST+026
+LVM_INSERTCOLUMNA          = LVM_FIRST+027
+LVM_DELETECOLUMN           = LVM_FIRST+028
+LVM_GETCOLUMNWIDTH         = LVM_FIRST+029
+LVM_SETCOLUMNWIDTH         = LVM_FIRST+030
+LVM_CREATEDRAGIMAGE        = LVM_FIRST+033
+LVM_GETVIEWRECT            = LVM_FIRST+034
+LVM_GETTEXTCOLOR           = LVM_FIRST+035
+LVM_SETTEXTCOLOR           = LVM_FIRST+036
+LVM_GETTEXTBKCOLOR         = LVM_FIRST+037
+LVM_SETTEXTBKCOLOR         = LVM_FIRST+038
+LVM_GETTOPINDEX            = LVM_FIRST+039
+LVM_GETCOUNTPERPAGE        = LVM_FIRST+040
+LVM_GETORIGIN              = LVM_FIRST+041
+LVM_UPDATE                 = LVM_FIRST+042
+LVM_SETITEMSTATE           = LVM_FIRST+043
+LVM_GETITEMSTATE           = LVM_FIRST+044
+LVM_GETITEMTEXTA           = LVM_FIRST+045
+LVM_SETITEMTEXTA           = LVM_FIRST+046
+LVM_SETITEMCOUNT           = LVM_FIRST+047
+LVM_SORTITEMS              = LVM_FIRST+048
+LVM_SETITEMPOSITION32      = LVM_FIRST+049
+LVM_GETSELECTEDCOUNT       = LVM_FIRST+050
+LVM_GETITEMSPACING         = LVM_FIRST+051
+LVM_GETISEARCHSTRINGA      = LVM_FIRST+052
+
+LVM_GETITEMW               = LVM_FIRST+075
+LVM_SETITEMW               = LVM_FIRST+076
+LVM_INSERTITEMW            = LVM_FIRST+077
+LVM_FINDITEMW              = LVM_FIRST+083
+LVM_GETSTRINGWIDTHW        = LVM_FIRST+087
+LVM_GETCOLUMNW             = LVM_FIRST+095
+LVM_SETCOLUMNW             = LVM_FIRST+096
+LVM_INSERTCOLUMNW          = LVM_FIRST+097
+LVM_GETITEMTEXTW           = LVM_FIRST+115
+LVM_SETITEMTEXTW           = LVM_FIRST+116
+LVM_GETISEARCHSTRINGW      = LVM_FIRST+117
+LVM_EDITLABELW             = LVM_FIRST+118
+;
+                             if UniCode
+LVM_GETITEM                  = LVM_GETITEMW
+LVM_SETITEM                  = LVM_SETITEMW
+LVM_INSERTITEM               = LVM_INSERTITEMW
+LVM_FINDITEM                 = LVM_FINDITEMW
+LVM_GETSTRINGWIDTH           = LVM_GETSTRINGWIDTHW
+LVM_GETCOLUMN                = LVM_GETCOLUMNW
+LVM_SETCOLUMN                = LVM_SETCOLUMNW
+LVM_INSERTCOLUMN             = LVM_INSERTCOLUMNW
+LVM_GETITEMTEXT              = LVM_GETITEMTEXTW
+LVM_SETITEMTEXT              = LVM_SETITEMTEXTW
+LVM_GETISEARCHSTRING         = LVM_GETISEARCHSTRINGW
+LVM_EDITLABEL                = LVM_EDITLABELW
+                             else
+LVM_GETITEM                  = LVM_GETITEMA
+LVM_SETITEM                  = LVM_SETITEMA
+LVM_INSERTITEM               = LVM_INSERTITEMA
+LVM_FINDITEM                 = LVM_FINDITEMA
+LVM_GETSTRINGWIDTH           = LVM_GETSTRINGWIDTHA
+LVM_GETCOLUMN                = LVM_GETCOLUMNA
+LVM_SETCOLUMN                = LVM_SETCOLUMNA
+LVM_INSERTCOLUMN             = LVM_INSERTCOLUMNA
+LVM_GETITEMTEXT              = LVM_GETITEMTEXTA
+LVM_SETITEMTEXT              = LVM_SETITEMTEXTA
+LVM_GETISEARCHSTRING         = LVM_GETISEARCHSTRINGA
+LVM_EDITLABEL                = LVM_EDITLABELA
+                             endif
+
+;------------------------------------------------------------------------------
+
+; =======================
+; list view notifications
+; =======================
+
+LVN_FIRST                  = -100
+LVN_LAST                   = LVN_FIRST-99
+
+LVN_ITEMCHANGING           = LVN_FIRST-00
+LVN_ITEMCHANGED            = LVN_FIRST-01
+LVN_INSERTITEM             = LVN_FIRST-02
+LVN_DELETEITEM             = LVN_FIRST-03
+LVN_DELETEALLITEMS         = LVN_FIRST-04
+LVN_BEGINLABELEDITA        = LVN_FIRST-05
+LVN_ENDLABELEDITA          = LVN_FIRST-06
+LVN_COLUMNCLICK            = LVN_FIRST-08
+LVN_BEGINDRAG              = LVN_FIRST-09
+LVN_BEGINRDRAG             = LVN_FIRST-11
+LVN_GETDISPINFOA           = LVN_FIRST-50
+LVN_SETDISPINFOA           = LVN_FIRST-51
+
+LVN_BEGINLABELEDITW        = LVN_FIRST-75
+LVN_ENDLABELEDITW          = LVN_FIRST-76
+LVN_GETDISPINFOW           = LVN_FIRST-77
+LVN_SETDISPINFOW           = LVN_FIRST-78
+
+                             if  UniCode
+LVN_BEGINLABELEDIT           = LVN_BEGINLABELEDITW
+LVN_ENDLABELEDIT             = LVN_ENDLABELEDITW
+LVN_GETDISPINFO              = LVN_GETDISPINFOW
+LVN_SETDISPINFO              = LVN_SETDISPINFOW
+                             else
+LVN_BEGINLABELEDIT           = LVN_BEGINLABELEDITA
+LVN_ENDLABELEDIT             = LVN_ENDLABELEDITA
+LVN_GETDISPINFO              = LVN_GETDISPINFOA
+LVN_SETDISPINFO              = LVN_SETDISPINFOA
+                             endif
+
+;------------------------------------------------------------------------------
+
+; ==================
+; MessageBox() flags
+; ==================
+
+MB_OK                      = 00000000h
+MB_OKCANCEL                = 00000001h
+MB_ABORTRETRYIGNORE        = 00000002h
+MB_YESNOCANCEL             = 00000003h
+MB_YESNO                   = 00000004h
+MB_RETRYCANCEL             = 00000005h
+
+MB_ICONHAND                = 00000010h
+MB_ICONQUESTION            = 00000020h
+MB_ICONEXCLAMATION         = 00000030h
+MB_ICONASTERISK            = 00000040h
+
+MB_ICONWARNING             = MB_ICONEXCLAMATION
+MB_ICONERROR               = MB_ICONHAND
+MB_ICONINFORMATION         = MB_ICONASTERISK
+MB_ICONSTOP                = MB_ICONHAND
+
+MB_DEFBUTTON1              = 00000000h
+MB_DEFBUTTON2              = 00000100h
+MB_DEFBUTTON3              = 00000200h
+MB_DEFBUTTON4              = 00000300h
+
+MB_APPLMODAL               = 00000000h
+MB_SYSTEMMODAL             = 00001000h
+MB_TASKMODAL               = 00002000h
+MB_HELP                    = 00004000h
+MB_TOPMOST                 = 00040000h
+MB_RIGHT                   = 00080000h
+MB_RTLREADING              = 00100000h
+
+
+MB_NOFOCUS                 = 00008000h
+MB_SETFOREGROUND           = 00010000h
+MB_DEFAULT_DESKTOP_ONLY    = 00020000h
+MB_SERVICE_NOTIFICATION    = 00200000h  ;NT 4.0 and later (see MessageBox doc)
+
+MB_TYPEMASK                = 0000000Fh
+MB_USERICON                = 00000080h
+MB_ICONMASK                = 000000F0h
+MB_DEFMASK                 = 00000F00h
+MB_MODEMASK                = 00003000h
+MB_MISCMASK                = 0000C000h
+
+;------------------------------------------------------------------------------
+
+; ==========
+; menu flags
+; ==========
+
+MF_INSERT                  = 00000000h
+MF_CHANGE                  = 00000080h
+MF_APPEND                  = 00000100h
+MF_DELETE                  = 00000200h
+MF_REMOVE                  = 00001000h
+
+MF_BYCOMMAND               = 00000000h
+MF_BYPOSITION              = 00000400h
+
+MF_SEPARATOR               = 00000800h
+
+MF_ENABLED                 = 00000000h
+MF_GRAYED                  = 00000001h
+MF_DISABLED                = 00000002h
+
+MF_UNCHECKED               = 00000000h
+MF_CHECKED                 = 00000008h
+MF_USECHECKBITMAPS         = 00000200h
+
+MF_STRING                  = 00000000h
+MF_BITMAP                  = 00000004h
+MF_OWNERDRAW               = 00000100h
+
+MF_POPUP                   = 00000010h
+MF_MENUBARBREAK            = 00000020h
+MF_MENUBREAK               = 00000040h
+
+MF_UNHILITE                = 00000000h
+MF_HILITE                  = 00000080h
+
+MF_DEFAULT                 = 00001000h
+MF_SYSMENU                 = 00002000h
+MF_HELP                    = 00004000h
+MF_RIGHTJUSTIFY            = 00004000h
+
+MF_MOUSESELECT             = 00008000h
+MF_END                     = 00000080h  ;obsolete
+
+MFT_STRING                 = MF_STRING
+MFT_BITMAP                 = MF_BITMAP
+MFT_MENUBARBREAK           = MF_MENUBARBREAK
+MFT_MENUBREAK              = MF_MENUBREAK
+MFT_OWNERDRAW              = MF_OWNERDRAW
+MFT_RADIOCHECK             = 00000200h
+MFT_SEPARATOR              = MF_SEPARATOR
+MFT_RIGHTORDER             = 00002000h
+MFT_RIGHTJUSTIFY           = MF_RIGHTJUSTIFY
+
+MFS_GRAYED                 = 00000003h
+MFS_DISABLED               = MFS_GRAYED
+MFS_CHECKED                = MF_CHECKED
+MFS_HILITE                 = MF_HILITE
+MFS_ENABLED                = MF_ENABLED
+MFS_UNCHECKED              = MF_UNCHECKED
+MFS_UNHILITE               = MF_UNHILITE
+MFS_DEFAULT                = MF_DEFAULT
+
+;------------------------------------------------------------------------------
+
+; ========================
+; mouse message key states
+; ========================
+
+MK_LBUTTON                 = 0001h
+MK_RBUTTON                 = 0002h
+MK_SHIFT                   = 0004h
+MK_CONTROL                 = 0008h
+MK_MBUTTON                 = 0010h
+
+;------------------------------------------------------------------------------
+
+; ==================
+; owner draw actions
+; ==================
+
+ODA_DRAWENTIRE             = 0001h
+ODA_SELECT                 = 0002h
+ODA_FOCUS                  = 0004h
+
+;------------------------------------------------------------------------------
+
+; =================
+; owner draw states
+; =================
+
+ODS_SELECTED               = 0001h
+ODS_GRAYED                 = 0002h
+ODS_DISABLED               = 0004h
+ODS_CHECKED                = 0008h
+ODS_FOCUS                  = 0010h
+ODS_DEFAULT                = 0020h
+ODS_COMBOBOXEDIT           = 1000h
+
+;------------------------------------------------------------------------------
+
+; ================
+; owner draw types
+; ================
+
+ODT_MENU                   = 1
+ODT_LISTBOX                = 2
+ODT_COMBOBOX               = 3
+ODT_BUTTON                 = 4
+ODT_STATIC                 = 5
+
+;------------------------------------------------------------------------------
+
+
+; ===================================
+; Various Open file API access modes.
+; ===================================
+
+
+OF_READ                    = 00000000h
+OF_WRITE                   = 00000001h
+OF_READWRITE               = 00000002h
+OF_SHARE_COMPAT            = 00000000h
+OF_SHARE_EXCLUSIVE         = 00000010h
+OF_SHARE_DENY_WRITE        = 00000020h
+OF_SHARE_DENY_READ         = 00000030h
+OF_SHARE_DENY_NONE         = 00000040h
+OF_PARSE                   = 00000100h
+OF_DELETE                  = 00000200h
+OF_VERIFY                  = 00000400h
+OF_CANCEL                  = 00000800h
+OF_CREATE                  = 00001000h
+OF_PROMPT                  = 00002000h
+OF_EXIST                   = 00004000h
+OF_REOPEN                  = 00008000h
+
+
+;------------------------------------------------------------------------------
+
+; ==================
+; OPENFILENAME flags
+; ==================
+
+OFN_READONLY               = 00000001h
+OFN_OVERWRITEPROMPT        = 00000002h
+OFN_HIDEREADONLY           = 00000004h
+OFN_NOCHANGEDIR            = 00000008h
+OFN_SHOWHELP               = 00000010h
+OFN_ENABLEHOOK             = 00000020h
+OFN_ENABLETEMPLATE         = 00000040h
+OFN_ENABLETEMPLATEHANDLE   = 00000080h
+OFN_NOVALIDATE             = 00000100h
+OFN_ALLOWMULTISELECT       = 00000200h
+OFN_EXTENSIONDIFFERENT     = 00000400h
+OFN_PATHMUSTEXIST          = 00000800h
+OFN_FILEMUSTEXIST          = 00001000h
+OFN_CREATEPROMPT           = 00002000h
+OFN_SHAREAWARE             = 00004000h
+OFN_NOREADONLYRETURN       = 00008000h
+OFN_NOTESTFILECREATE       = 00010000h
+OFN_NONETWORKBUTTON        = 00020000h
+OFN_NOLONGNAMES            = 00040000h
+OFN_EXPLORER               = 00080000h
+OFN_NODEREFERENCELINKS     = 00100000h
+OFN_LONGNAMES              = 00200000h
+
+
+
+;------------------------------------------------------------------------------
+
+; ==============================
+; OPENFILENAME hook return codes
+; ==============================
+
+OFN_SHAREWARN              = 0
+OFN_SHARENOWARN            = 1
+OFN_SHAREFALLTHROUGH       = 2
+
+
+
+; -----------------------------------------------------------------------------
+
+; =====================
+; PRINTDLG definitions.
+; =====================
+
+PD_ALLPAGES                = 00000000h
+PD_SELECTION               = 00000001h
+PD_PAGENUMS                = 00000002h
+PD_NOSELECTION             = 00000004h
+PD_NOPAGENUMS              = 00000008h
+PD_COLLATE                 = 00000010h
+PD_PRINTTOFILE             = 00000020h
+PD_PRINTSETUP              = 00000040h
+PD_NOWARNING               = 00000080h
+PD_RETURNDC                = 00000100h
+PD_RETURNIC                = 00000200h
+PD_RETURNDEFAULT           = 00000400h
+PD_SHOWHELP                = 00000800h
+PD_ENABLEPRINTHOOK         = 00001000h
+PD_ENABLESETUPHOOK         = 00002000h
+PD_ENABLEPRINTTEMPLATE     = 00004000h
+PD_ENABLESETUPTEMPLATE     = 00008000h
+PD_ENABLEPRINTTEMPLATEHANDLE  = 00010000h
+PD_ENABLESETUPTEMPLATEHANDLE  = 00020000h
+PD_USEDEVMODECOPIES           = 00040000h
+PD_USEDEVMODECOPIESANDCOLLATE = 00040000h
+PD_DISABLEPRINTTOFILE      = 00080000h
+PD_HIDEPRINTTOFILE         = 00100000h
+PD_NONETWORKBUTTON         = 00200000h
+
+
+;------------------------------------------------------------------------------
+
+; ================
+; pipe definitions
+; ================
+
+PIPE_ACCESS_INBOUND        = 00000001h
+PIPE_ACCESS_OUTBOUND       = 00000002h
+PIPE_ACCESS_DUPLEX         = 00000003h
+
+PIPE_CLIENT_END            = 00000000h
+PIPE_SERVER_END            = 00000001h
+
+PIPE_WAIT                  = 00000000h
+PIPE_NOWAIT                = 00000001h
+
+PIPE_READMODE_BYTE         = 00000000h
+PIPE_READMODE_MESSAGE      = 00000002h
+
+PIPE_TYPE_BYTE             = 00000000h
+PIPE_TYPE_MESSAGE          = 00000004h
+
+PIPE_UNLIMITED_INSTANCES   = 255
+
+
+;------------------------------------------------------------------------------
+
+; ========================
+; binary raster operations
+; ========================
+
+R2_BLACK                   =  1         ;0
+R2_NOTMERGEPEN             =  2         ;DPon
+R2_MASKNOTPEN              =  3         ;DPna
+R2_NOTCOPYPEN              =  4         ;PN
+R2_MASKPENNOT              =  5         ;PDna
+R2_NOT                     =  6         ;Dn
+R2_XORPEN                  =  7         ;DPx
+R2_NOTMASKPEN              =  8         ;DPan
+R2_MASKPEN                 =  9         ;DPa
+R2_NOTXORPEN               = 10         ;DPxn
+R2_NOP                     = 11         ;D
+R2_MERGENOTPEN             = 12         ;DPno
+R2_COPYPEN                 = 13         ;P
+R2_MERGEPENNOT             = 14         ;PDno
+R2_MERGEPEN                = 15         ;DPo
+R2_WHITE                   = 16         ;1
+R2_LAST                    = 16
+;
+;------------------------------------------------------------------------------
+
+; =================
+; network resources
+; =================
+
+RESOURCE_CONNECTED         = 00000001h
+RESOURCE_GLOBALNET         = 00000002h
+RESOURCE_REMEMBERED        = 00000003h
+RESOURCE_RECENT            = 00000004h
+RESOURCE_CONTEXT           = 00000005h
+
+RESOURCETYPE_ANY           = 00000000h
+RESOURCETYPE_DISK          = 00000001h
+RESOURCETYPE_PRINT         = 00000002h
+RESOURCETYPE_RESERVED      = 00000008h
+RESOURCETYPE_UNKNOWN       = -1
+
+RESOURCEUSAGE_CONNECTABLE      = 00000001h
+RESOURCEUSAGE_CONTAINER        = 00000002h
+RESOURCEUSAGE_NOLOCALDEVICE    = 00000004h
+RESOURCEUSAGE_SIBLING          = 00000008h
+RESOURCEUSAGE_RESERVED         = 80000000h
+
+RESOURCEUSAGE_ALL              = RESOURCEUSAGE_CONNECTABLE+\
+                                 RESOURCEUSAGE_CONTAINER
+
+RESOURCEDISPLAYTYPE_GENERIC    = 00000000h
+RESOURCEDISPLAYTYPE_DOMAIN     = 00000001h
+RESOURCEDISPLAYTYPE_SERVER     = 00000002h
+RESOURCEDISPLAYTYPE_SHARE      = 00000003h
+RESOURCEDISPLAYTYPE_FILE       = 00000004h
+RESOURCEDISPLAYTYPE_GROUP      = 00000005h
+RESOURCEDISPLAYTYPE_NETWORK    = 00000006h
+RESOURCEDISPLAYTYPE_ROOT       = 00000007h
+RESOURCEDISPLAYTYPE_SHAREADMIN = 00000008h
+RESOURCEDISPLAYTYPE_DIRECTORY  = 00000009h
+RESOURCEDISPLAYTYPE_TREE       = 0000000Ah
+
+;------------------------------------------------------------------------------
+
+; ==========
+; rgb colors
+; ==========
+
+RGB_BLACK                  = 00000000h
+RGB_VDKGRAY32              = 00202020h
+RGB_DKGRAY                 = 00404040h
+RGB_SOLIDGRAY              = 00808080h
+RGB_SOLIDLTGRAY            = 00C0C0C0h
+RGB_EBONY                  = 00E0E0E0h
+RGB_BLUE                   = 00FF0000h
+RGB_GREEN                  = 0000FF00h
+RGB_RED                    = 000000FFh
+
+RGB_CYAN                   = RGB_BLUE + RGB_GREEN
+RGB_MAGENTA                = RGB_BLUE               + RGB_RED
+RGB_YELLOW                 =            RGB_GREEN   + RGB_RED
+RGB_WHITE                  = RGB_BLUE + RGB_GREEN   + RGB_RED
+
+RGB_DKBLUE                 = 00800000h
+RGB_DKGREEN                = 00008000h
+RGB_DKRED                  = 00000080h
+
+RGB_DKCYAN                 = RGB_DKBLUE + RGB_DKGREEN
+RGB_DKMAGENTA              = RGB_DKBLUE               + RGB_DKRED
+RGB_DKYELLOW               =              RGB_DKGREEN + RGB_DKRED
+
+;------------------------------------------------------------------------------
+
+; ===================
+; CombineRgn() styles
+; ===================
+
+RGN_AND                    = 1
+RGN_OR                     = 2
+RGN_XOR                    = 3
+RGN_DIFF                   = 4
+RGN_COPY                   = 5
+RGN_MIN                    = RGN_AND
+RGN_MAX                    = RGN_COPY
+
+;------------------------------------------------------------------------------
+
+; ====================
+; scroll bar constants
+; ====================
+
+SB_HORZ                    = 0
+SB_VERT                    = 1
+SB_CTL                     = 2
+SB_BOTH                    = 3
+
+;------------------------------------------------------------------------------
+
+; ===================
+; scroll bar commands
+; ===================
+
+SB_LINEUP                  = 0
+SB_LINELEFT                = 0
+SB_LINEDOWN                = 1
+SB_LINERIGHT               = 1
+SB_PAGEUP                  = 2
+SB_PAGELEFT                = 2
+SB_PAGEDOWN                = 3
+SB_PAGERIGHT               = 3
+SB_THUMBPOSITION           = 4
+SB_THUMBTRACK              = 5
+SB_TOP                     = 6
+SB_LEFT                    = 6
+SB_BOTTOM                  = 7
+SB_RIGHT                   = 7
+SB_ENDSCROLL               = 8
+
+;------------------------------------------------------------------------------
+
+; ===================
+; status bar messages
+; ===================
+
+WM_USER                    = 0400h
+
+SB_SETTEXTA                = WM_USER+01
+SB_GETTEXTA                = WM_USER+02
+SB_GETTEXTLENGTHA          = WM_USER+03
+SB_SETPARTS                = WM_USER+04
+SB_GETPARTS                = WM_USER+06
+SB_GETBORDERS              = WM_USER+07
+SB_SETMINHEIGHT            = WM_USER+08
+SB_SIMPLE                  = WM_USER+09
+SB_GETRECT                 = WM_USER+10
+SB_SETTEXTW                = WM_USER+11
+SB_GETTEXTLENGTHW          = WM_USER+12
+SB_GETTEXTW                = WM_USER+13
+
+                             if  UniCode
+SB_GETTEXT                   = SB_GETTEXTW
+SB_SETTEXT                   = SB_SETTEXTW
+SB_GETTEXTLENGTH             = SB_GETTEXTLENGTHW
+                             else
+SB_GETTEXT                   = SB_GETTEXTA
+SB_SETTEXT                   = SB_SETTEXTA
+SB_GETTEXTLENGTH             = SB_GETTEXTLENGTHA
+                             endif
+
+;------------------------------------------------------------------------------
+
+; ===================
+; scroll bar messages
+; ===================
+
+SBM_SETPOS                 = 00E0h
+SBM_GETPOS                 = 00E1h
+SBM_SETRANGE               = 00E2h
+SBM_GETRANGE               = 00E3h
+SBM_ENABLE_ARROWS          = 00E4h
+SBM_SETRANGEREDRAW         = 00E6h
+SBM_SETSCROLLINFO          = 00E9h
+SBM_GETSCROLLINFO          = 00EAh
+
+;------------------------------------------------------------------------------
+
+; ================
+; status bar types
+; ================
+
+SBT_DEFAULT                = 0000h
+SBT_NOBORDERS              = 0100h
+SBT_POPOUT                 = 0200h
+SBT_RTLREADING             = 0400h
+SBT_OWNERDRAW              = 1000h
+
+;------------------------------------------------------------------------------
+
+; ===================
+; security attributes
+; ===================
+
+SECURITY_ANONYMOUS         = 00000000h
+SECURITY_IDENTIFICATION    = 00010000h
+SECURITY_IMPERSONATION     = 00020000h
+SECURITY_DELEGATION        = 00030000h
+
+SECURITY_CONTEXT_TRACKING  = 00040000h
+SECURITY_EFFECTIVE_ONLY    = 00080000h
+
+SECURITY_SQOS_PRESENT      = 00100000h
+SECURITY_VALID_SQOS_FLAGS  = 001F0000h
+
+;------------------------------------------------------------------------------
+
+; =====================
+; WM_SIZE wParam values
+; =====================
+
+SIZE_RESTORED              = 0
+SIZE_MINIMIZED             = 1
+SIZE_MAXIMIZED             = 2
+SIZE_MAXSHOW               = 3
+SIZE_MAXHIDE               = 4
+
+SIZENORMAL                 = SIZE_RESTORED
+SIZEICONIC                 = SIZE_MINIMIZED
+SIZEFULLSCREEN             = SIZE_MAXIMIZED
+SIZEZOOMSHOW               = SIZE_MAXSHOW
+SIZEZOOMHIDE               = SIZE_MAXHIDE
+
+;------------------------------------------------------------------------------
+
+; ========================
+; GetSystemMetrics() codes
+; ========================
+
+SM_CXSCREEN                =  0
+SM_CYSCREEN                =  1
+SM_CXVSCROLL               =  2
+SM_CYHSCROLL               =  3
+SM_CYCAPTION               =  4
+SM_CXBORDER                =  5
+SM_CYBORDER                =  6
+SM_CXDLGFRAME              =  7
+SM_CYDLGFRAME              =  8
+SM_CYVTHUMB                =  9
+SM_CXHTHUMB                = 10
+SM_CXICON                  = 11
+SM_CYICON                  = 12
+SM_CXCURSOR                = 13
+SM_CYCURSOR                = 14
+SM_CYMENU                  = 15
+SM_CXFULLSCREEN            = 16
+SM_CYFULLSCREEN            = 17
+SM_CYKANJIWINDOW           = 18
+SM_MOUSEPRESENT            = 19
+SM_CYVSCROLL               = 20
+SM_CXHSCROLL               = 21
+SM_DEBUG                   = 22
+SM_SWAPBUTTON              = 23
+SM_RESERVED1               = 24
+SM_RESERVED2               = 25
+SM_RESERVED3               = 26
+SM_RESERVED4               = 27
+SM_CXMIN                   = 28
+SM_CYMIN                   = 29
+SM_CXSIZE                  = 30
+SM_CYSIZE                  = 31
+SM_CXFRAME                 = 32
+SM_CYFRAME                 = 33
+SM_CXMINTRACK              = 34
+SM_CYMINTRACK              = 35
+SM_CXDOUBLECLK             = 36
+SM_CYDOUBLECLK             = 37
+SM_CXICONSPACING           = 38
+SM_CYICONSPACING           = 39
+SM_MENUDROPALIGNMENT       = 40
+SM_PENWINDOWS              = 41
+SM_DBCSENABLED             = 42
+SM_CMOUSEBUTTONS           = 43
+SM_SECURE                  = 44
+SM_CXEDGE                  = 45
+SM_CYEDGE                  = 46
+SM_CXMINSPACING            = 47
+SM_CYMINSPACING            = 48
+SM_CXSMICON                = 49
+SM_CYSMICON                = 50
+SM_CYSMCAPTION             = 51
+SM_CXSMSIZE                = 52
+SM_CYSMSIZE                = 53
+SM_CXMENUSIZE              = 54
+SM_CYMENUSIZE              = 55
+SM_ARRANGE                 = 56
+SM_CXMINIMIZED             = 57
+SM_CYMINIMIZED             = 58
+SM_CXMAXTRACK              = 59
+SM_CYMAXTRACK              = 60
+SM_CXMAXIMIZED             = 61
+SM_CYMAXIMIZED             = 62
+SM_NETWORK                 = 63
+SM_CLEANBOOT               = 67
+SM_CXDRAG                  = 68
+SM_CYDRAG                  = 69
+SM_SHOWSOUNDS              = 70
+SM_CXMENUCHECK             = 71
+SM_CYMENUCHECK             = 72
+SM_SLOWMACHINE             = 73
+SM_MIDEASTENABLED          = 74
+
+SM_CXFIXEDFRAME            = SM_CXDLGFRAME
+SM_CYFIXEDFRAME            = SM_CYDLGFRAME
+SM_CXSIZEFRAME             = SM_CXFRAME
+SM_CYSIZEFRAME             = SM_CYFRAME
+
+
+
+;------------------------------------------------------------------------------
+
+; ==============
+; Sound stuff.
+; ==============
+
+
+
+
+SND_SYNC                   =     00000h ; play synchronously (default)
+SND_ASYNC                  =     00001h ; play asynchronously
+SND_NODEFAULT              =     00002h ; silence (!default) if sound not found
+SND_MEMORY                 =     00004h ; pszSound points to a memory file
+SND_LOOP                   =     00008h ; loop the sound until next sndPlaySound
+SND_NOSTOP                 =     00010h ; don't stop any currently playing sound
+SND_NOWAIT                 = 000002000h ; don't wait if the driver is busy
+SND_ALIAS                  = 000010000h ; name is a registry alias
+SND_ALIAS_ID               = 000110000h ; alias is a predefined ID
+SND_FILENAME               = 000020000h ; name is file name
+SND_RESOURCE               = 000040004h ; name is resource name or atom
+SND_PURGE                  =     00040h ; purge non-static events for task
+SND_APPLICATION            =     00080h ;look for application specific association
+
+
+
+;------------------------------------------------------------------------------
+
+; ================
+; startup commands
+; ================
+
+STARTF_USESHOWWINDOW       = 00000001h
+STARTF_USESIZE             = 00000002h
+STARTF_USEPOSITION         = 00000004h
+STARTF_USECOUNTCHARS       = 00000008h
+STARTF_USEFILLATTRIBUTE    = 00000010h
+STARTF_RUNFULLSCREEN       = 00000020h  ;ignored for non-x86
+STARTF_FORCEONFEEDBACK     = 00000040h
+STARTF_FORCEOFFFEEDBACK    = 00000080h
+STARTF_USESTDHANDLES       = 00000100h
+STARTF_USEHOTKEY           = 00000200h
+
+;------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+
+; ========================
+; toolbar standard bitmaps
+; ========================
+
+STD_CUT                    =  0
+STD_COPY                   =  1
+STD_PASTE                  =  2
+STD_UNDO                   =  3
+STD_REDOW                  =  4
+STD_DELETE                 =  5
+STD_FILENEW                =  6
+STD_FILEOPEN               =  7
+STD_FILESAVE               =  8
+STD_PRINTPRE               =  9
+STD_PROPERTIES             = 10
+STD_HELP                   = 11
+STD_FIND                   = 12
+STD_REPLACE                = 13
+STD_PRINT                  = 14
+
+;------------------------------------------------------------------------------
+
+; =====================
+; standard file handles
+; =====================
+
+STD_INPUT_HANDLE           = -10
+STD_OUTPUT_HANDLE          = -11
+STD_ERROR_HANDLE           = -12
+
+;------------------------------------------------------------------------------
+
+; =====================
+; ShowWindow() commands
+; =====================
+
+SW_HIDE                    =  0
+SW_SHOWNORMAL              =  1
+SW_NORMAL                  =  1
+SW_SHOWMINIMIZED           =  2
+SW_SHOWMAXIMIZED           =  3
+SW_MAXIMIZE                =  3
+SW_SHOWNOACTIVATE          =  4
+SW_SHOW                    =  5
+SW_MINIMIZE                =  6
+SW_SHOWMINNOACTIVE         =  7
+SW_SHOWNA                  =  8
+SW_RESTORE                 =  9
+SW_SHOWDEFAULT             = 10
+SW_MAX                     = 10
+
+;------------------------------------------------------------------------------
+
+; ====================
+; SetWindowPos() flags
+; ====================
+
+SWP_NOSIZE                 = 0001h
+SWP_NOMOVE                 = 0002h
+SWP_NOZORDER               = 0004h
+SWP_NOREDRAW               = 0008h
+SWP_NOACTIVATE             = 0010h
+SWP_FRAMECHANGED           = 0020h
+SWP_SHOWWINDOW             = 0040h
+SWP_HIDEWINDOW             = 0080h
+SWP_NOCOPYBITS             = 0100h
+SWP_NOOWNERZORDER          = 0200h
+SWP_NOSENDCHANGING         = 0400h
+SWP_DEFERERASE             = 2000h
+SWP_ASYNCWINDOWPOS         = 4000h
+
+SWP_DRAWFRAME              = SWP_FRAMECHANGED
+SWP_NOREPOSITION           = SWP_NOOWNERZORDER
+
+;------------------------------------------------------------------------------
+
+; ======================
+; text alignment options
+; ======================
+
+TA_NOUPDATECP              = 0000h
+TA_UPDATECP                = 0001h
+
+TA_LEFT                    = 0000h
+TA_RIGHT                   = 0002h
+TA_CENTER                  = 0006h
+
+TA_TOP                     = 0000h
+TA_BOTTOM                  = 0008h
+TA_BASELINE                = 0018h
+TA_RTLREADING              = 0100h
+TA_MASK                    = TA_BASELINE+\
+                             TA_CENTER+\
+                             TA_UPDATECP+\
+                             TA_RTLREADING
+
+;------------------------------------------------------------------------------
+
+; ================
+; toolbar messages
+; ================
+
+TB_ENABLEBUTTON            = WM_USER+01
+TB_CHECKBUTTON             = WM_USER+02
+TB_PRESSBUTTON             = WM_USER+03
+TB_HIDEBUTTON              = WM_USER+04
+TB_INDETERMINATE           = WM_USER+05
+TB_ISBUTTONENABLED         = WM_USER+09
+TB_ISBUTTONCHECKED         = WM_USER+10
+TB_ISBUTTONPRESSED         = WM_USER+11
+TB_ISBUTTONHIDDEN          = WM_USER+12
+TB_ISBUTTONINDETERMINATE   = WM_USER+13
+TB_SETSTATE                = WM_USER+17
+TB_GETSTATE                = WM_USER+18
+TB_ADDBITMAP               = WM_USER+19
+TB_ADDBUTTONS              = WM_USER+20
+TB_INSERTBUTTON            = WM_USER+21
+TB_DELETEBUTTON            = WM_USER+22
+TB_GETBUTTON               = WM_USER+23
+TB_BUTTONCOUNT             = WM_USER+24
+TB_COMMANDTOINDEX          = WM_USER+25
+TB_SAVERESTOREA            = WM_USER+26
+TB_CUSTOMIZE               = WM_USER+27
+TB_ADDSTRINGA              = WM_USER+28
+TB_GETITEMRECT             = WM_USER+29
+TB_BUTTONSTRUCTSIZE        = WM_USER+30
+TB_SETBUTTONSIZE           = WM_USER+31
+TB_SETBITMAPSIZE           = WM_USER+32
+TB_AUTOSIZE                = WM_USER+33
+TB_GETTOOLTIPS             = WM_USER+35
+TB_SETTOOLTIPS             = WM_USER+36
+TB_SETPARENT               = WM_USER+37
+TB_SETROWS                 = WM_USER+39
+TB_GETROWS                 = WM_USER+40
+TB_GETBITMAPFLAGS          = WM_USER+41
+TB_SETCMDID                = WM_USER+42
+TB_CHANGEBITMAP            = WM_USER+43
+TB_GETBITMAP               = WM_USER+44
+TB_GETBUTTONTEXTA          = WM_USER+45
+TB_REPLACEBITMAP           = WM_USER+46
+;
+TB_GETBUTTONTEXTW          = WM_USER+75
+TB_SAVERESTOREW            = WM_USER+76
+TB_ADDSTRINGW              = WM_USER+77
+
+                             if  UniCode
+TB_GETBUTTONTEXT             = TB_GETBUTTONTEXTW
+TB_SAVERESTORE               = TB_SAVERESTOREW
+TB_ADDSTRING                 = TB_ADDSTRINGW
+                             else
+TB_GETBUTTONTEXT             = TB_GETBUTTONTEXTA
+TB_SAVERESTORE               = TB_SAVERESTOREA
+TB_ADDSTRING                 = TB_ADDSTRINGA
+                             endif
+
+;------------------------------------------------------------------------------
+
+; =====================
+; toolbar notifications
+; =====================
+
+TBN_FIRST                  = -700
+TBN_LAST                   = TBN_FIRST-20
+
+TBN_GETBUTTONINFOA         = TBN_FIRST-00
+TBN_BEGINDRAG              = TBN_FIRST-01
+TBN_ENDDRAG                = TBN_FIRST-02
+TBN_BEGINADJUST            = TBN_FIRST-03
+TBN_ENDADJUST              = TBN_FIRST-04
+TBN_RESET                  = TBN_FIRST-05
+TBN_QUERYINSERT            = TBN_FIRST-06
+TBN_QUERYDELETE            = TBN_FIRST-07
+TBN_TOOLBARCHANGE          = TBN_FIRST-08
+TBN_CUSTHELP               = TBN_FIRST-09
+TBN_GETBUTTONINFOW         = TBN_FIRST-20
+
+;------------------------------------------------------------------------------
+
+; ==============
+; toolbar states
+; ==============
+
+TBSTATE_CHECKED            = 0001h
+TBSTATE_PRESSED            = 0002h
+TBSTATE_ENABLED            = 0004h
+TBSTATE_HIDDEN             = 0008h
+TBSTATE_INDETERMINATE      = 0010h
+TBSTATE_WRAP               = 0020h
+
+;------------------------------------------------------------------------------
+
+; ==============
+; toolbar styles
+; ==============
+
+TBSTYLE_BUTTON             = 0000h
+TBSTYLE_SEP                = 0001h
+TBSTYLE_CHECK              = 0002h
+TBSTYLE_GROUP              = 0004h
+TBSTYLE_TOOLTIPS           = 0100h
+TBSTYLE_WRAPABLE           = 0200h
+TBSTYLE_ALTDRAG            = 0400h
+;
+TBSTYLE_CHECKGROUP         = TBSTYLE_GROUP+TBSTYLE_CHECK
+
+;------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+; Sent as WM_NOTIFY messages.
+; (Unicode should be implemented here. See CommCtrl.h).
+
+TTN_FIRST       = -520
+TTN_LAST        = -549
+
+TTN_NEEDTEXTA   = TTN_FIRST-0           ;Retrieves text for a tool
+TTN_SHOW        = TTN_FIRST-1           ;Tooltip about to be displayed.
+TTN_POP         = TTN_FIRST-2           ;Tooltip about to be hidden
+TTN_NEEDTEXTW   = TTN_FIRST-10          ;Retrieves text for a tool
+
+                  if UniCode
+TTN_NEEDTEXT      = TTN_NEEDTEXTW       ;Retrieves text for a tool
+                  else
+TTN_NEEDTEXT      = TTN_NEEDTEXTA       ;Retrieves text for a tool
+                  endif
+
+;------------------------------------------------------------------------------
+
+; ==================
+; tree view messages
+; ==================
+
+TVM_FIRST                  = 1100h
+TV_FIRST                   = TVM_FIRST
+
+TVM_INSERTITEMA            = TVM_FIRST+00
+TVM_DELETEITEM             = TVM_FIRST+01
+TVM_EXPAND                 = TVM_FIRST+02
+TVM_GETITEMRECT            = TVM_FIRST+04
+TVM_GETCOUNT               = TVM_FIRST+05
+TVM_GETINDENT              = TVM_FIRST+06
+TVM_SETINDENT              = TVM_FIRST+07
+TVM_GETIMAGELIST           = TVM_FIRST+08
+TVM_SETIMAGELIST           = TVM_FIRST+09
+TVM_GETNEXTITEM            = TVM_FIRST+10
+TVM_SELECTITEM             = TVM_FIRST+11
+TVM_GETITEMA               = TVM_FIRST+12
+TVM_SETITEMA               = TVM_FIRST+13
+TVM_EDITLABELA             = TVM_FIRST+14
+TVM_GETEDITCONTROL         = TVM_FIRST+15
+TVM_GETVISIBLECOUNT        = TVM_FIRST+16
+TVM_HITTEST                = TVM_FIRST+17
+TVM_CREATEDRAGIMAGE        = TVM_FIRST+18
+TVM_SORTCHILDREN           = TVM_FIRST+19
+TVM_ENSUREVISIBLE          = TVM_FIRST+20
+TVM_SORTCHILDRENCB         = TVM_FIRST+21
+TVM_ENDEDITLABELNOW        = TVM_FIRST+22
+TVM_GETISEARCHSTRINGA      = TVM_FIRST+23
+;
+TVM_INSERTITEMW            = TVM_FIRST+50
+TVM_GETITEMW               = TVM_FIRST+62
+TVM_SETITEMW               = TVM_FIRST+63
+TVM_GETISEARCHSTRINGW      = TVM_FIRST+64
+TVM_EDITLABELW             = TVM_FIRST+65
+
+                             if UniCode
+TVM_INSERTITEM               = TVM_INSERTITEMW
+TVM_GETITEM                  = TVM_GETITEMW
+TVM_SETITEM                  = TVM_SETITEMW
+TVM_GETISEARCHSTRING         = TVM_GETISEARCHSTRINGW
+TVM_EDITLABEL                = TVM_EDITLABELW
+                             else
+TVM_INSERTITEM               = TVM_INSERTITEMA
+TVM_GETITEM                  = TVM_GETITEMA
+TVM_SETITEM                  = TVM_SETITEMA
+TVM_GETISEARCHSTRING         = TVM_GETISEARCHSTRINGA
+TVM_EDITLABEL                = TVM_EDITLABELA
+                             endif
+
+;------------------------------------------------------------------------------
+
+; =======================
+; tree view notifications
+; =======================
+
+TVN_FIRST                  = -400
+TVN_LAST                   = TVN_FIRST-99
+
+TVN_SELCHANGINGA           = TVN_FIRST-01
+TVN_SELCHANGEDA            = TVN_FIRST-02
+TVN_GETDISPINFOA           = TVN_FIRST-03
+TVN_SETDISPINFOA           = TVN_FIRST-04
+TVN_ITEMEXPANDINGA         = TVN_FIRST-05
+TVN_ITEMEXPANDEDA          = TVN_FIRST-06
+TVN_BEGINDRAGA             = TVN_FIRST-07
+TVN_BEGINRDRAGA            = TVN_FIRST-08
+TVN_DELETEITEMA            = TVN_FIRST-09
+TVN_ENDLABELEDITA          = TVN_FIRST-11
+TVN_KEYDOWN                = TVN_FIRST-12
+
+TVN_SELCHANGINGW           = TVN_FIRST-50
+TVN_SELCHANGEDW            = TVN_FIRST-51
+TVN_GETDISPINFOW           = TVN_FIRST-52
+TVN_SETDISPINFOW           = TVN_FIRST-53
+TVN_ITEMEXPANDINGW         = TVN_FIRST-54
+TVN_ITEMEXPANDEDW          = TVN_FIRST-55
+TVN_BEGINDRAGW             = TVN_FIRST-56
+TVN_BEGINRDRAGW            = TVN_FIRST-57
+TVN_DELETEITEMW            = TVN_FIRST-58
+TVN_BEGINLABELEDITA        = TVN_FIRST-10
+TVN_BEGINLABELEDITW        = TVN_FIRST-59
+TVN_ENDLABELEDITW          = TVN_FIRST-60
+
+                             if UniCode
+TVN_SELCHANGING              = TVN_SELCHANGINGW
+TVN_SELCHANGED               = TVN_SELCHANGEDW
+TVN_GETDISPINFO              = TVN_GETDISPINFOW
+TVN_SETDISPINFO              = TVN_SETDISPINFOW
+TVN_ITEMEXPANDING            = TVN_ITEMEXPANDINGW
+TVN_ITEMEXPANDED             = TVN_ITEMEXPANDEDW
+TVN_BEGINDRAG                = TVN_BEGINDRAGW
+TVN_BEGINRDRAG               = TVN_BEGINRDRAGW
+TVN_DELETEITEM               = TVN_DELETEITEMW
+TVN_BEGINLABELEDIT           = TVN_BEGINLABELEDITW
+TVN_ENDLABELEDIT             = TVN_ENDLABELEDITW
+                             else
+TVN_SELCHANGING              = TVN_SELCHANGINGA
+TVN_SELCHANGED               = TVN_SELCHANGEDA
+TVN_GETDISPINFO              = TVN_GETDISPINFOA
+TVN_SETDISPINFO              = TVN_SETDISPINFOA
+TVN_ITEMEXPANDING            = TVN_ITEMEXPANDINGA
+TVN_ITEMEXPANDED             = TVN_ITEMEXPANDEDA
+TVN_BEGINDRAG                = TVN_BEGINDRAGA
+TVN_BEGINRDRAG               = TVN_BEGINRDRAGA
+TVN_DELETEITEM               = TVN_DELETEITEMA
+TVN_BEGINLABELEDIT           = TVN_BEGINLABELEDITA
+TVN_ENDLABELEDIT             = TVN_ENDLABELEDITA
+                             endif
+
+;------------------------------------------------------------------------------
+
+; ================
+; os platform id's
+; ================
+
+VER_PLATFORM_WIN32s        = 0
+VER_PLATFORM_WIN32_WINDOWS = 1
+VER_PLATFORM_WIN32_NT      = 2
+
+;------------------------------------------------------------------------------
+
+; ====================
+; toolbar view bitmaps
+; ====================
+
+VIEW_LARGEICONS            =  0
+VIEW_SMALLICONS            =  1
+VIEW_LIST                  =  2
+VIEW_DETAILS               =  3
+VIEW_SORTNAME              =  4
+VIEW_SORTSIZE              =  5
+VIEW_SORTDATE              =  6
+VIEW_SORTTYPE              =  7
+VIEW_PARENTFOLDER          =  8
+VIEW_NETCONNECT            =  9
+VIEW_NETDISCONNECT         = 10
+VIEW_NEWFOLDER             = 11
+
+
+
+;------------------------------------------------------------------------------
+
+; ===============
+; window messages
+; ===============
+
+WM_NULL                    = 0000h
+WM_CREATE                  = 0001h
+WM_DESTROY                 = 0002h
+WM_MOVE                    = 0003h
+WM_SIZE                    = 0005h
+WM_ACTIVATE                = 0006h
+WM_SETFOCUS                = 0007h
+WM_KILLFOCUS               = 0008h
+WM_ENABLE                  = 000Ah
+WM_SETREDRAW               = 000Bh
+WM_SETTEXT                 = 000Ch
+WM_GETTEXT                 = 000Dh
+WM_GETTEXTLENGTH           = 000Eh
+WM_PAINT                   = 000Fh
+WM_CLOSE                   = 0010h
+WM_QUERYENDSESSION         = 0011h
+WM_QUIT                    = 0012h
+WM_QUERYOPEN               = 0013h
+WM_ERASEBKGND              = 0014h
+WM_SYSCOLORCHANGE          = 0015h
+WM_ENDSESSION              = 0016h
+WM_SHOWWINDOW              = 0018h
+WM_WININICHANGE            = 001Ah
+WM_SETTINGCHANGE           = WM_WININICHANGE
+WM_DEVMODECHANGE           = 001Bh
+WM_ACTIVATEAPP             = 001Ch
+WM_FONTCHANGE              = 001Dh
+WM_TIMECHANGE              = 001Eh
+WM_CANCELMODE              = 001Fh
+WM_SETCURSOR               = 0020h
+WM_MOUSEACTIVATE           = 0021h
+WM_CHILDACTIVATE           = 0022h
+WM_QUEUESYNC               = 0023h
+WM_GETMINMAXINFO           = 0024h
+WM_PAINTICON               = 0026h
+WM_ICONERASEBKGND          = 0027h
+WM_NEXTDLGCTL              = 0028h
+WM_SPOOLERSTATUS           = 002Ah
+WM_DRAWITEM                = 002Bh
+WM_MEASUREITEM             = 002Ch
+WM_DELETEITEM              = 002Dh
+WM_VKEYTOITEM              = 002Eh
+WM_CHARTOITEM              = 002Fh
+WM_SETFONT                 = 0030h
+WM_GETFONT                 = 0031h
+WM_SETHOTKEY               = 0032h
+WM_GETHOTKEY               = 0033h
+WM_QUERYDRAGICON           = 0037h
+WM_COMPAREITEM             = 0039h
+WM_COMPACTING              = 0041h
+WM_COMMNOTIFY              = 0044h      ;no longer suported
+WM_WINDOWPOSCHANGING       = 0046h
+WM_WINDOWPOSCHANGED        = 0047h
+WM_POWER                   = 0048h
+WM_COPYDATA                = 004Ah
+WM_CANCELJOURNAL           = 004Bh
+WM_NOTIFY                  = 004Eh
+WM_INPUTLANGCHANGEREQUEST  = 0050h
+WM_INPUTLANGCHANGE         = 0051h
+WM_TCARD                   = 0052h
+WM_HELP                    = 0053h
+WM_USERCHANGED             = 0054h
+WM_NOTIFYFORMAT            = 0055h
+WM_CONTEXTMENU             = 007Bh
+WM_STYLECHANGING           = 007Ch
+WM_STYLECHANGED            = 007Dh
+WM_DISPLAYCHANGE           = 007Eh
+WM_GETICON                 = 007Fh
+WM_SETICON                 = 0080h
+WM_NCCREATE                = 0081h
+WM_NCDESTROY               = 0082h
+WM_NCCALCSIZE              = 0083h
+WM_NCHITTEST               = 0084h
+WM_NCPAINT                 = 0085h
+WM_NCACTIVATE              = 0086h
+WM_GETDLGCODE              = 0087h
+
+WM_NCMOUSEMOVE             = 00A0h
+WM_NCLBUTTONDOWN           = 00A1h
+WM_NCLBUTTONUP             = 00A2h
+WM_NCLBUTTONDBLCLK         = 00A3h
+WM_NCRBUTTONDOWN           = 00A4h
+WM_NCRBUTTONUP             = 00A5h
+WM_NCRBUTTONDBLCLK         = 00A6h
+WM_NCMBUTTONDOWN           = 00A7h
+WM_NCMBUTTONUP             = 00A8h
+WM_NCMBUTTONDBLCLK         = 00A9h
+
+WM_KEYFIRST                = 0100h
+WM_KEYDOWN                 = 0100h
+WM_KEYUP                   = 0101h
+WM_CHAR                    = 0102h
+WM_DEADCHAR                = 0103h
+WM_SYSKEYDOWN              = 0104h
+WM_SYSKEYUP                = 0105h
+WM_SYSCHAR                 = 0106h
+WM_SYSDEADCHAR             = 0107h
+WM_KEYLAST                 = 0108h
+
+WM_IME_STARTCOMPOSITION    = 010Dh
+WM_IME_ENDCOMPOSITION      = 010Eh
+WM_IME_COMPOSITION         = 010Fh
+WM_IME_KEYLAST             = 010Fh
+WM_INITDIALOG              = 0110h
+WM_COMMAND                 = 0111h
+WM_SYSCOMMAND              = 0112h
+WM_TIMER                   = 0113h
+WM_HSCROLL                 = 0114h
+WM_VSCROLL                 = 0115h
+WM_INITMENU                = 0116h
+WM_INITMENUPOPUP           = 0117h
+WM_MENUSELECT              = 011Fh
+WM_MENUCHAR                = 0120h
+WM_ENTERIDLE               = 0121h
+WM_CTLCOLORMSGBOX          = 0132h
+WM_CTLCOLOREDIT            = 0133h
+WM_CTLCOLORLISTBOX         = 0134h
+WM_CTLCOLORBTN             = 0135h
+WM_CTLCOLORDLG             = 0136h
+WM_CTLCOLORSCROLLBAR       = 0137h
+WM_CTLCOLORSTATIC          = 0138h
+
+WM_MOUSEFIRST              = 0200h
+WM_MOUSEMOVE               = 0200h
+WM_LBUTTONDOWN             = 0201h
+WM_LBUTTONUP               = 0202h
+WM_LBUTTONDBLCLK           = 0203h
+WM_RBUTTONDOWN             = 0204h
+WM_RBUTTONUP               = 0205h
+WM_RBUTTONDBLCLK           = 0206h
+WM_MBUTTONDOWN             = 0207h
+WM_MBUTTONUP               = 0208h
+WM_MBUTTONDBLCLK           = 0209h
+WM_MOUSELAST               = 0209h
+
+WM_PARENTNOTIFY            = 0210h
+WM_ENTERMENULOOP           = 0211h
+WM_EXITMENULOOP            = 0212h
+WM_NEXTMENU                = 0213h
+WM_SIZING                  = 0214h
+WM_CAPTURECHANGED          = 0215h
+WM_MOVING                  = 0216h
+WM_POWERBROADCAST          = 0218h
+WM_DEVICECHANGE            = 0219h
+WM_MDICREATE               = 0220h
+WM_MDIDESTROY              = 0221h
+WM_MDIACTIVATE             = 0222h
+WM_MDIRESTORE              = 0223h
+WM_MDINEXT                 = 0224h
+WM_MDIMAXIMIZE             = 0225h
+WM_MDITILE                 = 0226h
+WM_MDICASCADE              = 0227h
+WM_MDIICONARRANGE          = 0228h
+WM_MDIGETACTIVE            = 0229h
+WM_MDISETMENU              = 0230h
+WM_ENTERSIZEMOVE           = 0231h
+WM_EXITSIZEMOVE            = 0232h
+WM_DROPFILES               = 0233h
+WM_MDIREFRESHMENU          = 0234h
+
+WM_IME_SETCONTEXT          = 0281h
+WM_IME_NOTIFY              = 0282h
+WM_IME_CONTROL             = 0283h
+WM_IME_COMPOSITIONFULL     = 0284h
+WM_IME_SELECT              = 0285h
+WM_IME_CHAR                = 0286h
+WM_IME_KEYDOWN             = 0290h
+WM_IME_KEYUP               = 0291h
+
+WM_CUT                     = 0300h
+WM_COPY                    = 0301h
+WM_PASTE                   = 0302h
+WM_CLEAR                   = 0303h
+WM_UNDO                    = 0304h
+WM_RENDERFORMAT            = 0305h
+WM_RENDERALLFORMATS        = 0306h
+WM_DESTROYCLIPBOARD        = 0307h
+WM_DRAWCLIPBOARD           = 0308h
+WM_PAINTCLIPBOARD          = 0309h
+WM_VSCROLLCLIPBOARD        = 030Ah
+WM_SIZECLIPBOARD           = 030Bh
+WM_ASKCBFORMATNAME         = 030Ch
+WM_CHANGECBCHAIN           = 030Dh
+WM_HSCROLLCLIPBOARD        = 030Eh
+WM_QUERYNEWPALETTE         = 030Fh
+WM_PALETTEISCHANGING       = 0310h
+WM_PALETTECHANGED          = 0311h
+WM_HOTKEY                  = 0312h
+WM_PRINT                   = 0317h
+WM_PRINTCLIENT             = 0318h
+
+WM_HANDHELDFIRST           = 0358h
+WM_HANDHELDLAST            = 035Fh
+
+WM_AFXFIRST                = 0360h
+WM_AFXLAST                 = 037Fh
+
+WM_PENWINFIRST             = 0380h
+WM_PENWINLAST              = 038Fh
+
+WM_DDE_FIRST               = 03E0h
+WM_DDE_INITIATE            = WM_DDE_FIRST
+WM_DDE_TERMINATE           = WM_DDE_FIRST+1
+WM_DDE_ADVISE              = WM_DDE_FIRST+2
+WM_DDE_UNADVISE            = WM_DDE_FIRST+3
+WM_DDE_ACK                 = WM_DDE_FIRST+4
+WM_DDE_DATA                = WM_DDE_FIRST+5
+WM_DDE_REQUEST             = WM_DDE_FIRST+6
+WM_DDE_POKE                = WM_DDE_FIRST+7
+WM_DDE_EXECUTE             = WM_DDE_FIRST+8
+WM_DDE_LAST                = 03E8h
+
+WM_APP                     = 8000h
+
+;------------------------------------------------------------------------------
+
+; ====================
+; WNet*() status codes
+; ====================
+
+WN_SUCCESS                 = NO_ERROR
+WN_NO_ERROR                = NO_ERROR
+
+WN_NOT_SUPPORTED           = ERROR_NOT_SUPPORTED
+WN_CANCEL                  = ERROR_CANCELLED
+WN_RETRY                   = ERROR_RETRY
+WN_NET_ERROR               = ERROR_UNEXP_NET_ERR
+WN_MORE_DATA               = ERROR_MORE_DATA
+WN_BAD_POINTER             = ERROR_INVALID_ADDRESS
+WN_BAD_VALUE               = ERROR_INVALID_PARAMETER
+WN_BAD_USER                = ERROR_BAD_USERNAME
+WN_BAD_PASSWORD            = ERROR_INVALID_PASSWORD
+WN_ACCESS_DENIED           = ERROR_ACCESS_DENIED
+WN_FUNCTION_BUSY           = ERROR_BUSY
+WN_WINDOWS_ERROR           = ERROR_UNEXP_NET_ERR
+WN_OUT_OF_MEMORY           = ERROR_NOT_ENOUGH_MEMORY
+WN_NO_NETWORK              = ERROR_NO_NETWORK
+WN_EXTENDED_ERROR          = ERROR_EXTENDED_ERROR
+WN_BAD_LEVEL               = ERROR_INVALID_LEVEL
+WN_BAD_HANDLE              = ERROR_INVALID_HANDLE
+WN_NOT_INITIALIZING        = ERROR_ALREADY_INITIALIZED
+WN_NO_MORE_DEVICES         = ERROR_NO_MORE_DEVICES
+
+WN_NOT_CONNECTED           = ERROR_NOT_CONNECTED
+WN_OPEN_FILES              = ERROR_OPEN_FILES
+WN_DEVICE_IN_USE           = ERROR_DEVICE_IN_USE
+WN_BAD_NETNAME             = ERROR_BAD_NET_NAME
+WN_BAD_LOCALNAME           = ERROR_BAD_DEVICE
+WN_ALREADY_CONNECTED       = ERROR_ALREADY_ASSIGNED
+WN_DEVICE_ERROR            = ERROR_GEN_FAILURE
+WN_CONNECTION_CLOSED       = ERROR_CONNECTION_UNAVAIL
+WN_NO_NET_OR_BAD_PATH      = ERROR_NO_NET_OR_BAD_PATH
+WN_BAD_PROVIDER            = ERROR_BAD_PROVIDER
+WN_CANNOT_OPEN_PROFILE     = ERROR_CANNOT_OPEN_PROFILE
+WN_BAD_PROFILE             = ERROR_BAD_PROFILE
+WN_BAD_DEV_TYPE            = ERROR_BAD_DEV_TYPE
+WN_DEVICE_ALREADY_REMEMBERED = ERROR_DEVICE_ALREADY_REMEMBERED
+
+WN_NO_MORE_ENTRIES         = ERROR_NO_MORE_ITEMS
+WN_NOT_CONTAINER           = ERROR_NOT_CONTAINER
+
+WN_NOT_AUTHENTICATED       = ERROR_NOT_AUTHENTICATED
+WN_NOT_LOGGED_ON           = ERROR_NOT_LOGGED_ON
+WN_NOT_VALIDATED           = ERROR_NO_LOGON_SERVERS
+
+;------------------------------------------------------------------------------
+
+; =============
+; network types
+; =============
+
+WNNC_NET_MSNET             = 00010000h
+WNNC_NET_LANMAN            = 00020000h
+WNNC_NET_NETWARE           = 00030000h
+WNNC_NET_VINES             = 00040000h
+WNNC_NET_10NET             = 00050000h
+WNNC_NET_LOCUS             = 00060000h
+WNNC_NET_SUN_PC_NFS        = 00070000h
+WNNC_NET_LANSTEP           = 00080000h
+WNNC_NET_9TILES            = 00090000h
+WNNC_NET_LANTASTIC         = 000A0000h
+WNNC_NET_AS400             = 000B0000h
+WNNC_NET_FTP_NFS           = 000C0000h
+WNNC_NET_PATHWORKS         = 000D0000h
+WNNC_NET_LIFENET           = 000E0000h
+WNNC_NET_POWERLAN          = 000F0000h
+WNNC_NET_BWNFS             = 00100000h
+WNNC_NET_COGENT            = 00110000h
+WNNC_NET_FARALLON          = 00120000h
+WNNC_NET_APPLETALK         = 00130000h
+
+;------------------------------------------------------------------------------
+
+; ================
+; background modes
+; ================
+
+TRANSPARENT                = 1
+OPAQUE                     = 2
+BKMODE_LAST                = 2
+
+;------------------------------------------------------------------------------
+
+; ====================
+; CreateFile() actions
+; ====================
+
+CREATE_NEW                 = 1
+CREATE_ALWAYS              = 2
+OPEN_EXISTING              = 3
+OPEN_ALWAYS                = 4
+TRUNCATE_EXISTING          = 5
+
+;------------------------------------------------------------------------------
+
+; =====================
+; CreateProcess() flags
+; =====================
+
+DEBUG_PROCESS              = 00000001h
+DEBUG_ONLY_THIS_PROCESS    = 00000002h
+CREATE_SUSPENDED           = 00000004h
+DETACHED_PROCESS           = 00000008h
+CREATE_NEW_CONSOLE         = 00000010h
+NORMAL_PRIORITY_CLASS      = 00000020h
+IDLE_PRIORITY_CLASS        = 00000040h
+HIGH_PRIORITY_CLASS        = 00000080h
+REALTIME_PRIORITY_CLASS    = 00000100h
+
+CREATE_NEW_PROCESS_GROUP   = 00000200h
+CREATE_UNICODE_ENVIRONMENT = 00000400h
+CREATE_SEPARATE_WOW_VDM    = 00000800h
+CREATE_SHARED_WOW_VDM      = 00001000h
+CREATE_DEFAULT_ERROR_MODE  = 04000000h
+CREATE_NO_WINDOW           = 08000000h
+
+PROFILE_USER               = 10000000h
+PROFILE_KERNEL             = 20000000h
+PROFILE_SERVER             = 40000000h
+
+;------------------------------------------------------------------------------
+
+; ===============
+; gdi error codes
+; ===============
+
+GDI_ERROR                  = -1
+HGDI_ERROR                 = -1
+
+
+;------------------------------------------------------------------------------
+
+; ================
+; PolyFill() modes
+; ================
+
+ALTERNATE                  = 1
+WINDING                    = 2
+POLYFILL_LAST              = 2
+
+;------------------------------------------------------------------------------
+
+; ============
+; region flags
+; ============
+
+ERROR                      = 0
+NULLREGION                 = 1
+SIMPLEREGION               = 2
+COMPLEXREGION              = 3
+RGN_ERROR                  = ERROR
+
+;------------------------------------------------------------------------------
+;------------------------------------------------------------------------------
+
+; =====================
+; stock logical objects
+; =====================
+
+WHITE_BRUSH                =  0
+LTGRAY_BRUSH               =  1
+GRAY_BRUSH                 =  2
+DKGRAY_BRUSH               =  3
+BLACK_BRUSH                =  4
+NULL_BRUSH                 =  5
+WHITE_PEN                  =  6
+BLACK_PEN                  =  7
+NULL_PEN                   =  8
+OEM_FIXED_FONT             = 10
+ANSI_FIXED_FONT            = 11
+ANSI_VAR_FONT              = 12
+SYSTEM_FONT                = 13
+DEVICE_DEFAULT_FONT        = 14
+DEFAULT_PALETTE            = 15
+SYSTEM_FIXED_FONT          = 16
+DEFAULT_GUI_FONT           = 17
+
+HOLLOW_BRUSH               = NULL_BRUSH
+
+;------------------------------------------------------------------------------
+
+; ==================
+; StretchBlt() modes
+; ==================
+
+BLACKONWHITE               = 1
+WHITEONBLACK               = 2
+COLORONCOLOR               = 3
+HALFTONE                   = 4
+MAXSTRETCHBLTMODE          = 4
+
+STRETCH_ANDSCANS           = BLACKONWHITE
+STRETCH_ORSCANS            = WHITEONBLACK
+STRETCH_DELETESCANS        = COLORONCOLOR
+STRETCH_HALFTONE           = HALFTONE
+
+;------------------------------------------------------------------------------
+
+; =========================
+; ternary raster operations
+; =========================
+
+SRCCOPY                    = 00CC0020h  ;dest = src
+SRCPAINT                   = 00EE0086h  ;dest = src or dest
+SRCAND                     = 008800C6h  ;dest = src and dest
+SRCINVERT                  = 00660046h  ;dest = src xor dest
+SRCERASE                   = 00440328h  ;dest = src and -dest
+NOTSRCCOPY                 = 00330008h  ;dest = -src
+NOTSRCERASE                = 001100A6h  ;dest = -src and -dest
+MERGECOPY                  = 00C000CAh  ;dest = src and pat
+MERGEPAINT                 = 00BB0226h  ;dest = -src or dest
+PATCOPY                    = 00F00021h  ;dest = pat
+PATPAINT                   = 00FB0A09h  ;dest = DPSnoo
+PATINVERT                  = 005A0049h  ;dest = pat xor dest
+DSTINVERT                  = 00550009h  ;dest = -dest
+BLACKNESS                  = 00000042h  ;dest = black
+WHITENESS                  = 00FF0062h  ;dest = white
