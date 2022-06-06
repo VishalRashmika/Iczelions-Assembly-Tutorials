@@ -1,6 +1,6 @@
 # The Basics
 
-This tutorial assumes that the reader knows how to use MASM. If you're not familiar with MASM, download <a href="myFile.js" download>Win32asm.zip</a> and study the text inside the package before going on with the tutorial. Good. You're now ready. Let's go!
+This tutorial assumes that the reader knows how to use MASM. If you're not familiar with MASM, download <a href="https://github.com/VishalRashmika/Iczelions-Assembly-Tutorials/blob/main/01%20lesson/win32asm.zip" download>Win32asm.zip</a> and study the text inside the package before going on with the tutorial. Good. You're now ready. Let's go!
 
 ## Theory:
 Win32 programs run in protected mode which is available since 80286. But 80286 is now history. So we only have to concern ourselves with 80386 and its descendants. Windows runs each Win32 program in separated virtual space. That means each Win32 program will have its own 4 GB address space. However, this doesn't mean every win32 program has 4GB of physical memory, only that the program can address any address in that range. Windows will do anything necessary to make the memory the program references valid. Of course, the program must adhere to the rules set by Windows, else it will cause the dreaded General Protection Fault. Each program is alone in its address space. This is in contrast to the situation in Win16. All Win16 programs can *see* each other. Not so under Win32. This feature helps reduce the chance of one program writing over other program's code/data.
