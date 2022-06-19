@@ -43,9 +43,9 @@ This is an assembler directive, telling the assembler to use 80386 instruction s
 is an assembler directive that specifies memory model of your program. Under Win32, there's only on model, FLAT model.
 #### STDCALL 
 tells MASM about parameter passing convention. Parameter passing convention specifies the order of  parameter passing, left-to-right or right-to-left, and also who will balance the stack frame after the function call.
-<br>
+
 > Under Win16, there are two types of calling convention, C and PASCAL
-<br>
+
 ##### C
 calling convention passes parameters from right to left, that is , the rightmost parameter is pushed first. The caller is responsible for balancing the stack frame after the call. For example, in order to call a function named foo(int first_param, int second_param, int third_param) in C calling convention the asm codes will look like this:
 
@@ -62,16 +62,16 @@ calling convention is the reverse of C calling convention. It passes parameters 
 Win16 adopts PASCAL convention because it produces smaller codes. C convention is useful when you don't know how many parameters will be passed to the function as in the case of wsprintf(). In the case of wsprintf(), the function has no way to determine beforehand how many parameters will be pushed on the stack, so it cannot do the stack balancing.
 STDCALL is the hybrid of C and PASCAL convention. It passes parameter from right to left but the callee is responsible for stack balancing after the call.Win32 platform use STDCALL exclusively. Except in one case: wsprintf(). You must use C calling convention with wsprintf().
 
-***.DATA***
-***.DATA?***
-***.CONST***
-***.CODE***
+### .DATA
+### .DATA?
+### .CONST
+### .CODE
 
 All four directives are what's called section. You don't have segments in Win32, remember? But you can divide your entire address space into logical sections. The start of one section denotes the end of the previous section. There'are two groups of section: data and code. Data sections are divided into 3 categories:
 
-- .DATA    This section contains initialized data of your program.
-- .DATA?  This section contains uninitialized data of your program. Sometimes you just want to preallocate some memory but don't want to initialize it. This section is for that purpose. The advantage of uninitialized data is: it doesn't take space in the executable file. For example, if you allocate 10,000 bytes in your .DATA? section, your executable is not bloated up 10,000 bytes. Its size stays much the same. You only tell the assembler how much space you need when the program is loaded into memory, that's all.
-- .CONST  This section contains declaration of constants used by your program. Constants in this section can never be modified in your program. They are just *constant*.
+- .DATA : This section contains initialized data of your program.
+- .DATA? : This section contains uninitialized data of your program. Sometimes you just want to preallocate some memory but don't want to initialize it. This section is for that purpose. The advantage of uninitialized data is: it doesn't take space in the executable file. For example, if you allocate 10,000 bytes in your .DATA? section, your executable is not bloated up 10,000 bytes. Its size stays much the same. You only tell the assembler how much space you need when the program is loaded into memory, that's all.
+- .CONST : This section contains declaration of constants used by your program. Constants in this section can never be modified in your program. They are just *constant*.
 
 You don't have to use all three sections in your program. Declare only the section(s) you want to use.
 
