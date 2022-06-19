@@ -1,9 +1,9 @@
 # ICZELIONS MASM32 Tutorials
 ![This is an image](https://)
 
-| [![Vishal Rashmika](https://avatars.githubusercontent.com/u/87840726?v=4)](https://github.com/VishalRashmika) |
+<!-- | [![Vishal Rashmika](https://avatars.githubusercontent.com/u/87840726?v=4)](https://github.com/VishalRashmika) |
 | -------------------------------------------------------------------------------------------------------------- |
-| [Brandon Reyes](https://github.com/VishalRashmika)   
+| [Brandon Reyes](https://github.com/VishalRashmika)    -->
 
 
 
