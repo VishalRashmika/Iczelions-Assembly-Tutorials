@@ -13,7 +13,7 @@ When you program under Win32, you must know some important rules. One such rule 
 
 Here's the skeleton program. If you don't understand some of the codes, don't panic. I'll explain each of them later.
 
-'''Assembly
+'''
 .386
 .MODEL Flat, STDCALL
 .DATA
