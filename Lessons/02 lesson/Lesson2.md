@@ -1,8 +1,5 @@
 # 2.MessageBox
 
-Tutorial 2: MessageBox
-======================
-
 In this tutorial, we will create a fully functional Windows program that displays a message box saying "Win32 assembly is great!".
 
 Download the example file [here](zips/tut02.zip).
