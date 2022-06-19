@@ -1,4 +1,4 @@
-# The Basics
+# 1.The Basics
 
 This tutorial assumes that the reader knows how to use MASM. If you're not familiar with MASM, download <a href="https://github.com/VishalRashmika/Iczelions-Assembly-Tutorials/blob/main/Lessons/01%20lesson/win32asm.zip" download>Win32asm.zip</a> and study the text inside the package before going on with the tutorial. Good. You're now ready. Let's go!
 
