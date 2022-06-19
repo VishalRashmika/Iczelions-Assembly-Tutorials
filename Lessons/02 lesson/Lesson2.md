@@ -1,4 +1,4 @@
-# Iczelion's Win32 Assembly Tutorial 2: MessageBox
+# 2.MessageBox
 
 Tutorial 2: MessageBox
 ======================
