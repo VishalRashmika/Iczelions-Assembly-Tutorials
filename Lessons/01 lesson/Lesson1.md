@@ -68,7 +68,7 @@ is the hybrid of C and PASCAL convention. It passes parameter from right to left
 ### .DATA?
 ### .CONST
 ### .CODE
-
+------------
 All four directives are what's called section. You don't have segments in Win32, remember? But you can divide your entire address space into logical sections. The start of one section denotes the end of the previous section. There'are two groups of section: data and code. Data sections are divided into 3 categories:
 
 - **.DATA** : This section contains initialized data of your program.
