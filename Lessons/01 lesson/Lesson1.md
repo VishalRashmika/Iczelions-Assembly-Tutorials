@@ -38,22 +38,26 @@ That's all! Let's analyze this skeleton program.
 This is an assembler directive, telling the assembler to use 80386 instruction set. You can also use .486, .586 but the safest bet is to stick to .386. There are actually two nearly identical forms for each CPU model. .386/.386p, .486/.486p. Those "p" versions are necessary only when your program uses privileged instructions. Privileged instructions are the instructions reserved by the CPU/operating system when in protected mode. They can only be used by privileged code, such as the virtual device drivers. Most of the time, your program will work in non-privileged mode so it's safe to use non-p versions.
 
 ### .MODEL FLAT, STDCALL
-##### .MODEL 
+#### .MODEL 
 is an assembler directive that specifies memory model of your program. Under Win32, there's only on model, FLAT model.
-##### STDCALL 
+#### STDCALL 
 tells MASM about parameter passing convention. Parameter passing convention specifies the order of  parameter passing, left-to-right or right-to-left, and also who will balance the stack frame after the function call.
+<br>
 Under Win16, there are two types of calling convention, C and PASCAL
-C calling convention passes parameters from right to left, that is , the rightmost parameter is pushed first. The caller is responsible for balancing the stack frame after the call. For example, in order to call a function named foo(int first_param, int second_param, int third_param) in C calling convention the asm codes will look like this:
+<br>
+##### C
+calling convention passes parameters from right to left, that is , the rightmost parameter is pushed first. The caller is responsible for balancing the stack frame after the call. For example, in order to call a function named foo(int first_param, int second_param, int third_param) in C calling convention the asm codes will look like this:
 
-'''Assembly
+```
 push  [third_param]             ; Push the third parameter
 push  [second_param]            ; Followed by the second
 push  [first_param]             ; And the first
 call    foo
 add    sp, 12                   ; The caller balances the stack frame
-'''
+```
 
-PASCAL calling convention is the reverse of C calling convention. It passes parameters from left to right and the callee is responsible for the stack balancing after the call.
+##### PASCAL 
+calling convention is the reverse of C calling convention. It passes parameters from left to right and the callee is responsible for the stack balancing after the call.
 Win16 adopts PASCAL convention because it produces smaller codes. C convention is useful when you don't know how many parameters will be passed to the function as in the case of wsprintf(). In the case of wsprintf(), the function has no way to determine beforehand how many parameters will be pushed on the stack, so it cannot do the stack balancing.
 STDCALL is the hybrid of C and PASCAL convention. It passes parameter from right to left but the callee is responsible for stack balancing after the call.Win32 platform use STDCALL exclusively. Except in one case: wsprintf(). You must use C calling convention with wsprintf().
 
