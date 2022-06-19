@@ -38,12 +38,13 @@ That's all! Let's analyze this skeleton program.
 This is an assembler directive, telling the assembler to use 80386 instruction set. You can also use .486, .586 but the safest bet is to stick to .386. There are actually two nearly identical forms for each CPU model. .386/.386p, .486/.486p. Those "p" versions are necessary only when your program uses privileged instructions. Privileged instructions are the instructions reserved by the CPU/operating system when in protected mode. They can only be used by privileged code, such as the virtual device drivers. Most of the time, your program will work in non-privileged mode so it's safe to use non-p versions.
 
 ### .MODEL FLAT, STDCALL
+------------------------
 #### .MODEL 
 is an assembler directive that specifies memory model of your program. Under Win32, there's only on model, FLAT model.
 #### STDCALL 
 tells MASM about parameter passing convention. Parameter passing convention specifies the order of  parameter passing, left-to-right or right-to-left, and also who will balance the stack frame after the function call.
 <br>
-Under Win16, there are two types of calling convention, C and PASCAL
+> Under Win16, there are two types of calling convention, C and PASCAL
 <br>
 ##### C
 calling convention passes parameters from right to left, that is , the rightmost parameter is pushed first. The caller is responsible for balancing the stack frame after the call. For example, in order to call a function named foo(int first_param, int second_param, int third_param) in C calling convention the asm codes will look like this:
