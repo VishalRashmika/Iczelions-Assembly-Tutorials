@@ -2,7 +2,7 @@
 
 In this tutorial, we will create a fully functional Windows program that displays a message box saying "Win32 assembly is great!".
 
-Download the example file [here](zips/tut02.zip).
+Download the example file [here](https://github.com/VishalRashmika/Iczelions-Assembly-Tutorials/blob/main/Lessons/02%20lesson/tut02.zip).
 
 ### Theory:
 
