@@ -1,14 +1,6 @@
 # ICZELIONS MASM32 Tutorials
 ![This is an image](https://github.com/VishalRashmika/Iczelions-Assembly-Tutorials/blob/main/logo.png)
 
-<!-- | [![Vishal Rashmika](https://avatars.githubusercontent.com/u/87840726?v=4)](https://github.com/VishalRashmika) |
-| -------------------------------------------------------------------------------------------------------------- |
-| [Brandon Reyes](https://github.com/VishalRashmika)    -->
-
-
-
-
-
 ## Tutorials
 - [1.The Basics](https://github.com/VishalRashmika/Iczelions-Assembly-Tutorials/blob/main/Lessons/01%20lesson/Lesson1.md)
 - [2.MessageBox](https://github.com/VishalRashmika/Iczelions-Assembly-Tutorials/blob/main/Lessons/02%20lesson/Lesson2.md)
@@ -23,13 +15,13 @@
 - [11.More About Dialog Box]()
 - [12.Memory Management And File I/O]()
 - [13.Memory Mapped Files]()
-- [14.]()
-- [15.]()
-- [16.]()
-- [17.]()
-- [18.]()
-- [19.]()
-- [20.]()
+- [14.Process]()
+- [15.Multithreading Programming]()
+- [16.Event Object]()
+- [17.Dynamic Link Libraries]()
+- [18.Common Controls]()
+- [19.Tree View Control]()
+- [20.Window Subclassing]()
 - [21.]()
 - [22.]()
 - [23.]()
