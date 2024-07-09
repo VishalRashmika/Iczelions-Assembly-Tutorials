@@ -1,5 +1,0 @@
-LIBRARY MouseHook
-EXPORTS 
-MouseProc
-InstallHook
-UninstallHook
