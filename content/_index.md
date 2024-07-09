@@ -12,24 +12,25 @@ jgs~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~^`---'~^~^~
 ```
 {% end %}
 
-# Duckquill
+# Iczelion's Win32 Assembly Tutorial Series
 
-Duckquill is a modern, pretty, and clean (and opinionated) [Zola](https://www.getzola.org) theme that has the purpose of greatly simplifying the process of rolling up your blog. It aims to provide all the needed options for comfortable writing, keeping the balance of it being simple.
+Iczelion's Win32 Assembly Tutorial series is a well-regarded resource for learning Win32 assembly language programming, particularly for those using Microsoft's Macro Assembler (MASM).
 
-Edit a bit of metadata and tweak some of the included graphics and have a blog up in minutes!
+## Here's a breakdown of the series:
 
-- Pretty, yet lightweight. No JavaScript is used (except for comments, heh).
-- Colors are tinted with the user-selected primary color for a pleasant look.
-- ~90kB in size; take that, 12MB Medium!
-- Uses system fonts for blazingly fast loading.
-- Mobile friendly, with a proper dark variant.
-- Proper favicon for modern browsers and Apple device icons.
-- Twitter, Mastodon and other social media meta cards for easy sharing. Try [Share Preview](https://apps.gnome.org/SharePreview/) to test.
-- [Mastodon-powered comments](https://carlschwan.eu/2020/12/29/adding-comments-to-your-static-blog-with-mastodon/); comment using compatible ActivityPub server by replying to a Mastodon post.
+- `Content`: It covers the fundamentals of Win32 assembly programming, including memory models, calling conventions, working with Windows APIs to create simple applications with functionalities like displaying message boxes, handling windows, and processing user input.
+- `Format`: The series consists of around 30 tutorials, likely in text format, with accompanying source code.
 
-{% alert(note=true) %}
-Duckquill is made based on needs of [my website](https://daudix.one), if you need some feature/configuration that doesn't exist feel free to open an issue or better yet, pull request!
-{% end %}
+## Points to Consider:
+
+- `Age`: The tutorials might be dated as they focus on Win32 assembly programming, which has been around for a while. While the core concepts remain relevant, some aspects might need adjustments for modern Windows versions.
+- `Learning Resource`: Despite their age, the series is considered a valuable resource for those wanting a foundational understanding of Win32 assembly language programming.
+
+Additional Tips:
+
+    Look for forums or communities where developers discuss Iczelion's tutorials. These can offer insights and clarifications on the materials.
+
+Consider using the tutorials alongside more recent resources to ensure you're covering any essential updates or changes in Win32 development practices.
 
 ## Installation
 
