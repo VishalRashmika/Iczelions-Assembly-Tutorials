@@ -1,4 +1,6 @@
 # ICZELIONS MASM32 Tutorials
+This is a tutorial series done by Iczelion on Win32 Assembly. It is very hard to find the resources of this tutorial series. This repo will store the resources that I collected.
+
 ![This is an image](https://github.com/VishalRashmika/Iczelions-Assembly-Tutorials/blob/main/logo.png)
 
 ## Tutorials
