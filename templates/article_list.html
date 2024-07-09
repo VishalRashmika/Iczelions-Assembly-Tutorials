@@ -9,13 +9,13 @@
 	{{ section.description | markdown | safe }}
 {%- endif %}
 
-<small>
+<!-- <small>
 	<a href="{{ get_url(path='tags', lang=lang) }}">
 		{{ macros_translate::translate(key="filter_by_tag", default="Filter by tag", language_strings=language_strings) }}
 	</a>
 	<br />
 	{{ macros_translate::translate(key="newest_to_oldest", default="From newest to oldest", language_strings=language_strings) }} ↓
-</small>
+</small> -->
 
 <div id="article-list">
 	{%- for page in section.pages %}
@@ -45,8 +45,8 @@
 			{%- if page.description %}
 				{{ page.description | markdown | safe }}
 			{%- endif %}
-			{%- if page.date %}
-				<small>
+			<!-- {%- if page.date %} -->
+				<!-- <small>
 					<time datetime="{{ page.date | date(format='%+') }}" pubdate>
 						{{ page.date | date(format=date_format, locale=date_locale) }}
 					</time>
@@ -63,10 +63,10 @@
 							</ul>
 						{%- endfor %}
 					{%- endif %}
-				</small>
-			{%- endif %}
+				</small> -->
+			<!-- {%- endif %} -->
 		</article>
-		<hr>
+		<!-- <hr> -->
 	{%- endfor %}
 </div>
 {% endblock content %}
