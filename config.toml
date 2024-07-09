@@ -87,7 +87,7 @@ show_feed = true
 # i.e "@/blog/_index.md".
 # See https://www.getzola.org/documentation/content/linking/#internal-links
 links = [
-  { url = "@/blog/_index.md", name = "Lessons" },
+  { url = "@/lessons/_index.md", name = "Lessons" },
   { url = "@/demo/index.md", name = "File Archive" },
   { url = "https://codeberg.org/daudix/duckquill", name = "Repo" },
 ]
