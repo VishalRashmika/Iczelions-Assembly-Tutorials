@@ -79,6 +79,3 @@ That's all! Let's analyze this skeleton program.
 **end <label>**  
 **where <label> is any arbitrary label is used to specify the extent of your code. Both labels must be identical.  All your codes must reside between <label> and end <label>**  
 
-* * *
-
-**\[[Iczelion's Win32 Assembly HomePage](http://203.148.211.201/iczelion/index.html)\]**

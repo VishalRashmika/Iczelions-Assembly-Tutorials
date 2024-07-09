@@ -96,8 +96,8 @@ Then go on with link:
 
 link /SUBSYSTEM:WINDOWS  /LIBPATH:c:\\masm32\\lib  msgbox.obj
 
-> /SUBSYSTEM:WINDOWS  informs Link what sort of executable this program is  
-> /LIBPATH:<path to import library> tells Link where the import libraries are. If you use MASM32, they will be in MASM32\\lib folder.
+/SUBSYSTEM:WINDOWS  informs Link what sort of executable this program is  
+/LIBPATH:<path to import library> tells Link where the import libraries are. If you use MASM32, they will be in MASM32\\lib folder.
 
 Link reads in the object file and fixes it with addresses from the import libraries. When the process is finished you get msgbox.exe.
 
@@ -154,7 +154,3 @@ MASM will report error. If you use offset instead of addr in the above code snip
 
   
 Since lea can determine the address of a label at runtime, this works fine.
-
-* * *
-
-**\[[Iczelion's Win32 Assembly HomePage](http://win32asm.cjb.net/)\]**

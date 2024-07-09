@@ -89,15 +89,15 @@ show_feed = true
 links = [
   { url = "@/lessons/_index.md", name = "Lessons" },
   { url = "@/demo/index.md", name = "File Archive" },
-  { url = "https://codeberg.org/daudix/duckquill", name = "Repo" },
+  # { url = "https://codeberg.org/daudix/duckquill", name = "Repo" },
 ]
 
 [extra.footer]
 # Links used in the footer.
 # Same as the nav ones.
 links = [
-  { url = "@/blog/_index.md", name = "Blog" },
-  { url = "@/demo/index.md", name = "Demo" },
+  # { url = "@/blog/_index.md", name = "Blog" },
+  # { url = "@/demo/index.md", name = "Demo" },
   # { url = "https://codeberg.org/daudix/duckquill", name = "Repo" },
 ]
 # Social links in the footer.
