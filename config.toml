@@ -36,19 +36,19 @@ smart_punctuation = true
 [search]
 index_format = "elasticlunr_json"
 
-[languages.ru]
-title = "Duckquill"
-description = "Современная, симпатичная и аккуратная тема."
-generate_feeds = true
+# [languages.ru]
+# title = "Duckquill"
+# description = "Современная, симпатичная и аккуратная тема."
+# generate_feeds = true
 
-taxonomies = [{ name = "tags", feed = true }]
+# taxonomies = [{ name = "tags", feed = true }]
 
-[languages.ar]
-title = "Duckquill"
-description = "ثيم عصري وجميل ونظيف."
-generate_feeds = true
+# [languages.ar]
+# title = "Duckquill"
+# description = "ثيم عصري وجميل ونظيف."
+# generate_feeds = true
 
-taxonomies = [{ name = "tags", feed = true }]
+# taxonomies = [{ name = "tags", feed = true }]
 
 [extra]
 # Sets theme and browser theme color.
