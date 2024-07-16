@@ -19,7 +19,7 @@ Iczelion's Win32 Assembly Tutorial series is a well-regarded resource for learni
 ## Here's a breakdown of the series:
 
 - `Content`: It covers the fundamentals of Win32 assembly programming, including memory models, calling conventions, working with Windows APIs to create simple applications with functionalities like displaying message boxes, handling windows, and processing user input.
-- `Format`: The series consists of around 30 tutorials, likely in text format, with accompanying source code.
+- `Format`: The series consists of around 30 tutorials.
 
 ## Points to Consider:
 

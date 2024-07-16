@@ -1,5 +1,5 @@
 +++
-authors = ["John Lorem"]
+authors = [""]
 title = "1. The Basics"
 description = ""
 date = 2024-07-09
@@ -9,20 +9,42 @@ tags = ["masm32"]
 toc = false
 +++
 
-This tutorial assumes that the reader knows how to use MASM. If you're not familiar with MASM, download [win32asm.zip](http://www.interq.or.jp/chubu/r6/masm32/tute/zips/win32asm.zip) and study the text inside the package before going on with the tutorial. Good. You're now ready. Let's go!
+{% crt() %}
+```
+▬▬▬.◙.▬▬▬
+═▂▄▄▓▄▄▂
+◢◤ █▀▀████▄▄▄◢◤
+█▄ █ █▄ ███▀▀▀▀▀▀╬
+◥█████◤
+══╩══╩═
+  ╬═╬
+  ╬═╬
+  ╬═╬    Just dropped down to say,
+  ╬═╬    "Welcome, Let's Start"
+  ╬═╬   
+  ╬═╬☻/
+  ╬═╬/▌
+  ╬═╬/  \
+```
+{% end %}
+
+This tutorial assumes that the reader knows how to use MASM. If you're not familiar with MASM, download [win32asm.zip](./win32asm.zip) and study the text inside the package before going on with the tutorial. Good. You're now ready. Let's go!
 
 ## Theory:
 
-Win32 programs run in protected mode which is available since 80286. But 80286 is now history. So we only have to concern ourselves with 80386 and its descendants. Windows runs each Win32 program in separated virtual space. That means each Win32 program will have its own 4 GB address space. However, this doesn't mean every win32 program has 4GB of physical memory, only that the program can address any address in that range. Windows will do anything necessary to make the memory the program references valid. Of course, the program must adhere to the rules set by Windows, else it will cause the dreaded General Protection Fault. Each program is alone in its address space. This is in contrast to the situation in Win16. All Win16 programs can \*see\* each other. Not so under Win32. This feature helps reduce the chance of one program writing over other program's code/data.  
+Win32 programs run in protected mode which is available since 80286. But 80286 is now history. So we only have to concern ourselves with 80386 and its descendants. Windows runs each Win32 program in separated virtual space. That means each Win32 program will have its own 4 GB address space. However, this doesn't mean every win32 program has 4GB of physical memory, only that the program can address any address in that range. Windows will do anything necessary to make the memory the program references valid. Of course, the program must adhere to the rules set by Windows, else it will cause the dreaded General Protection Fault. Each program is alone in its address space. This is in contrast to the situation in Win16. All Win16 programs can \*see\* each other. Not so under Win32. This feature helps reduce the chance of one program writing over other program's code/data.
+
 Memory model is also drastically different from the old days of the 16-bit world. Under Win32, we need not be concerned with memory model or segments anymore! There's only one memory model: Flat memory model. There's no more 64K segments. The memory is a  large continuous space of 4 GB. That also means you don't have to play with segment registers. You can use any segment register to address any point in the memory space. That's a GREAT help to programmers. This is what makes Win32 assembly programming as easy as C.  
+
 When you program under Win32, you must know some important rules. One such rule is that, Windows uses esi, edi, ebp and ebx internally and it doesn't expect the values in those registers to change. So remember this rule first: if you use any of those four registers in your callback function, don't ever forget to restore them before returning control to Windows. A callback function is your own function which is called by Windows. The obvious example is the windows procedure. This doesn't mean that you cannot use those four registers, you can. Just be sure to restore them back before passing control back to Windows.
 
 ## Content:
 
 Here's the skeleton program. If you don't understand some of the codes, don't panic. I'll explain each of them later.
 
-**.386**
+
 ```
+.386
 .MODEL Flat, STDCALL  
 .DATA  
     <Your initialized data>  

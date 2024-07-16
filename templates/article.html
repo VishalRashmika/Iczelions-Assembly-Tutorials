@@ -14,8 +14,8 @@
 			{%- if page.authors -%}
 				<span>•</span>
 				<span>
-					{{ macros_translate::translate(key="author", default="Author", language_strings=language_strings) }}:
-					{{ page.authors[0] }}
+					<!-- {{ macros_translate::translate(key="author", default="Author", language_strings=language_strings) }}: -->
+					<!-- {{ page.authors[0] }} -->
 				</span>
 			{%- endif -%}
 			{%- if page.taxonomies -%}
@@ -104,13 +104,13 @@
 	<nav id="post-nav">
 		{%- if page.higher -%}
 			<a class="post-nav-item post-nav-prev" href="{{ page.higher.permalink }}">
-				<div class="nav-arrow">{{ macros_translate::translate(key="previous", default="Previous", language_strings=language_strings) }}</div>
+				<div class="nav-arrow">{{ macros_translate::translate(key="next", default="Previous", language_strings=language_strings) }}</div>
 				<span class="post-title">{{ page.higher.title }}</span>
 			</a>
 		{%- endif -%}
 		{%- if page.lower -%}
 			<a class="post-nav-item post-nav-next" href="{{ page.lower.permalink }}">
-				<div class="nav-arrow">{{ macros_translate::translate(key="next", default="Next", language_strings=language_strings) }}</div>
+				<div class="nav-arrow">{{ macros_translate::translate(key="previous", default="Next", language_strings=language_strings) }}</div>
 				<span class="post-title">{{ page.lower.title }}</span>
 			</a>
 		{%- endif -%}

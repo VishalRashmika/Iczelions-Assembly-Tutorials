@@ -39,3 +39,6 @@ This is a tutorial series done by Iczelion on Win32 Assembly. It is very hard to
 - [33.RichEdit Control: Basics]()
 - [34.RichEdit Control: More Text Operations]()
 - [35.RichEdit Control: Syntax Hilighting]()
+
+# TODO:
+lesson 2 missing windows.inc 
